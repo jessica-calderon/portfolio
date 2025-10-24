@@ -14,9 +14,9 @@ const Sidebar: React.FC = () => {
             <p className="text-xs text-black">San Antonio, TEXAS</p>
             <p className="text-xs text-black">United States</p>
             <p className="text-xs text-black mt-2">Last Login: 2 minutes ago</p>
-            <p className="text-xs text-black">Mood: coding 😊</p>
+            <p className="text-xs text-black">Status: Available for New Opportunities</p>
             <div className="mt-2">
-              <a href="#" className="text-xs text-blue-600 hover:underline">View My: Pics | Videos</a>
+              <a href="#" className="text-xs text-blue-600 hover:underline">View My: Portfolio | Resume</a>
             </div>
           </div>
         </div>
@@ -30,62 +30,62 @@ const Sidebar: React.FC = () => {
             <span className="mr-1">✉️</span> Send Message
           </a>
           <a href="#" className="text-xs text-blue-600 hover:underline flex items-center">
-            <span className="mr-1">👥</span> Add to Friends
+            <span className="mr-1">👥</span> Connect
           </a>
           <a href="#" className="text-xs text-blue-600 hover:underline flex items-center">
-            <span className="mr-1">💬</span> Instant Message
+            <span className="mr-1">💬</span> Schedule Call
           </a>
           <a href="#" className="text-xs text-blue-600 hover:underline flex items-center">
-            <span className="mr-1">👥+</span> Add to Group
+            <span className="mr-1">📄</span> View Resume
           </a>
           <a href="#" className="text-xs text-blue-600 hover:underline flex items-center">
-            <span className="mr-1">↗️</span> Forward to Friend
+            <span className="mr-1">↗️</span> Share Profile
           </a>
           <a href="#" className="text-xs text-blue-600 hover:underline flex items-center">
             <span className="mr-1">⭐</span> Add to Favorites
           </a>
           <a href="#" className="text-xs text-blue-600 hover:underline flex items-center">
-            <span className="mr-1">🚫</span> Block User
+            <span className="mr-1">📧</span> Email Resume
           </a>
           <a href="#" className="text-xs text-blue-600 hover:underline flex items-center">
-            <span className="mr-1">⭐</span> Rank User
+            <span className="mr-1">⭐</span> Rate Profile
           </a>
         </div>
       </div>
 
-      {/* MySpace URL */}
+      {/* Portfolio URL */}
       <div className="bg-white border border-black p-3">
-        <p className="text-xs text-black">MySpace URL:</p>
-        <a href="#" className="text-xs text-blue-600 hover:underline">http://www.myspace.com/jessicacalderon</a>
+        <p className="text-xs text-black">Portfolio URL:</p>
+        <a href="#" className="text-xs text-blue-600 hover:underline">http://www.jessicacalderon.dev</a>
       </div>
 
-      {/* Jessica's Interests */}
+      {/* Jessica's Technical Skills */}
       <div className="bg-white border-2 border-blue-500 p-4">
-        <h3 className="font-bold text-white text-sm mb-3 bg-blue-500 px-2 py-1 -mx-2 -mt-2">Jessica's Interests</h3>
+        <h3 className="font-bold text-white text-sm mb-3 bg-blue-500 px-2 py-1 -mx-2 -mt-2">Jessica's Technical Skills</h3>
         <div className="space-y-2 text-xs">
           <div>
-            <span className="font-bold text-black">General:</span>
-            <p className="text-black">Coding, Web Development, AI, Retro Gaming, Photography</p>
+            <span className="font-bold text-black">Programming:</span>
+            <p className="text-black">PHP, TypeScript, JavaScript, Python, React, Node.js</p>
           </div>
           <div>
-            <span className="font-bold text-black">Music:</span>
-            <p className="text-black">Synthwave, Electronic, Indie Rock, 80s Music</p>
+            <span className="font-bold text-black">DevOps:</span>
+            <p className="text-black">Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</p>
           </div>
           <div>
-            <span className="font-bold text-black">Movies:</span>
-            <p className="text-black">Sci-Fi, Documentaries, Classic Films</p>
+            <span className="font-bold text-black">Databases:</span>
+            <p className="text-black">PostgreSQL, MySQL, Redis, OpenSearch</p>
           </div>
           <div>
-            <span className="font-bold text-black">Television:</span>
-            <p className="text-black">Tech Shows, Documentaries, Sci-Fi Series</p>
+            <span className="font-bold text-black">Tools:</span>
+            <p className="text-black">VS Code, GitLab CI, Fluent Bit, Apache Superset</p>
           </div>
           <div>
-            <span className="font-bold text-black">Books:</span>
-            <p className="text-black">Programming Books, Sci-Fi Novels, Tech Articles</p>
+            <span className="font-bold text-black">Cloud:</span>
+            <p className="text-black">AWS, ECS, S3, RDS, CloudWatch</p>
           </div>
           <div>
-            <span className="font-bold text-black">Heroes:</span>
-            <p className="text-black">Tech Innovators, Open Source Contributors</p>
+            <span className="font-bold text-black">Specialties:</span>
+            <p className="text-black">Moodle Workplace, Data Integration, Iron Bank Containers</p>
           </div>
         </div>
       </div>
@@ -105,6 +105,10 @@ const Sidebar: React.FC = () => {
           <div>
             <span className="font-bold text-black">Portfolio:</span>
             <a href="#" className="text-blue-600 hover:underline ml-1">jessicacalderon.dev</a>
+          </div>
+          <div>
+            <span className="font-bold text-black">Resume:</span>
+            <a href="#" className="text-blue-600 hover:underline ml-1">Download PDF</a>
           </div>
         </div>
       </div>

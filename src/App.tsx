@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import AboutMe from './components/AboutMe';
 import Technologies from './components/Technologies';
 import TopProjects from './components/TopProjects';
+import Comments from './components/Comments';
 import './App.css';
 
 function App() {
@@ -13,10 +14,10 @@ function App() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <h1 className="text-2xl font-bold">MySpace</h1>
-            <span className="text-sm">a place for friends</span>
+            <span className="text-sm">a place for professionals</span>
           </div>
           <div className="flex items-center space-x-4">
-            <input type="text" placeholder="Search Users" className="px-2 py-1 text-black text-sm" />
+            <input type="text" placeholder="Search Professionals" className="px-2 py-1 text-black text-sm" />
             <button className="bg-blue-500 px-3 py-1 text-sm">Search</button>
             <a href="#" className="text-sm">Help</a>
             <a href="#" className="text-sm">LogOut</a>
@@ -29,12 +30,12 @@ function App() {
         <div className="max-w-6xl mx-auto">
           <nav className="flex space-x-6 text-sm">
             <a href="#" className="hover:underline">Home</a>
-            <a href="#" className="hover:underline">Browse</a>
+            <a href="#" className="hover:underline">Projects</a>
             <a href="#" className="hover:underline">Search</a>
-            <a href="#" className="hover:underline">Blog</a>
-            <a href="#" className="hover:underline">Music</a>
+            <a href="#" className="hover:underline">Career Updates</a>
+            <a href="#" className="hover:underline">Tech Stack</a>
             <a href="#" className="hover:underline">Favorites</a>
-            <a href="#" className="hover:underline">Invite</a>
+            <a href="#" className="hover:underline">Connect</a>
             <a href="#" className="hover:underline">Mail</a>
             <a href="#" className="hover:underline">Forum</a>
             <a href="#" className="hover:underline">Groups</a>
@@ -48,7 +49,7 @@ function App() {
       <div className="max-w-6xl mx-auto p-4">
         {/* Profile Banner */}
         <div className="bg-white border-2 border-blue-500 p-4 mb-4">
-          <h2 className="text-xl font-bold text-black">Jessica Calderon is your Friend.</h2>
+          <h2 className="text-xl font-bold text-black">Jessica Calderon is your Professional Contact.</h2>
         </div>
 
         <div className="flex gap-4">
@@ -59,9 +60,10 @@ function App() {
           
           {/* Right Main Content */}
           <div className="w-2/3 space-y-4">
-            <AboutMe />
             <Technologies />
+            <AboutMe />
             <TopProjects />
+            <Comments />
           </div>
         </div>
       </div>
