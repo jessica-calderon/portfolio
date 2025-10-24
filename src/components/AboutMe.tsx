@@ -2,8 +2,8 @@ import React from 'react';
 
 const AboutMe: React.FC = () => {
   return (
-    <div className="bg-orange-500 border-2 border-blue-500 p-4">
-      <h2 className="font-bold text-white text-sm mb-3">Jessica's Blurbs</h2>
+    <div className="bg-white border-2 border-blue-500 p-4">
+      <h2 className="font-bold text-white text-sm mb-3 bg-orange-500 px-2 py-1 -mx-2 -mt-2">Jessica's Blurbs</h2>
       <div className="space-y-3 text-xs">
         <div>
           <span className="font-bold text-blue-600">About me:</span>

@@ -61,7 +61,7 @@ const Sidebar: React.FC = () => {
 
       {/* Jessica's Interests */}
       <div className="bg-white border-2 border-blue-500 p-4">
-        <h3 className="font-bold text-blue-600 text-sm mb-3">Jessica's Interests</h3>
+        <h3 className="font-bold text-white text-sm mb-3 bg-blue-500 px-2 py-1 -mx-2 -mt-2">Jessica's Interests</h3>
         <div className="space-y-2 text-xs">
           <div>
             <span className="font-bold text-black">General:</span>
@@ -92,7 +92,7 @@ const Sidebar: React.FC = () => {
 
       {/* Jessica's Links */}
       <div className="bg-white border-2 border-blue-500 p-4">
-        <h3 className="font-bold text-blue-600 text-sm mb-3">Jessica's Links</h3>
+        <h3 className="font-bold text-white text-sm mb-3 bg-blue-500 px-2 py-1 -mx-2 -mt-2">Jessica's Links</h3>
         <div className="space-y-1 text-xs">
           <div>
             <span className="font-bold text-black">GitHub:</span>
