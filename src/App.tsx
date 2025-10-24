@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import AboutMe from './components/AboutMe';
 import Technologies from './components/Technologies';
 import TopProjects from './components/TopProjects';
 import Comments from './components/Comments';
 import DarkModeToggle from './components/DarkModeToggle';
+import ProfileThemeToggle from './components/ProfileThemeToggle';
 import { DarkModeProvider } from './contexts/DarkModeContext';
 import './App.css';
 
 function App() {
+  const [isMyspaceMode, setIsMyspaceMode] = useState<boolean>(false);
+  const [myspaceTheme, setMyspaceTheme] = useState<'light' | 'dark'>('light');
+
+  const handleThemeChange = (isMyspace: boolean, theme: 'light' | 'dark') => {
+    setIsMyspaceMode(isMyspace);
+    setMyspaceTheme(theme);
+  };
+
+  // Get theme classes
+  const getThemeClasses = () => {
+    if (isMyspaceMode) {
+      return `min-h-screen myspace-mode ${myspaceTheme}`;
+    }
+    return 'min-h-screen bg-gray-200 dark:bg-gray-900 default-mode';
+  };
+
   return (
     <DarkModeProvider>
-      <div className="min-h-screen bg-gray-200 dark:bg-gray-900">
+      <div className={getThemeClasses()}>
       {/* MySpace Header */}
       <div className="bg-blue-600 dark:bg-blue-800 text-white py-2 px-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -24,6 +41,7 @@ function App() {
             <button className="bg-blue-500 dark:bg-blue-700 px-3 py-1 text-sm rounded hover:bg-blue-600 dark:hover:bg-blue-600">Search</button>
             <a href="#" className="text-sm hover:underline">Help</a>
             <a href="#" className="text-sm hover:underline">LogOut</a>
+            <ProfileThemeToggle onThemeChange={handleThemeChange} />
             <DarkModeToggle />
           </div>
         </div>
@@ -64,6 +82,15 @@ function App() {
           
           {/* Right Main Content */}
           <div className="w-2/3 space-y-4">
+            {isMyspaceMode && (
+              <div className="music-player">
+                <div className="text-sm font-bold mb-2">🎵 Jessica's Playlist 🎵</div>
+                <div className="text-xs">♪ Currently Playing: "Code Like It's 2005" ♪</div>
+                <div className="text-xs mt-1">♪ Next: "JavaScript Dreams" ♪</div>
+                <div className="text-xs mt-1">♪ Then: "React Revolution" ♪</div>
+                <div className="mt-2 text-xs">🔊 Volume: 100% | ⏸️ Pause | ⏭️ Next</div>
+              </div>
+            )}
             <Technologies />
             <AboutMe />
             <TopProjects />
