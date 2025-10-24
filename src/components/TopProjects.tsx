@@ -9,18 +9,18 @@ const TopProjects: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white border-2 border-blue-500 p-4">
-      <h2 className="font-bold text-black text-sm mb-3">Jessica's Highlighted Projects</h2>
-      <a href="#" className="text-xs text-blue-600 hover:underline">[view all]</a>
-      <p className="text-xs text-black mt-2">Featured enterprise solutions and integrations.</p>
+    <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
+      <h2 className="font-bold text-black dark:text-white text-sm mb-3">Jessica's Highlighted Projects</h2>
+      <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">[view all]</a>
+      <p className="text-xs text-black dark:text-gray-300 mt-2">Featured enterprise solutions and integrations.</p>
       <div className="mt-3 grid grid-cols-2 gap-3">
         {projects.map((project, index) => (
-          <div key={index} className="border border-gray-300 p-2">
-            <div className="w-full h-16 bg-gray-200 border border-gray-400 mb-2 flex items-center justify-center">
-              <span className="text-xs text-gray-600">Project Preview</span>
+          <div key={index} className="border border-gray-300 dark:border-gray-600 p-2">
+            <div className="w-full h-16 bg-gray-200 dark:bg-gray-700 border border-gray-400 dark:border-gray-500 mb-2 flex items-center justify-center">
+              <span className="text-xs text-gray-600 dark:text-gray-400">Project Preview</span>
             </div>
-            <p className="text-xs font-bold text-black">{project.name}</p>
-            <p className="text-xs text-gray-600">{project.description}</p>
+            <p className="text-xs font-bold text-black dark:text-white">{project.name}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400">{project.description}</p>
           </div>
         ))}
       </div>

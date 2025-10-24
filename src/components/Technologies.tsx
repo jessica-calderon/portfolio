@@ -10,18 +10,18 @@ const Technologies: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white border-2 border-blue-500 p-4">
-      <h2 className="font-bold text-black text-sm mb-3">Jessica's Career Updates</h2>
-      <a href="#" className="text-xs text-blue-600 hover:underline">[Subscribe to Updates]</a>
+    <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
+      <h2 className="font-bold text-black dark:text-white text-sm mb-3">Jessica's Career Updates</h2>
+      <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">[Subscribe to Updates]</a>
       <div className="mt-3 space-y-1">
         {careerUpdates.map((update, index) => (
           <div key={index} className="flex justify-between items-center">
-            <span className="text-xs text-black">{update}</span>
-            <a href="#" className="text-xs text-blue-600 hover:underline">(view details)</a>
+            <span className="text-xs text-black dark:text-gray-300">{update}</span>
+            <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">(view details)</a>
           </div>
         ))}
       </div>
-      <a href="#" className="text-xs text-blue-600 hover:underline mt-2 block">[View All Career Updates]</a>
+      <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline mt-2 block">[View All Career Updates]</a>
     </div>
   );
 };

@@ -7,6 +7,11 @@ body {
   background-color: #f0f0f0;
 }
 
+/* Dark mode support for body */
+.dark body {
+  background-color: #1a1a1a;
+}
+
 /* MySpace-style buttons */
 .myspace-button {
   background-color: #4a90e2;
@@ -23,6 +28,16 @@ body {
   background-color: #357abd;
 }
 
+/* Dark mode support for buttons */
+.dark .myspace-button {
+  background-color: #3b82f6;
+  border-color: #2563eb;
+}
+
+.dark .myspace-button:hover {
+  background-color: #2563eb;
+}
+
 /* MySpace-style links */
 .myspace-link {
   color: #4a90e2;
@@ -34,9 +49,23 @@ body {
   text-decoration: underline;
 }
 
+/* Dark mode support for links */
+.dark .myspace-link {
+  color: #60a5fa;
+}
+
+.dark .myspace-link:hover {
+  color: #93c5fd;
+}
+
 /* MySpace-style borders */
 .myspace-border {
   border: 2px solid #4a90e2;
+}
+
+/* Dark mode support for borders */
+.dark .myspace-border {
+  border-color: #60a5fa;
 }
 
 /* Custom scrollbar for MySpace feel */
@@ -56,4 +85,18 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #357abd;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #60a5fa;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
 }
