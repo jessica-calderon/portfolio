@@ -1,0 +1,59 @@
+/* MySpace-inspired styling */
+@import url('https://fonts.googleapis.com/css2?family=Arial,sans-serif');
+
+/* Authentic MySpace styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+/* MySpace-style buttons */
+.myspace-button {
+  background-color: #4a90e2;
+  color: white;
+  border: 1px solid #357abd;
+  padding: 2px 6px;
+  font-size: 11px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.myspace-button:hover {
+  background-color: #357abd;
+}
+
+/* MySpace-style links */
+.myspace-link {
+  color: #4a90e2;
+  text-decoration: none;
+  font-size: 11px;
+}
+
+.myspace-link:hover {
+  text-decoration: underline;
+}
+
+/* MySpace-style borders */
+.myspace-border {
+  border: 2px solid #4a90e2;
+}
+
+/* Custom scrollbar for MySpace feel */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a90e2;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #357abd;
+}
