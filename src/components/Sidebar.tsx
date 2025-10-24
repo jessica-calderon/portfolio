@@ -16,7 +16,7 @@ const Sidebar: React.FC = () => {
             <p className="text-xs text-black dark:text-white mt-2">Last Login: 2 minutes ago</p>
             <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
             <div className="mt-2">
-              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">View My: Portfolio | Resume</a>
+              <a href="https://docs.google.com/document/d/1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">View My: Portfolio | Resume</a>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@ const Sidebar: React.FC = () => {
       <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 p-4">
         <h3 className="font-bold text-black dark:text-white text-sm mb-3">Contacting Jessica</h3>
         <div className="grid grid-cols-2 gap-2">
-          <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+          <a href="mailto:calderonjessica13@yahoo.com" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">✉️</span> Send Message
           </a>
           <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
@@ -35,7 +35,7 @@ const Sidebar: React.FC = () => {
           <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">💬</span> Schedule Call
           </a>
-          <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+          <a href="https://docs.google.com/document/d/1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">📄</span> View Resume
           </a>
           <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
@@ -44,7 +44,7 @@ const Sidebar: React.FC = () => {
           <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">⭐</span> Add to Favorites
           </a>
-          <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+          <a href="mailto:calderonjessica13@yahoo.com" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">📧</span> Email Resume
           </a>
           <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
@@ -96,11 +96,11 @@ const Sidebar: React.FC = () => {
         <div className="space-y-1 text-xs">
           <div>
             <span className="font-bold text-black dark:text-white">GitHub:</span>
-            <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">github.com/jessicacalderon</a>
+            <a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">github.com/jessica-calderon</a>
           </div>
           <div>
             <span className="font-bold text-black dark:text-white">LinkedIn:</span>
-            <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">linkedin.com/in/jessicacalderon</a>
+            <a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">linkedin.com/in/Jessica-Calderon-00</a>
           </div>
           <div>
             <span className="font-bold text-black dark:text-white">Portfolio:</span>
@@ -108,7 +108,7 @@ const Sidebar: React.FC = () => {
           </div>
           <div>
             <span className="font-bold text-black dark:text-white">Resume:</span>
-            <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">Download PDF</a>
+            <a href="https://docs.google.com/document/d/1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">View Resume</a>
           </div>
         </div>
       </div>
