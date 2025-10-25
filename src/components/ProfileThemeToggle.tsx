@@ -1,83 +1,66 @@
 import React, { useState, useEffect } from 'react';
+import { useDarkMode } from '../contexts/DarkModeContext';
 
 /**
  * ProfileThemeToggle Component
  * 
  * A toggle button that switches between Default Professional mode and Classic MySpace mode.
  * Features:
- * - Persists theme preference in localStorage
- * - Automatic dark/light mode detection for MySpace mode
- * - Smooth transitions between modes and themes
+ * - Persists mode preference in localStorage
+ * - Uses global dark mode state from DarkModeContext
+ * - Smooth transitions between modes
  * - Animated button with sparkle effects
  * - Retro fonts and accessible color schemes in MySpace mode
  * 
  * Usage:
- * <ProfileThemeToggle onThemeChange={(isMyspace, theme) => setTheme(isMyspace, theme)} />
+ * <ProfileThemeToggle onModeChange={(isMyspace) => setMode(isMyspace)} />
  */
 
 interface ProfileThemeToggleProps {
-  onThemeChange: (isMyspace: boolean, theme: 'light' | 'dark') => void;
+  onModeChange: (isMyspace: boolean) => void;
 }
 
-const ProfileThemeToggle: React.FC<ProfileThemeToggleProps> = ({ onThemeChange }) => {
+const ProfileThemeToggle: React.FC<ProfileThemeToggleProps> = ({ onModeChange }) => {
   const [isMyspace, setIsMyspace] = useState<boolean>(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-
-  // Detect system color scheme preference
-  const detectSystemTheme = () => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    return prefersDark ? 'dark' : 'light';
-  };
+  const { isDarkMode } = useDarkMode();
 
   useEffect(() => {
-    // Load saved theme preference from localStorage
-    const savedTheme = localStorage.getItem('profileTheme');
-    const systemTheme = detectSystemTheme();
+    // Load saved mode preference from localStorage
+    const savedMode = localStorage.getItem('profileTheme');
     
-    if (savedTheme === 'myspace') {
+    if (savedMode === 'myspace') {
       setIsMyspace(true);
-      setTheme(systemTheme);
-      onThemeChange(true, systemTheme);
+      onModeChange(true);
     } else {
       setIsMyspace(false);
-      setTheme(systemTheme);
-      onThemeChange(false, systemTheme);
+      onModeChange(false);
     }
+  }, [onModeChange]);
 
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleThemeChange = (e: MediaQueryListEvent) => {
-      const newTheme = e.matches ? 'dark' : 'light';
-      setTheme(newTheme);
-      onThemeChange(isMyspace, newTheme);
-    };
-
-    mediaQuery.addEventListener('change', handleThemeChange);
-    return () => mediaQuery.removeEventListener('change', handleThemeChange);
-  }, [onThemeChange, isMyspace]);
-
-  const toggleTheme = () => {
+  const toggleMode = () => {
     const newMyspaceMode = !isMyspace;
-    const currentTheme = detectSystemTheme();
     
     setIsMyspace(newMyspaceMode);
-    setTheme(currentTheme);
     
     // Save to localStorage
     localStorage.setItem('profileTheme', newMyspaceMode ? 'myspace' : 'default');
     
     // Notify parent component
-    onThemeChange(newMyspaceMode, currentTheme);
+    onModeChange(newMyspaceMode);
   };
 
   return (
     <button
-      onClick={toggleTheme}
+      onClick={toggleMode}
       className={`
-        px-4 py-2 text-sm font-bold rounded-lg transition-all duration-300 transform hover:scale-105
+        flex items-center justify-center px-4 py-2 text-sm font-bold rounded-full transition-all duration-300 transform hover:scale-105
         ${isMyspace 
-          ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:shadow-xl' 
-          : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg hover:shadow-xl'
+          ? isDarkMode
+            ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg hover:shadow-xl' 
+            : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg hover:shadow-xl'
+          : isDarkMode
+            ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg hover:shadow-xl'
+            : 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg hover:shadow-xl'
         }
         hover:animate-pulse
       `}
