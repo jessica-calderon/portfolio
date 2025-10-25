@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import AboutMe from './components/AboutMe';
 import Technologies from './components/Technologies';
 import TopProjects from './components/TopProjects';
 import Comments from './components/Comments';
 import DarkModeToggle from './components/DarkModeToggle';
-import ProfileThemeToggle from './components/ProfileThemeToggle';
-import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
+import { DarkModeProvider } from './contexts/DarkModeContext';
 import './App.css';
 
 function App() {
@@ -24,64 +23,58 @@ function App() {
     return 'min-h-screen bg-gray-200 dark:bg-gray-900 default-mode';
   };
 
-  // Navigation items for different modes
-  const getNavigationItems = () => {
-    if (isMyspaceMode) {
-      return [
-        { label: 'About', href: '#about' },
-        { label: 'Portfolio', href: '#portfolio' },
-        { label: 'Skills', href: '#skills' },
-        { label: 'Experience', href: '#experience' },
-        { label: 'Contact', href: '#contact' }
-      ];
-    } else {
-      return [
-        { label: 'Home', href: '#' },
-        { label: 'Projects', href: '#projects' },
-        { label: 'Search', href: '#search' },
-        { label: 'Career Updates', href: '#career' },
-        { label: 'Tech Stack', href: '#tech' },
-        { label: 'Favorites', href: '#favorites' },
-        { label: 'Connect', href: '#connect' },
-        { label: 'Mail', href: '#mail' },
-        { label: 'Forum', href: '#forum' },
-        { label: 'Groups', href: '#groups' },
-        { label: 'Events', href: '#events' },
-        { label: 'Videos', href: '#videos' }
-      ];
-    }
-  };
+  // Navigation items - same for both modes
+  const navigationItems = [
+    { label: 'Home', href: '#' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Tech Stack', href: '#tech' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Resume', href: '#resume' },
+    { label: 'Contact', href: '#contact' },
+    { label: 'Blog', href: '#blog' },
+    { label: 'About', href: '#about' }
+  ];
 
   return (
     <DarkModeProvider>
       <div className={getThemeClasses()}>
-      {/* MySpace Header */}
-      <div className="bg-blue-600 dark:bg-blue-800 text-white py-2 px-4">
+      {/* Professional Portfolio Header */}
+      <div className={`text-white py-3 px-4 ${isMyspaceMode 
+        ? 'bg-blue-600 dark:bg-blue-800' 
+        : 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-slate-800 dark:to-slate-900'
+      }`}>
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <h1 className="text-2xl font-bold">MyPortfolio</h1>
-            <span className="text-sm">a place for professionals</span>
+            <span className="text-sm text-gray-300">a place to showcase my work</span>
           </div>
           <div className="flex items-center space-x-4">
-            <input type="text" placeholder="Search Professionals" className="px-2 py-1 text-black text-sm rounded" />
-            <button className="bg-blue-500 dark:bg-blue-700 px-3 py-1 text-sm rounded hover:bg-blue-600 dark:hover:bg-blue-600">Search</button>
-            <a href="#" className="text-sm hover:underline">Help</a>
-            <a href="#" className="text-sm hover:underline">LogOut</a>
-            <ProfileThemeToggle onModeChange={handleModeChange} />
+            <input type="text" placeholder="Search projects..." className="px-3 py-2 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-sm rounded-lg transition-colors duration-200">Search</button>
+            <a href="#" className="text-sm hover:text-blue-300 transition-colors duration-200">Help</a>
+            <button
+              onClick={() => handleModeChange(!isMyspaceMode)}
+              className="flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors duration-200"
+            >
+              Custom View
+            </button>
             <DarkModeToggle />
           </div>
         </div>
       </div>
 
       {/* Navigation */}
-      <div className="bg-blue-500 dark:bg-blue-700 text-white py-1 px-4">
+      <div className={`text-white py-2 px-4 ${isMyspaceMode 
+        ? 'bg-blue-500 dark:bg-blue-700' 
+        : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800'
+      }`}>
         <div className="max-w-6xl mx-auto">
-          <nav className="flex space-x-6 text-sm">
-            {getNavigationItems().map((item, index) => (
+          <nav className="flex flex-wrap items-center justify-center sm:justify-start space-x-4 sm:space-x-6 text-sm">
+            {navigationItems.map((item, index) => (
               <a 
                 key={index} 
                 href={item.href} 
-                className="hover:underline transition-all duration-300 hover:text-yellow-300"
+                className="hover:text-blue-300 transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10"
               >
                 {item.label}
               </a>
