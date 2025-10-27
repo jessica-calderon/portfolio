@@ -9,26 +9,32 @@ const Technologies: React.FC = () => {
 
   interface MySpaceBlogItemProps {
     title: string;
-    itemKey: string;
     details?: string;
     isOpen: boolean;
     onToggle: () => void;
   }
 
-  const MySpaceBlogItem: React.FC<MySpaceBlogItemProps> = ({ title, itemKey, details, isOpen, onToggle }) => {
+  const MySpaceBlogItem: React.FC<MySpaceBlogItemProps> = ({ title, details, isOpen, onToggle }) => {
+    const handleToggle = (e: React.MouseEvent) => {
+      e.preventDefault();
+      onToggle();
+    };
+
     return (
       <div className="mt-1 first:mt-0">
         <div 
           className="flex justify-between items-center cursor-pointer py-1 hover:bg-gray-50 dark:hover:bg-gray-700/50"
-          onClick={onToggle}
+          onClick={handleToggle}
           style={{ fontFamily: 'Tahoma, sans-serif', fontSize: '13px' }}
         >
           <a 
-            className="cursor-pointer text-[#0000EE] hover:text-[#000099]"
+            href="#"
+            className="cursor-pointer text-[#0000EE] dark:text-blue-400 hover:text-[#000099] dark:hover:text-blue-300"
+            onClick={handleToggle}
           >
             {title}
           </a>
-          <span className="text-[#0000EE] hover:text-[#000099] cursor-pointer">(view more)</span>
+          <span className="text-[#0000EE] dark:text-blue-400 hover:text-[#000099] dark:hover:text-blue-300 cursor-pointer">(view more)</span>
         </div>
         
         <div 
@@ -36,8 +42,8 @@ const Technologies: React.FC = () => {
         >
           {details && (
             <div 
-              className="bg-[#f7f7f7] dark:bg-gray-800 p-2 rounded-sm mt-1"
-              style={{ fontFamily: 'Tahoma, sans-serif', fontSize: '12px', lineHeight: '1.4', color: '#000' }}
+              className="bg-[#f7f7f7] dark:bg-gray-800 text-black dark:text-gray-200 p-2 rounded-sm mt-1"
+              style={{ fontFamily: 'Tahoma, sans-serif', fontSize: '12px', lineHeight: '1.4' }}
             >
               {details}
             </div>
@@ -54,38 +60,37 @@ const Technologies: React.FC = () => {
       <div className="mt-3">
         <MySpaceBlogItem
           title="Certifications – CompTIA Security+ CE – Active"
-          itemKey="certifications"
           details="Currently pursuing additional certifications in cloud architecture and DevSecOps."
           isOpen={openItem === 'certifications'}
           onToggle={() => toggleItem('certifications')}
         />
         <MySpaceBlogItem
           title="Clearance – Active DoD Secret Clearance"
-          itemKey="clearance"
+          details="Issued and maintained for DoD contracting work. Background investigation completed and clearance active for ongoing classified project work."
           isOpen={openItem === 'clearance'}
           onToggle={() => toggleItem('clearance')}
         />
         <MySpaceBlogItem
           title="Full Stack Web Development Boot Camp – University of Texas at San Antonio"
-          itemKey="bootcamp"
+          details="Intensive 6-month program covering React, Node.js, MongoDB, MySQL, AWS, and modern development practices. Completed capstone project focused on cloud-based application architecture."
           isOpen={openItem === 'bootcamp'}
           onToggle={() => toggleItem('bootcamp')}
         />
         <MySpaceBlogItem
           title="MBA, Magna Cum Laude – Texas A&M University–San Antonio"
-          itemKey="mba"
+          details="Concentration in Technology Management with coursework in strategic business analysis, cloud economics, and agile project management. GPA: 3.89/4.0"
           isOpen={openItem === 'mba'}
           onToggle={() => toggleItem('mba')}
         />
         <MySpaceBlogItem
           title="B.A. General Business, Cum Laude – Texas A&M University–San Antonio"
-          itemKey="ba"
+          details="Comprehensive business curriculum covering finance, marketing, operations, and management. Foundation for advanced business strategy and leadership roles. GPA: 3.65/4.0"
           isOpen={openItem === 'ba'}
           onToggle={() => toggleItem('ba')}
         />
         <MySpaceBlogItem
           title="A.A. Business Administration & A.S. Business Management – Palo Alto College"
-          itemKey="aa"
+          details="Dual associate degrees providing strong foundation in business operations, accounting principles, and management fundamentals. Excellent preparation for advanced business studies."
           isOpen={openItem === 'aa'}
           onToggle={() => toggleItem('aa')}
         />
