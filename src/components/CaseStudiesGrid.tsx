@@ -40,18 +40,11 @@ const CaseStudiesGrid: React.FC = () => {
 
   return (
     <>
-      <div className="bg-[#fff8f4] dark:bg-gray-800 border border-[#d47a1f] dark:border-gray-600 p-3 sm:p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-        {/* MySpace-style header bar */}
-        <div className="bg-[#ffcc99] dark:bg-orange-600 border-b-[1px] border-[#cc6600] dark:border-orange-700 py-[6px] px-2 mb-2 sm:mb-3">
-          <h2 className="font-bold text-black dark:text-white text-xs sm:text-sm uppercase" style={{ fontFamily: 'Verdana, sans-serif' }}>
-            Jessica's Case Studies
-          </h2>
-        </div>
-        
-        {/* Friend count subtext */}
-        <p className="text-xs mb-3 text-black dark:text-gray-300" style={{ fontFamily: 'Verdana, sans-serif' }}>
+      <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4">
+        <h2 className="font-bold text-black dark:text-white text-sm mb-2 sm:mb-3">Jessica's Case Studies</h2>
+        <p className="text-xs mb-3 text-black dark:text-gray-300">
           Jessica has{' '}
-          <span className="text-red-600 dark:text-red-400">{caseStudies.length}</span>
+          <span className="text-blue-600 dark:text-blue-400">{caseStudies.length}</span>
           {' '}Featured Case Studies.
         </p>
 
@@ -65,7 +58,7 @@ const CaseStudiesGrid: React.FC = () => {
             >
               {/* Square image placeholder - MySpace style */}
               <div 
-                className="w-16 h-16 sm:w-[100px] sm:h-[100px] bg-[#f5f5f5] dark:bg-gray-700 border border-[#ccc] dark:border-gray-600 flex items-center justify-center mb-2 rounded transition-all duration-200 hover:border-[#999] dark:hover:border-gray-500"
+                className="w-16 h-16 sm:w-[100px] sm:h-[100px] bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 flex items-center justify-center mb-2 transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
                 style={{ 
                   boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
                 }}
@@ -75,22 +68,16 @@ const CaseStudiesGrid: React.FC = () => {
                 </div>
               </div>
               
-              {/* Title - MySpace "name" style */}
-              <p 
-                className="text-[10pt] sm:text-[11pt] font-bold mb-1 mt-1 text-center" 
-                style={{ fontFamily: 'Verdana, sans-serif' }}
-              >
+              {/* Title */}
+              <p className="text-sm font-bold mb-1 mt-1 text-center">
                 <span className="text-black dark:text-white break-words">
                   {caseStudy.name}
                 </span>
               </p>
               
-              {/* Subtitle - "Click to view" in gray italic */}
-              <p 
-                className="text-[9pt] sm:text-[10pt] italic leading-tight text-center" 
-                style={{ fontFamily: 'Verdana, sans-serif' }}
-              >
-                <span className="text-[#666] dark:text-gray-400">
+              {/* Subtitle */}
+              <p className="text-xs italic leading-tight text-center">
+                <span className="text-gray-600 dark:text-gray-400">
                   Click to view case study
                 </span>
               </p>
@@ -98,16 +85,9 @@ const CaseStudiesGrid: React.FC = () => {
           ))}
         </div>
 
-        {/* "View All" link - MySpace style */}
-        <div className="text-center pt-2 border-t border-[#ddd] dark:border-gray-600">
-          <a 
-            href="#" 
-            className="text-xs hover:underline text-red-600 dark:text-red-400"
-            style={{ 
-              fontFamily: 'Verdana, sans-serif',
-              textDecoration: 'underline'
-            }}
-          >
+        {/* "View All" link */}
+        <div className="text-center pt-2 border-t border-gray-300 dark:border-gray-600">
+          <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
             View All Case Studies
           </a>
         </div>
