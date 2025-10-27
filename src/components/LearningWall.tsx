@@ -47,176 +47,99 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode }) => {
     }
   ];
 
-  // Determine colors based on mode
-  const getColors = () => {
-    if (isMyspaceMode) {
-      // MySpace mode styling
-      if (isDarkMode) {
-        return {
-          bg: '#cc7700',
-          commentBg: '#2a1f14',
-          border: '#884400',
-          borderTop: '#aa5500',
-          text: '#f0d0a0',
-          timestamp: '#c0a070',
-          focus: '#d4b580',
-          titleText: '#fff',
-          linkText: '#66aaff'
-        };
-      } else {
-        return {
-          bg: '#ff9900',
-          commentBg: '#fff8f4',
-          border: '#cc6600',
-          borderTop: '#e67300',
-          text: '#2d1e0f',
-          timestamp: '#666',
-          focus: '#884400',
-          titleText: '#fff',
-          linkText: '#0000cc'
-        };
-      }
-    } else {
-      // Default mode styling
-      if (isDarkMode) {
-        return {
-          bg: '#1a1a1a',
-          commentBg: '#2a2a2a',
-          border: '#404040',
-          borderTop: '#404040',
-          text: '#e0e0e0',
-          timestamp: '#a0a0a0',
-          focus: '#c0c0c0',
-          titleText: '#fff',
-          linkText: '#66aaff'
-        };
-      } else {
-        return {
-          bg: '#f5f5f5',
-          commentBg: '#ffffff',
-          border: '#ddd',
-          borderTop: '#ddd',
-          text: '#333',
-          timestamp: '#666',
-          focus: '#888',
-          titleText: '#000',
-          linkText: '#0066cc'
-        };
-      }
-    }
-  };
-
-  const colors = getColors();
-
   return (
-    <section 
-      style={{ 
-        fontFamily: isMyspaceMode ? 'Verdana, Tahoma, sans-serif' : 'inherit',
-        backgroundColor: colors.bg,
-        padding: '10px',
-        borderRadius: isMyspaceMode ? '0' : '4px'
-      }}
-      className={!isMyspaceMode ? 'bg-gray-100 dark:bg-gray-900' : ''}
-    >
-      {/* Header Section */}
-      <div style={{ marginBottom: '10px' }}>
-        <h2 style={{ 
-          color: colors.titleText,
-          fontSize: isMyspaceMode ? '16pt' : '18pt',
-          fontWeight: 'bold',
-          marginBottom: '10px'
-        }}>
+    <div className={`bg-white dark:bg-gray-800 border-2 ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'} p-4 transition-shadow hover:shadow-lg`} style={{
+      borderRadius: '6px',
+      background: isMyspaceMode ? (isDarkMode ? 'rgba(26, 0, 51, 0.8)' : 'rgba(255, 248, 254, 0.95)') : undefined,
+      backdropFilter: isMyspaceMode ? 'blur(5px)' : undefined,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+    }}>
+      {/* MySpace-style Header Bar */}
+      <div className={`mb-3 py-2 px-3 ${isMyspaceMode && !isDarkMode ? 'bg-pink-100' : isMyspaceMode && isDarkMode ? 'bg-purple-900' : 'bg-gray-100 dark:bg-gray-700'} rounded`}>
+        <h2 className="font-bold text-black dark:text-white text-sm uppercase" style={{ fontFamily: 'Verdana, Arial, sans-serif' }}>
           What I'm Learning
         </h2>
-        <p style={{ fontSize: '10pt', color: colors.text }}>
-          Displaying {entries.length} of {entries.length} comments{' '}
-          <a 
-            href="#" 
-            style={{ color: colors.linkText, textDecoration: 'underline' }}
-          >
-            (View/Edit All Comments)
-          </a>
+        <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+          <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">View/Edit All Comments</a>
         </p>
       </div>
       
       {/* Comments Container */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-        {entries.map((entry, index) => (
-          <div 
-            key={entry.id}
-            style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              backgroundColor: colors.commentBg,
-              border: `1px solid ${colors.border}`,
-              borderTop: index > 0 ? `1px solid ${colors.borderTop}` : `1px solid ${colors.border}`,
-              padding: '10px',
-              width: '100%',
-              borderRadius: isMyspaceMode ? '0' : '4px'
-            }}
-          >
-            {/* Avatar - Left */}
-            <div 
+      <div className="space-y-3">
+        {entries.map((entry, index) => {
+          const isEven = index % 2 === 0;
+          const baseBg = isEven 
+            ? (isDarkMode ? 'rgba(42, 42, 42, 0.8)' : 'rgba(250, 250, 250, 0.9)')
+            : (isDarkMode ? 'rgba(51, 51, 51, 0.8)' : 'rgba(255, 255, 255, 0.95)');
+          
+          return (
+            <div
+              key={entry.id}
+              className="flex flex-col sm:flex-row gap-3 p-3 rounded-md transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
               style={{
-                width: '70px',
-                height: '70px',
-                marginRight: '10px',
-                flexShrink: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: isDarkMode ? '#404040' : '#e0e0e0',
-                border: `1px solid ${isDarkMode ? '#666' : '#999'}`
+                backgroundColor: baseBg,
+                border: `1px solid ${isEven 
+                  ? (isDarkMode ? '#4a4a4a' : '#e5e5e5') 
+                  : (isDarkMode ? '#5a5a5a' : '#d5d5d5')}`,
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
               }}
             >
-              <div style={{ fontSize: '2rem' }}>🧠</div>
-            </div>
-            
-            {/* Comment Box - Right */}
-            <div style={{ flex: 1, paddingLeft: '5px' }}>
-              {/* Timestamp */}
-              <p 
-                style={{ 
-                  fontSize: '10pt', 
-                  color: colors.timestamp, 
-                  fontStyle: 'italic',
-                  marginBottom: '5px',
-                  marginTop: '0'
+              {/* Avatar - Left */}
+              <div 
+                className="flex-shrink-0 w-16 h-16 mx-auto sm:mx-0"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: isDarkMode ? '#2a2a2a' : '#f0f0f0',
+                  border: '3px solid white',
+                  borderRadius: '50%',
+                  boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.2)',
                 }}
               >
-                {entry.timestamp}
-              </p>
+                <div style={{ fontSize: '2rem' }}>🧠</div>
+              </div>
               
-              {/* Learning Text */}
-              <p 
-                style={{ 
-                  fontSize: '11pt',
-                  color: colors.text,
-                  lineHeight: '1.4',
-                  marginBottom: '5px',
-                  marginTop: '0'
-                }}
-              >
-                {entry.learning}
-              </p>
-              
-              {/* Focus Area */}
-              <p 
-                style={{ 
-                  fontSize: '10pt',
-                  color: colors.focus,
-                  fontStyle: 'italic',
-                  marginTop: '0',
-                  marginBottom: '0'
-                }}
-              >
-                – Focus: {entry.focus}
-              </p>
+              {/* Comment Box - Right */}
+              <div className="flex-1" style={{ fontFamily: 'Verdana, Arial, sans-serif' }}>
+                {/* Timestamp */}
+                <p 
+                  className="text-xs mb-2"
+                  style={{ 
+                    color: isDarkMode ? '#a0a0a0' : '#666666',
+                    fontVariant: 'small-caps',
+                    letterSpacing: '0.5px'
+                  }}
+                >
+                  {entry.timestamp}
+                </p>
+                
+                {/* Learning Text */}
+                <p 
+                  className="text-sm mb-2 leading-relaxed"
+                  style={{ 
+                    color: isDarkMode ? '#e0e0e0' : '#333333'
+                  }}
+                >
+                  {entry.learning}
+                </p>
+                
+                {/* Focus Area */}
+                <p 
+                  className="text-xs italic"
+                  style={{ 
+                    color: isDarkMode ? '#b0b0b0' : '#888888',
+                    marginTop: '4px'
+                  }}
+                >
+                  – Focus: {entry.focus}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-    </section>
+    </div>
   );
 };
 
