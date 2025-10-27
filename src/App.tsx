@@ -3,7 +3,7 @@ import Sidebar from './components/Sidebar';
 import AboutMe from './components/AboutMe';
 import Education from './components/Education';
 import CaseStudiesGrid from './components/CaseStudiesGrid';
-import Comments from './components/Comments';
+import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import './App.css';
@@ -100,7 +100,7 @@ function AppContent() {
           <Education />
           <AboutMe />
           <CaseStudiesGrid />
-          <Comments />
+          <LearningWall isMyspaceMode={isMyspaceMode} />
         </div>
       </div>
     </div>
