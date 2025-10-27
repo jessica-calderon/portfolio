@@ -683,3 +683,15 @@ body {
 .animate-pulse-subtle {
   animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* Mobile Layout: All sections stacked in order */
+/* Mobile ordering classes ensure proper flow on small screens */
+.mobile-order-1 { order: 1; } /* Profile Picture */
+.mobile-order-2 { order: 2; } /* Professional Contact Banner */
+.mobile-order-3 { order: 3; } /* Contact Info */
+.mobile-order-4 { order: 4; } /* Professional Profile */
+.mobile-order-5 { order: 5; } /* Jessica's Links */
+.mobile-order-6 { order: 6; } /* Certifications & Education */
+.mobile-order-7 { order: 7; } /* Technical Skills */
+.mobile-order-8 { order: 8; } /* Case Studies */
+.mobile-order-9 { order: 9; } /* What I'm Learning */

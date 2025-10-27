@@ -6,13 +6,23 @@ import CaseStudiesGrid from './components/CaseStudiesGrid';
 import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
+import profilePic from './assets/8bitme.png';
 import './App.css';
 
 function AppContent() {
   const [isMyspaceMode, setIsMyspaceMode] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+  const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
   const { isDarkMode } = useDarkMode();
+
+  // Check if user wants to force desktop view
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('view') === 'desktop') {
+      setForceDesktopView(true);
+    }
+  }, []);
 
   const handleModeChange = (isMyspace: boolean) => {
     setIsMyspaceMode(isMyspace);
@@ -83,25 +93,25 @@ function AppContent() {
   return (
     <div className={getThemeClasses()}>
     {/* Professional Portfolio Header */}
-    <div className={`text-white py-3 px-4 ${isMyspaceMode 
+    <div className={`text-white py-2 sm:py-3 px-2 sm:px-4 ${isMyspaceMode 
       ? 'bg-gradient-to-r from-pink-500 to-purple-500 dark:from-purple-700 dark:to-pink-700' 
       : 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-slate-800 dark:to-slate-900'
     }`}>
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-xl md:text-2xl font-bold">MyPortfolio</h1>
+      <div className="max-w-6xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
+        <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold">MyPortfolio</h1>
           <span className="hidden sm:inline text-sm text-gray-100">a place to showcase my work</span>
         </div>
-        <div className="flex items-center flex-wrap gap-2 w-full md:w-auto relative">
-          <div className="relative flex-1 md:flex-none md:min-w-[200px]">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0 relative">
+          <div className="relative flex-1 min-w-0">
             <input 
               type="text" 
-              placeholder="🔍 Search projects, skills, technologies..." 
+              placeholder="Search profile" 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setShowSuggestions(true)}
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              className={`px-3 py-2 w-full ${isMyspaceMode ? 'bg-pink-100 border-pink-300 focus:ring-pink-500' : 'bg-gray-50 border-gray-300 focus:ring-blue-500'} text-gray-900 border text-sm rounded-lg focus:outline-none focus:ring-2 transition-all duration-200`}
+              className={`px-2 sm:px-3 py-1 sm:py-2 w-full text-xs sm:text-sm ${isMyspaceMode ? 'bg-pink-100 border-pink-300 focus:ring-pink-500' : 'bg-gray-50 border-gray-300 focus:ring-blue-500'} text-gray-900 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200`}
             />
             {suggestions.length > 0 && showSuggestions && (
               <div className={`absolute top-full mt-1 w-full z-50 rounded-lg shadow-lg border-2 max-h-64 overflow-y-auto ${isMyspaceMode ? 'bg-pink-50 border-pink-300' : 'bg-white border-gray-300'}`}>
@@ -123,7 +133,7 @@ function AppContent() {
           {searchQuery && (
             <button 
               onClick={() => setSearchQuery('')}
-              className={`px-3 py-2 text-sm rounded-lg transition-colors duration-200 ${isMyspaceMode ? 'bg-red-500 hover:bg-red-600' : 'bg-red-500 hover:bg-red-600'}`}
+              className={`px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 flex-shrink-0 ${isMyspaceMode ? 'bg-red-500 hover:bg-red-600' : 'bg-red-500 hover:bg-red-600'}`}
               title="Clear search"
             >
               ✕
@@ -132,9 +142,10 @@ function AppContent() {
           <a href="#" className="hidden lg:inline text-sm hover:text-pink-200 transition-colors duration-200">Help</a>
           <button
             onClick={() => handleModeChange(!isMyspaceMode)}
-            className="flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors duration-200"
+            className="hidden sm:flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors duration-200 flex-shrink-0"
           >
-            {isMyspaceMode ? 'Default View' : 'Custom View'}
+            <span className="hidden md:inline">{isMyspaceMode ? 'Default View' : 'Custom View'}</span>
+            <span className="md:hidden">CV</span>
           </button>
           <DarkModeToggle />
         </div>
@@ -157,27 +168,183 @@ function AppContent() {
               {item.label}
             </a>
           ))}
+          {/* View Desktop Version Link - Only visible on mobile */}
+          <a 
+            href="?view=desktop" 
+            className={`${forceDesktopView ? 'hidden' : ''} lg:hidden transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} flex items-center gap-1`}
+          >
+            <span>🖥️</span> Desktop View
+          </a>
+          {/* View Mobile Version Link - Only visible when desktop is forced */}
+          <a 
+            href="?" 
+            className={`${forceDesktopView ? '' : 'hidden'} transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} flex items-center gap-1`}
+          >
+            <span>📱</span> Mobile View
+          </a>
         </nav>
       </div>
     </div>
 
     {/* Main Content */}
     <div className="max-w-6xl mx-auto p-2 sm:p-4">
-      <div className="flex flex-col lg:flex-row gap-4">
-        {/* Left Sidebar - MySpace Profile Style */}
-        <div className="w-full lg:w-1/3">
+      {/* Desktop Layout: Sidebar + Main Content */}
+      <div className={`${forceDesktopView ? 'flex' : 'hidden lg:flex'} flex-row gap-4`}>
+        {/* Left Sidebar */}
+        <div className="w-1/3">
           <Sidebar />
         </div>
         
         {/* Right Main Content */}
-        <div className="w-full lg:w-2/3 space-y-4">
+        <div className="w-2/3 space-y-4">
           {/* Profile Banner */}
-          <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
-            <h2 className="text-base sm:text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
+          <div className={`bg-white dark:bg-gray-800 border-2 p-4 ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
+            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
           <Education searchQuery={searchQuery} />
           <AboutMe isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
           <CaseStudiesGrid isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
+          <LearningWall isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
+        </div>
+      </div>
+      
+      {/* Mobile Layout: All sections in one column with custom order */}
+      <div className={`flex flex-col gap-3 sm:gap-4 ${forceDesktopView ? 'hidden' : 'lg:hidden'}`}>
+        {/* Profile Picture - order 1 */}
+        <div className="mobile-order-1">
+          <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
+            <p className="text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
+            <div className="flex items-start space-x-3">
+              <img 
+                src={profilePic}
+                alt="Jessica Calderon" 
+                className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover flex-shrink-0"
+              />
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-black dark:text-white">"Currently coding... "</p>
+                <p className="text-xs text-black dark:text-white">She/Her</p>
+                <p className="text-xs text-black dark:text-white">San Antonio, TEXAS</p>
+                <p className="text-xs text-black dark:text-white">United States</p>
+                <p className="text-xs text-black dark:text-white mt-2">Last Login: 2 minutes ago</p>
+                <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Professional Contact Banner - order 2 */}
+        <div className={`mobile-order-2 ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
+          <div className="bg-white dark:bg-gray-800 border-2 p-4">
+            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
+          </div>
+        </div>
+        
+        {/* Contact Info - order 3 */}
+        <div className="mobile-order-3">
+          <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 p-4">
+            <h3 className="font-bold text-black dark:text-white text-sm mb-3">Contacting Jessica</h3>
+            <div className="grid grid-cols-2 gap-2">
+              <a href="mailto:calderonjessica13@yahoo.com" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+                <span className="mr-1">✉️</span> Send Message
+              </a>
+              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+                <span className="mr-1">👥</span> Connect
+              </a>
+              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+                <span className="mr-1">💬</span> Schedule Call
+              </a>
+              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+                <span className="mr-1">📄</span> View Resume
+              </a>
+              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+                <span className="mr-1">↗️</span> Share Profile
+              </a>
+              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+                <span className="mr-1">⭐</span> Add to Favorites
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        {/* Professional Profile - order 4 */}
+        <div className="mobile-order-4">
+          <AboutMe isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
+        </div>
+        
+        {/* Jessica's Links - order 5 */}
+        <div className="mobile-order-5 overflow-x-auto">
+          <table className="myspace-box">
+            <thead>
+              <tr>
+                <th colSpan={2}>Jessica's Links</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>GitHub:</b></td>
+                <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">github.com/jessica-calderon</a></td>
+              </tr>
+              <tr>
+                <td><b>LinkedIn:</b></td>
+                <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">linkedin.com/in/Jessica-Calderon-00</a></td>
+              </tr>
+              <tr>
+                <td><b>Portfolio:</b></td>
+                <td><a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">github.io/myspace-portfolio</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        {/* Certifications & Education - order 6 */}
+        <div className="mobile-order-6">
+          <Education searchQuery={searchQuery} />
+        </div>
+        
+        {/* Technical Skills - order 7 */}
+        <div className="mobile-order-7 overflow-x-auto">
+          <table className="myspace-box">
+            <thead>
+              <tr>
+                <th colSpan={2}>Jessica's Technical Skills</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Programming:</b></td>
+                <td>PHP, TypeScript, JavaScript, Python, React, Node.js</td>
+              </tr>
+              <tr>
+                <td><b>DevOps:</b></td>
+                <td>Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</td>
+              </tr>
+              <tr>
+                <td><b>Databases:</b></td>
+                <td>PostgreSQL, MySQL, Redis, OpenSearch</td>
+              </tr>
+              <tr>
+                <td><b>Tools:</b></td>
+                <td>VS Code, GitLab CI, Fluent Bit, Apache Superset</td>
+              </tr>
+              <tr>
+                <td><b>Cloud:</b></td>
+                <td>AWS, ECS, S3, RDS, CloudWatch</td>
+              </tr>
+              <tr>
+                <td><b>Specialties:</b></td>
+                <td>Moodle Workplace, Data Integration, Iron Bank Containers</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        {/* Case Studies - order 8 */}
+        <div className="mobile-order-8">
+          <CaseStudiesGrid isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
+        </div>
+        
+        {/* What I'm Learning - order 9 */}
+        <div className="mobile-order-9">
           <LearningWall isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
         </div>
       </div>
