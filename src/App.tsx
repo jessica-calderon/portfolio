@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import AboutMe from './components/AboutMe';
-import Technologies from './components/Technologies';
+import Education from './components/Education';
 import CaseStudiesGrid from './components/CaseStudiesGrid';
 import Comments from './components/Comments';
 import DarkModeToggle from './components/DarkModeToggle';
@@ -106,7 +106,7 @@ function App() {
                 <div className="mt-2 text-xs text-gray-600 dark:text-gray-400">🔊 Volume: 100% | ⏸️ Pause | ⏭️ Next</div>
               </div>
             )}
-            <Technologies />
+            <Education />
             <AboutMe />
             <CaseStudiesGrid />
             <Comments />
