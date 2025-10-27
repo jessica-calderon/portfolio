@@ -10,7 +10,7 @@ const Sidebar: React.FC = () => {
           <img 
             src={profilePic} 
             alt="Jessica Calderon" 
-            className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover"
+            className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover myspace-light-img-border"
           />
           <div className="flex-1">
           <p className="text-xs text-black dark:text-white">"Currently coding... "</p>
@@ -72,28 +72,28 @@ const Sidebar: React.FC = () => {
         </thead>
         <tbody>
           <tr>
-            <td><b>Programming:</b></td>
-            <td>PHP, TypeScript, JavaScript, Python, React, Node.js</td>
+            <td className="text-black dark:text-gray-300"><b>Programming:</b></td>
+            <td className="text-black dark:text-gray-300">PHP, TypeScript, JavaScript, Python, React, Node.js</td>
           </tr>
           <tr>
-            <td><b>DevOps:</b></td>
-            <td>Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</td>
+            <td className="text-black dark:text-gray-300"><b>DevOps:</b></td>
+            <td className="text-black dark:text-gray-300">Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</td>
           </tr>
           <tr>
-            <td><b>Databases:</b></td>
-            <td>PostgreSQL, MySQL, Redis, OpenSearch</td>
+            <td className="text-black dark:text-gray-300"><b>Databases:</b></td>
+            <td className="text-black dark:text-gray-300">PostgreSQL, MySQL, Redis, OpenSearch</td>
           </tr>
           <tr>
-            <td><b>Tools:</b></td>
-            <td>VS Code, GitLab CI, Fluent Bit, Apache Superset</td>
+            <td className="text-black dark:text-gray-300"><b>Tools:</b></td>
+            <td className="text-black dark:text-gray-300">VS Code, GitLab CI, Fluent Bit, Apache Superset</td>
           </tr>
           <tr>
-            <td><b>Cloud:</b></td>
-            <td>AWS, ECS, S3, RDS, CloudWatch</td>
+            <td className="text-black dark:text-gray-300"><b>Cloud:</b></td>
+            <td className="text-black dark:text-gray-300">AWS, ECS, S3, RDS, CloudWatch</td>
           </tr>
           <tr>
-            <td><b>Specialties:</b></td>
-            <td>Moodle Workplace, Data Integration, Iron Bank Containers</td>
+            <td className="text-black dark:text-gray-300"><b>Specialties:</b></td>
+            <td className="text-black dark:text-gray-300">Moodle Workplace, Data Integration, Iron Bank Containers</td>
           </tr>
         </tbody>
       </table>

@@ -40,18 +40,18 @@ const CaseStudiesGrid: React.FC = () => {
 
   return (
     <>
-      <div className="bg-[#fff8f4] border border-[#d47a1f] p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+      <div className="bg-[#fff8f4] dark:bg-gray-800 border border-[#d47a1f] dark:border-gray-600 p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
         {/* MySpace-style header bar */}
-        <div className="bg-[#ffcc99] border-b-[1px] border-[#cc6600] py-[6px] px-2 mb-3">
-          <h2 className="font-bold text-black text-xs uppercase" style={{ fontFamily: 'Verdana, sans-serif' }}>
+        <div className="bg-[#ffcc99] dark:bg-orange-600 border-b-[1px] border-[#cc6600] dark:border-orange-700 py-[6px] px-2 mb-3">
+          <h2 className="font-bold text-black dark:text-white text-xs uppercase" style={{ fontFamily: 'Verdana, sans-serif' }}>
             Jessica's Case Studies
           </h2>
         </div>
         
         {/* Friend count subtext */}
-        <p className="text-xs mb-3" style={{ fontFamily: 'Verdana, sans-serif' }}>
+        <p className="text-xs mb-3 text-black dark:text-gray-300" style={{ fontFamily: 'Verdana, sans-serif' }}>
           Jessica has{' '}
-          <span style={{ color: '#cc0000' }}>{caseStudies.length}</span>
+          <span className="text-red-600 dark:text-red-400">{caseStudies.length}</span>
           {' '}Featured Case Studies.
         </p>
 
@@ -70,7 +70,7 @@ const CaseStudiesGrid: React.FC = () => {
             >
               {/* Square image placeholder - MySpace style */}
               <div 
-                className="w-[100px] h-[100px] bg-[#f5f5f5] border border-[#ccc] flex items-center justify-center mb-2 rounded transition-all duration-200 hover:border-[#999]"
+                className="w-[100px] h-[100px] bg-[#f5f5f5] dark:bg-gray-700 border border-[#ccc] dark:border-gray-600 flex items-center justify-center mb-2 rounded transition-all duration-200 hover:border-[#999] dark:hover:border-gray-500"
                 style={{ 
                   boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
                 }}
@@ -82,30 +82,33 @@ const CaseStudiesGrid: React.FC = () => {
               
               {/* Title - MySpace "name" style */}
               <p 
-                className="text-[11pt] font-bold text-black mb-1 mt-1" 
+                className="text-[11pt] font-bold mb-1 mt-1" 
                 style={{ fontFamily: 'Verdana, sans-serif' }}
               >
-                {caseStudy.name}
+                <span className="text-black dark:text-white">
+                  {caseStudy.name}
+                </span>
               </p>
               
               {/* Subtitle - "Click to view" in gray italic */}
               <p 
-                className="text-[10pt] text-[#666] italic leading-tight" 
+                className="text-[10pt] italic leading-tight" 
                 style={{ fontFamily: 'Verdana, sans-serif' }}
               >
-                Click to view case study
+                <span className="text-[#666] dark:text-gray-400">
+                  Click to view case study
+                </span>
               </p>
             </div>
           ))}
         </div>
 
         {/* "View All" link - MySpace style */}
-        <div className="text-center pt-2 border-t border-[#ddd]">
+        <div className="text-center pt-2 border-t border-[#ddd] dark:border-gray-600">
           <a 
             href="#" 
-            className="text-xs hover:underline"
+            className="text-xs hover:underline text-red-600 dark:text-red-400"
             style={{ 
-              color: '#cc0000',
               fontFamily: 'Verdana, sans-serif',
               textDecoration: 'underline'
             }}

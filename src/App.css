@@ -114,16 +114,16 @@ body {
 }
 
 /* MySpace Light Theme */
-.myspace-mode {
-  --bg-primary: linear-gradient(135deg, #f2d0ff, #d0f7ff, #c8e6c9);
-  --bg-secondary: linear-gradient(135deg, #ffb3d9, #b3e5fc);
-  --text-primary: #2c2c54;
-  --text-secondary: #6c5ce7;
-  --text-accent: #d63384;
+.myspace-mode:not(.dark) {
+  --bg-primary: linear-gradient(135deg, #fecdd3, #c084fc, #f0abfc, #fbcfe8);
+  --bg-secondary: linear-gradient(135deg, #ffb3d9, #f9a8d4);
+  --text-primary: #4c1d95;
+  --text-secondary: #7c3aed;
+  --text-accent: #ec4899;
   --card-bg: rgba(255, 255, 255, 0.95);
-  --card-border: #ff69b4;
-  --hover-glow: rgba(255, 105, 180, 0.7);
-  --shadow-color: rgba(255, 105, 180, 0.4);
+  --card-border: #ec4899;
+  --hover-glow: rgba(236, 72, 153, 0.7);
+  --shadow-color: rgba(236, 72, 153, 0.4);
   
   background: var(--bg-primary);
   background-size: 400% 400%;
@@ -254,6 +254,48 @@ body {
 /* Dark mode border overrides */
 .myspace-mode.dark .border-blue-400 {
   border-color: var(--text-accent) !important;
+}
+
+/* Light mode MySpace - use pink borders instead of blue */
+.myspace-mode:not(.dark) .border-blue-500 {
+  border-color: #ec4899 !important; /* pink-500 */
+  border-width: 3px !important;
+}
+
+.myspace-mode:not(.dark) .border-blue-400 {
+  border-color: #f472b6 !important; /* pink-400 */
+  border-width: 3px !important;
+}
+
+.myspace-mode:not(.dark) .myspace-light-img-border {
+  border-color: #ec4899 !important;
+}
+
+/* Override blue backgrounds in MySpace light mode */
+.myspace-mode:not(.dark) .bg-blue-100 {
+  background-color: #fce7f3 !important; /* pink-50 */
+}
+
+/* Override blue borders in MySpace light mode for all elements */
+.myspace-mode:not(.dark) .border-blue-500 {
+  border-color: #ec4899 !important;
+}
+
+.myspace-mode:not(.dark) .border-blue-400 {
+  border-color: #f472b6 !important;
+}
+
+/* Override blue text links in MySpace light mode */
+.myspace-mode:not(.dark) .text-blue-600 {
+  color: #db2777 !important; /* pink-700 */
+}
+
+.myspace-mode:not(.dark) .text-blue-400 {
+  color: #ec4899 !important; /* pink-500 */
+}
+
+.myspace-mode:not(.dark) .hover\:text-blue-300:hover {
+  color: #f9a8d4 !important; /* pink-300 */
 }
 
 /* MySpace Text Colors */
@@ -592,4 +634,38 @@ body {
 
 .dark .myspace-box td {
   border-bottom-color: #374151;
+  color: #e5e7eb;
+}
+
+/* Ensure table text is readable in dark mode */
+.dark .myspace-box td b {
+  color: #e5e7eb;
+}
+
+/* MySpace mode dark mode for tables */
+.myspace-mode.dark .myspace-box {
+  background-color: rgba(20, 20, 40, 0.9);
+  border-color: var(--card-border);
+}
+
+.myspace-mode.dark .myspace-box th {
+  background: linear-gradient(135deg, var(--text-secondary), #9c27b0);
+  border-color: var(--card-border);
+}
+
+.myspace-mode.dark .myspace-box tbody tr:nth-child(even) {
+  background-color: rgba(30, 20, 60, 0.5);
+}
+
+.myspace-mode.dark .myspace-box tbody tr:nth-child(odd) {
+  background-color: rgba(20, 20, 40, 0.7);
+}
+
+.myspace-mode.dark .myspace-box td {
+  color: var(--text-primary);
+}
+
+.myspace-mode.dark .myspace-box td b {
+  color: var(--text-accent);
+  font-weight: 700;
 }
