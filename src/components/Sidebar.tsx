@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import profilePic from '../assets/8bitme.png';
 import ResumeModal from './ResumeModal';
+import ShareProfileModal from './ShareProfileModal';
 
 const Sidebar: React.FC = () => {
   const [showResumeModal, setShowResumeModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   return (
     <div className="space-y-4">
@@ -45,9 +47,9 @@ const Sidebar: React.FC = () => {
           <button onClick={() => setShowResumeModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">📄</span> View Resume
           </button>
-          <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+          <button onClick={() => setShowShareModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">↗️</span> Share Profile
-          </a>
+          </button>
           <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">⭐</span> Add to Favorites
           </a>
@@ -134,6 +136,9 @@ const Sidebar: React.FC = () => {
 
       {/* Resume Modal */}
       {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
+      
+      {/* Share Profile Modal */}
+      {showShareModal && <ShareProfileModal onClose={() => setShowShareModal(false)} />}
     </div>
   );
 };
