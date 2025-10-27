@@ -1,4 +1,5 @@
 import React from 'react';
+import profilePic from '../assets/8bitme.png';
 
 const Sidebar: React.FC = () => {
   return (
@@ -6,9 +7,11 @@ const Sidebar: React.FC = () => {
       {/* Profile Picture and Basic Info */}
       <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
         <div className="flex items-start space-x-3">
-          <div className="w-20 h-20 bg-gray-300 dark:bg-gray-600 border-2 border-blue-500 dark:border-blue-400 flex items-center justify-center">
-            <span className="text-2xl font-bold text-gray-600 dark:text-gray-300">JC</span>
-          </div>
+          <img 
+            src={profilePic} 
+            alt="Jessica Calderon" 
+            className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover"
+          />
           <div className="flex-1">
           <p className="text-xs text-black dark:text-white">"Currently coding... "</p>
             <p className="text-xs text-black dark:text-white">She/Her</p>
@@ -61,58 +64,66 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* Jessica's Technical Skills */}
-      <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
-        <h3 className="font-bold text-white text-sm mb-3 bg-blue-500 dark:bg-blue-600 px-2 py-1 -mx-2 -mt-2">Jessica's Technical Skills</h3>
-        <div className="space-y-2 text-xs">
-          <div>
-            <span className="font-bold text-black dark:text-white">Programming:</span>
-            <p className="text-black dark:text-gray-300">PHP, TypeScript, JavaScript, Python, React, Node.js</p>
-          </div>
-          <div>
-            <span className="font-bold text-black dark:text-white">DevOps:</span>
-            <p className="text-black dark:text-gray-300">Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</p>
-          </div>
-          <div>
-            <span className="font-bold text-black dark:text-white">Databases:</span>
-            <p className="text-black dark:text-gray-300">PostgreSQL, MySQL, Redis, OpenSearch</p>
-          </div>
-          <div>
-            <span className="font-bold text-black dark:text-white">Tools:</span>
-            <p className="text-black dark:text-gray-300">VS Code, GitLab CI, Fluent Bit, Apache Superset</p>
-          </div>
-          <div>
-            <span className="font-bold text-black dark:text-white">Cloud:</span>
-            <p className="text-black dark:text-gray-300">AWS, ECS, S3, RDS, CloudWatch</p>
-          </div>
-          <div>
-            <span className="font-bold text-black dark:text-white">Specialties:</span>
-            <p className="text-black dark:text-gray-300">Moodle Workplace, Data Integration, Iron Bank Containers</p>
-          </div>
-        </div>
-      </div>
+      <table className="myspace-box">
+        <thead>
+          <tr>
+            <th colSpan={2}>Jessica's Technical Skills</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Programming:</b></td>
+            <td>PHP, TypeScript, JavaScript, Python, React, Node.js</td>
+          </tr>
+          <tr>
+            <td><b>DevOps:</b></td>
+            <td>Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</td>
+          </tr>
+          <tr>
+            <td><b>Databases:</b></td>
+            <td>PostgreSQL, MySQL, Redis, OpenSearch</td>
+          </tr>
+          <tr>
+            <td><b>Tools:</b></td>
+            <td>VS Code, GitLab CI, Fluent Bit, Apache Superset</td>
+          </tr>
+          <tr>
+            <td><b>Cloud:</b></td>
+            <td>AWS, ECS, S3, RDS, CloudWatch</td>
+          </tr>
+          <tr>
+            <td><b>Specialties:</b></td>
+            <td>Moodle Workplace, Data Integration, Iron Bank Containers</td>
+          </tr>
+        </tbody>
+      </table>
 
       {/* Jessica's Links */}
-      <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
-        <h3 className="font-bold text-white text-sm mb-3 bg-blue-500 dark:bg-blue-600 px-2 py-1 -mx-2 -mt-2">Jessica's Links</h3>
-        <div className="space-y-1 text-xs">
-          <div>
-            <span className="font-bold text-black dark:text-white">GitHub:</span>
-            <a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">github.com/jessica-calderon</a>
-          </div>
-          <div>
-            <span className="font-bold text-black dark:text-white">LinkedIn:</span>
-            <a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">linkedin.com/in/Jessica-Calderon-00</a>
-          </div>
-          <div>
-            <span className="font-bold text-black dark:text-white">Portfolio:</span>
-            <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">jessicacalderon.dev</a>
-          </div>
-          <div>
-            <span className="font-bold text-black dark:text-white">Resume:</span>
-            <a href="https://docs.google.com/document/d/1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline ml-1">View Resume</a>
-          </div>
-        </div>
-      </div>
+      <table className="myspace-box">
+        <thead>
+          <tr>
+            <th colSpan={2}>Jessica's Links</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>GitHub:</b></td>
+            <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">github.com/jessica-calderon</a></td>
+          </tr>
+          <tr>
+            <td><b>LinkedIn:</b></td>
+            <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">linkedin.com/in/Jessica-Calderon-00</a></td>
+          </tr>
+          <tr>
+            <td><b>Portfolio:</b></td>
+            <td><a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">jessicacalderon.dev</a></td>
+          </tr>
+          <tr>
+            <td><b>Resume:</b></td>
+            <td><a href="https://docs.google.com/document/d/1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">View Resume</a></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
