@@ -1,9 +1,23 @@
 import React from 'react';
+import { useDarkMode } from '../contexts/DarkModeContext';
 
-const AboutMe: React.FC = () => {
+interface AboutMeProps {
+  isMyspaceMode: boolean;
+}
+
+const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode }) => {
+  const { isDarkMode } = useDarkMode();
+  
+  // Determine header background color based on mode
+  const getHeaderBg = () => {
+    if (isMyspaceMode && isDarkMode) return 'bg-purple-600';
+    if (isMyspaceMode && !isDarkMode) return 'bg-pink-500';
+    return 'bg-orange-500 dark:bg-orange-600';
+  };
+
   return (
-    <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4">
-      <h2 className="font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 bg-orange-500 dark:bg-orange-600 px-2 py-1 -mx-2 -mt-2">Jessica's Professional Profile</h2>
+    <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'}`}>
+      <h2 className={`font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 px-2 py-1 -mx-2 -mt-2 ${getHeaderBg()}`}>Jessica's Professional Profile</h2>
       <div className="space-y-2 sm:space-y-3 text-xs">
         <div>
           <span className="font-bold text-blue-600 dark:text-blue-400">About me:</span>

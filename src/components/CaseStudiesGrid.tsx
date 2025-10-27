@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CaseStudyModal from './CaseStudyModal';
+import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface CaseStudy {
   name: string;
@@ -8,7 +9,12 @@ interface CaseStudy {
   techUsed: string[];
 }
 
-const CaseStudiesGrid: React.FC = () => {
+interface CaseStudiesGridProps {
+  isMyspaceMode: boolean;
+}
+
+const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode }) => {
+  const { isDarkMode } = useDarkMode();
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
 
   const caseStudies: CaseStudy[] = [
@@ -38,10 +44,17 @@ const CaseStudiesGrid: React.FC = () => {
     }
   ];
 
+  // Determine header background color based on mode
+  const getHeaderBg = () => {
+    if (isMyspaceMode && isDarkMode) return 'bg-purple-600';
+    if (isMyspaceMode && !isDarkMode) return 'bg-pink-500';
+    return 'bg-orange-500 dark:bg-orange-600';
+  };
+
   return (
     <>
-      <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4">
-        <h2 className="font-bold text-black dark:text-white text-sm mb-2 sm:mb-3">Jessica's Case Studies</h2>
+      <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'}`}>
+        <h2 className={`font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 px-2 py-1 -mx-2 -mt-2 ${getHeaderBg()}`}>Jessica's Case Studies</h2>
         <p className="text-xs mb-3 text-black dark:text-gray-300">
           Jessica has{' '}
           <span className="text-blue-600 dark:text-blue-400">{caseStudies.length}</span>

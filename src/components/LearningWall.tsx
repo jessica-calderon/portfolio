@@ -14,6 +14,14 @@ interface LearningWallProps {
 
 const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode }) => {
   const { isDarkMode } = useDarkMode();
+  
+  // Determine header background color based on mode
+  const getHeaderBg = () => {
+    if (isMyspaceMode && isDarkMode) return 'bg-purple-600';
+    if (isMyspaceMode && !isDarkMode) return 'bg-pink-500';
+    return 'bg-orange-500 dark:bg-orange-600';
+  };
+  
   const entries: LearningEntry[] = [
     {
       id: 1,
@@ -48,8 +56,8 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode }) => {
   ];
 
   return (
-    <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4">
-      <h2 className="font-bold text-black dark:text-white text-sm mb-2 sm:mb-3">What I'm Learning</h2>
+    <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'}`}>
+      <h2 className={`font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 px-2 py-1 -mx-2 -mt-2 ${getHeaderBg()}`}>What I'm Learning</h2>
       <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">
         <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">View/Edit All Comments</a>
       </p>

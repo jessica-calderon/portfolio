@@ -95,11 +95,11 @@ function AppContent() {
         <div className="w-full lg:w-2/3 space-y-4">
           {/* Profile Banner */}
           <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
-            <h2 className="text-base sm:text-xl font-bold text-black dark:text-white">Jessica Calderon is your Professional Contact.</h2>
+            <h2 className="text-base sm:text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
           <Education />
-          <AboutMe />
-          <CaseStudiesGrid />
+          <AboutMe isMyspaceMode={isMyspaceMode} />
+          <CaseStudiesGrid isMyspaceMode={isMyspaceMode} />
           <LearningWall isMyspaceMode={isMyspaceMode} />
         </div>
       </div>
