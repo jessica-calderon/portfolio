@@ -19,7 +19,7 @@ const FeaturedProjects: React.FC = () => {
       description: "A nostalgic portfolio website inspired by the classic MySpace layout, featuring modern React development with TypeScript, Tailwind CSS, and responsive design.",
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
       technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],
-      liveUrl: "https://jessicacalderon.dev",
+      liveUrl: "https://jessica-calderon.github.io/myspace-portfolio/",
       githubUrl: "https://github.com/jessica-calderon/myspace-portfolio",
       featured: true
     },

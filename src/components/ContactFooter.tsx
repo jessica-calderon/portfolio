@@ -33,7 +33,7 @@ const ContactFooter: React.FC = () => {
     },
     {
       name: "Portfolio",
-      url: "https://jessicacalderon.dev",
+      url: "https://jessica-calderon.github.io/myspace-portfolio/",
       icon: "🌐",
       color: "bg-green-600 hover:bg-green-700",
       description: "Visit my main portfolio website"

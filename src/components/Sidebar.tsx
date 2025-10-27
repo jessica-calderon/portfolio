@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import profilePic from '../assets/8bitme.png';
+import ResumeModal from './ResumeModal';
 
 const Sidebar: React.FC = () => {
+  const [showResumeModal, setShowResumeModal] = useState(false);
+
   return (
     <div className="space-y-4">
       {/* Profile Picture and Basic Info */}
@@ -20,7 +23,7 @@ const Sidebar: React.FC = () => {
             <p className="text-xs text-black dark:text-white mt-2">Last Login: 2 minutes ago</p>
             <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
             <div className="mt-2">
-              <a href="https://docs.google.com/document/d/1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words">View My: Portfolio | Resume</a>
+              <button onClick={() => setShowResumeModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words">View My: Portfolio</button>
             </div>
           </div>
         </div>
@@ -39,9 +42,9 @@ const Sidebar: React.FC = () => {
           <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">💬</span> Schedule Call
           </a>
-          <a href="https://docs.google.com/document/d/1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+          <button onClick={() => setShowResumeModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">📄</span> View Resume
-          </a>
+          </button>
           <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
             <span className="mr-1">↗️</span> Share Profile
           </a>
@@ -60,7 +63,7 @@ const Sidebar: React.FC = () => {
       {/* Portfolio URL */}
       <div className="bg-white dark:bg-gray-800 border border-black dark:border-gray-600 p-2 sm:p-3">
         <p className="text-xs text-black dark:text-white">Portfolio URL:</p>
-        <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-all">http://www.jessicacalderon.dev</a>
+        <a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-all">https://jessica-calderon.github.io/myspace-portfolio/</a>
       </div>
 
       {/* Jessica's Technical Skills */}
@@ -119,15 +122,18 @@ const Sidebar: React.FC = () => {
             </tr>
             <tr>
               <td className="whitespace-nowrap"><b>Portfolio:</b></td>
-              <td><a href="#" className="text-blue-600 dark:text-blue-400 hover:underline break-all">jessicacalderon.dev</a></td>
+              <td><a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline break-all">github.io/myspace-portfolio</a></td>
             </tr>
             <tr>
               <td className="whitespace-nowrap"><b>Resume:</b></td>
-              <td><a href="https://docs.google.com/document/d/1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8/edit?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline break-all">View Resume</a></td>
+              <td><button onClick={() => setShowResumeModal(true)} className="text-blue-600 dark:text-blue-400 hover:underline break-all">View Resume</button></td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      {/* Resume Modal */}
+      {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
     </div>
   );
 };
