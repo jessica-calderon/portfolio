@@ -40,10 +40,10 @@ const CaseStudiesGrid: React.FC = () => {
 
   return (
     <>
-      <div className="bg-[#fff8f4] dark:bg-gray-800 border border-[#d47a1f] dark:border-gray-600 p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+      <div className="bg-[#fff8f4] dark:bg-gray-800 border border-[#d47a1f] dark:border-gray-600 p-3 sm:p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
         {/* MySpace-style header bar */}
-        <div className="bg-[#ffcc99] dark:bg-orange-600 border-b-[1px] border-[#cc6600] dark:border-orange-700 py-[6px] px-2 mb-3">
-          <h2 className="font-bold text-black dark:text-white text-xs uppercase" style={{ fontFamily: 'Verdana, sans-serif' }}>
+        <div className="bg-[#ffcc99] dark:bg-orange-600 border-b-[1px] border-[#cc6600] dark:border-orange-700 py-[6px] px-2 mb-2 sm:mb-3">
+          <h2 className="font-bold text-black dark:text-white text-xs sm:text-sm uppercase" style={{ fontFamily: 'Verdana, sans-serif' }}>
             Jessica's Case Studies
           </h2>
         </div>
@@ -55,44 +55,39 @@ const CaseStudiesGrid: React.FC = () => {
           {' '}Featured Case Studies.
         </p>
 
-        {/* MySpace Friend Space Grid - 4 columns desktop, 2 tablet, 1 mobile */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        {/* MySpace Friend Space Grid - 2 columns on mobile/tablet, 4 on desktop */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4">
           {caseStudies.map((caseStudy, index) => (
             <div 
               key={index} 
               className="flex flex-col items-center cursor-pointer p-2 rounded transition-all duration-200 hover:scale-[1.03] hover:shadow-md"
               onClick={() => setSelectedCaseStudy(caseStudy)}
-              style={{ 
-                textAlign: 'center',
-                width: '140px',
-                margin: '0 auto'
-              }}
             >
               {/* Square image placeholder - MySpace style */}
               <div 
-                className="w-[100px] h-[100px] bg-[#f5f5f5] dark:bg-gray-700 border border-[#ccc] dark:border-gray-600 flex items-center justify-center mb-2 rounded transition-all duration-200 hover:border-[#999] dark:hover:border-gray-500"
+                className="w-16 h-16 sm:w-[100px] sm:h-[100px] bg-[#f5f5f5] dark:bg-gray-700 border border-[#ccc] dark:border-gray-600 flex items-center justify-center mb-2 rounded transition-all duration-200 hover:border-[#999] dark:hover:border-gray-500"
                 style={{ 
                   boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
                 }}
               >
                 <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-2xl">📊</span>
+                  <span className="text-xl sm:text-2xl">📊</span>
                 </div>
               </div>
               
               {/* Title - MySpace "name" style */}
               <p 
-                className="text-[11pt] font-bold mb-1 mt-1" 
+                className="text-[10pt] sm:text-[11pt] font-bold mb-1 mt-1 text-center" 
                 style={{ fontFamily: 'Verdana, sans-serif' }}
               >
-                <span className="text-black dark:text-white">
+                <span className="text-black dark:text-white break-words">
                   {caseStudy.name}
                 </span>
               </p>
               
               {/* Subtitle - "Click to view" in gray italic */}
               <p 
-                className="text-[10pt] italic leading-tight" 
+                className="text-[9pt] sm:text-[10pt] italic leading-tight text-center" 
                 style={{ fontFamily: 'Verdana, sans-serif' }}
               >
                 <span className="text-[#666] dark:text-gray-400">

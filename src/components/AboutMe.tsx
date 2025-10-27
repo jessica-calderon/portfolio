@@ -2,25 +2,25 @@ import React from 'react';
 
 const AboutMe: React.FC = () => {
   return (
-    <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
-      <h2 className="font-bold text-white text-sm mb-3 bg-orange-500 dark:bg-orange-600 px-2 py-1 -mx-2 -mt-2">Jessica's Professional Profile</h2>
-      <div className="space-y-3 text-xs">
+    <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4">
+      <h2 className="font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 bg-orange-500 dark:bg-orange-600 px-2 py-1 -mx-2 -mt-2">Jessica's Professional Profile</h2>
+      <div className="space-y-2 sm:space-y-3 text-xs">
         <div>
           <span className="font-bold text-blue-600 dark:text-blue-400">About me:</span>
           <div className="text-black dark:text-gray-300 mt-1 space-y-2">
-            <p>
+            <p className="break-words">
               Senior Software Engineer with extensive expertise in AWS cloud infrastructure, PHP backend development, and Docker containerization. Specialized in DoD/STIG-compliant environments with proven experience in secure, scalable system design and analytics-driven applications.
             </p>
             
-            <p>
+            <p className="break-words">
               Core competencies include Moodle Workplace customization, Apache Superset data visualization, and full-stack development using React, TypeScript, and Python. Experienced in building Iron Bank-compliant containers and implementing CI/CD pipelines with GitLab CI for enterprise deployments.
             </p>
             
-            <p>
+            <p className="break-words">
               Strong background in data integration, PostgreSQL/MySQL database optimization, and AWS ECS orchestration. Passionate about creating secure, maintainable solutions that meet strict compliance requirements while delivering exceptional user experiences.
             </p>
             
-            <p>
+            <p className="break-words">
               Currently available for new opportunities in senior engineering roles, particularly those involving cloud architecture, data analytics, and secure application development. Open to remote and hybrid positions.
             </p>
           </div>
