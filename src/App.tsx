@@ -56,7 +56,7 @@ function App() {
               onClick={() => handleModeChange(!isMyspaceMode)}
               className="flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors duration-200"
             >
-              Custom View
+              {isMyspaceMode ? 'Default View' : 'Custom View'}
             </button>
             <DarkModeToggle />
           </div>
@@ -86,7 +86,7 @@ function App() {
       {/* Main Content */}
       <div className="max-w-6xl mx-auto p-4">
         {/* Profile Banner */}
-        <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4 mb-4">
+        <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4 mb-4 rounded-lg">
           <h2 className="text-xl font-bold text-black dark:text-white">Jessica Calderon is your Professional Contact.</h2>
         </div>
 
@@ -99,12 +99,12 @@ function App() {
           {/* Right Main Content */}
           <div className="w-2/3 space-y-4">
             {isMyspaceMode && (
-              <div className="music-player">
-                <div className="text-sm font-bold mb-2">🎵 Jessica's Playlist 🎵</div>
-                <div className="text-xs">♪ Currently Playing: "Code Like It's 2005" ♪</div>
-                <div className="text-xs mt-1">♪ Next: "JavaScript Dreams" ♪</div>
-                <div className="text-xs mt-1">♪ Then: "React Revolution" ♪</div>
-                <div className="mt-2 text-xs">🔊 Volume: 100% | ⏸️ Pause | ⏭️ Next</div>
+              <div className="music-player bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4 rounded-lg">
+                <div className="text-sm font-bold mb-2 text-black dark:text-white">🎵 Jessica's Playlist 🎵</div>
+                <div className="text-xs text-gray-700 dark:text-gray-300">♪ Currently Playing: "Code Like It's 2005" ♪</div>
+                <div className="text-xs mt-1 text-gray-700 dark:text-gray-300">♪ Next: "JavaScript Dreams" ♪</div>
+                <div className="text-xs mt-1 text-gray-700 dark:text-gray-300">♪ Then: "React Revolution" ♪</div>
+                <div className="mt-2 text-xs text-gray-600 dark:text-gray-400">🔊 Volume: 100% | ⏸️ Pause | ⏭️ Next</div>
               </div>
             )}
             <Technologies />
