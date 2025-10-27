@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import AboutMe from './components/AboutMe';
 import Technologies from './components/Technologies';
-import TopProjects from './components/TopProjects';
+import CaseStudiesGrid from './components/CaseStudiesGrid';
 import Comments from './components/Comments';
 import DarkModeToggle from './components/DarkModeToggle';
 import { DarkModeProvider } from './contexts/DarkModeContext';
@@ -85,11 +85,6 @@ function App() {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto p-4">
-        {/* Profile Banner */}
-        <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4 mb-4 rounded-lg">
-          <h2 className="text-xl font-bold text-black dark:text-white">Jessica Calderon is your Professional Contact.</h2>
-        </div>
-
         <div className="flex gap-4">
           {/* Left Sidebar - MySpace Profile Style */}
           <div className="w-1/3">
@@ -98,6 +93,10 @@ function App() {
           
           {/* Right Main Content */}
           <div className="w-2/3 space-y-4">
+            {/* Profile Banner */}
+            <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
+              <h2 className="text-xl font-bold text-black dark:text-white">Jessica Calderon is your Professional Contact.</h2>
+            </div>
             {isMyspaceMode && (
               <div className="music-player bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4 rounded-lg">
                 <div className="text-sm font-bold mb-2 text-black dark:text-white">🎵 Jessica's Playlist 🎵</div>
@@ -109,7 +108,7 @@ function App() {
             )}
             <Technologies />
             <AboutMe />
-            <TopProjects />
+            <CaseStudiesGrid />
             <Comments />
           </div>
         </div>

@@ -10,6 +10,7 @@ const Sidebar: React.FC = () => {
             <span className="text-2xl font-bold text-gray-600 dark:text-gray-300">JC</span>
           </div>
           <div className="flex-1">
+          <p className="text-xs text-black dark:text-white">"Currently coding... "</p>
             <p className="text-xs text-black dark:text-white">She/Her</p>
             <p className="text-xs text-black dark:text-white">San Antonio, TEXAS</p>
             <p className="text-xs text-black dark:text-white">United States</p>
