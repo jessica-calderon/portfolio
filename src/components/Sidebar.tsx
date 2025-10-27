@@ -11,6 +11,7 @@ const Sidebar: React.FC = () => {
     <div className="space-y-4">
       {/* Profile Picture and Basic Info */}
       <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4">
+        <p className="text-sm sm:text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
         <div className="flex items-start space-x-2 sm:space-x-3">
           <img 
             src={profilePic} 
