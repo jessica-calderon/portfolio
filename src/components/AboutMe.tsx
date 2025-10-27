@@ -3,10 +3,29 @@ import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface AboutMeProps {
   isMyspaceMode: boolean;
+  searchQuery: string;
 }
 
-const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode }) => {
+const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
   const { isDarkMode } = useDarkMode();
+  
+  // Check if this section should be visible based on search
+  const shouldShow = () => {
+    if (!searchQuery.trim()) return true;
+    const keywords = ['senior software engineer', 'aws', 'php', 'docker', 'moodle', 'superset', 'react', 'typescript', 'python', 'postgresql', 'mysql', 'gitlab', 'ci/cd', 'iron bank', 'stig', 'dod', 'ecs', 's3', 'rds', 'cloudwatch'];
+    const query = searchQuery.toLowerCase();
+    return keywords.some(keyword => keyword.includes(query) || query.includes(keyword));
+  };
+
+  const highlightText = (text: string) => {
+    if (!searchQuery.trim()) return text;
+    const parts = text.split(new RegExp(`(${searchQuery})`, 'gi'));
+    return parts.map((part, index) => 
+      part.toLowerCase() === searchQuery.toLowerCase() ? (
+        <span key={index} className="bg-yellow-300 dark:bg-yellow-600 font-semibold">{part}</span>
+      ) : part
+    );
+  };
   
   // Determine header background color based on mode
   const getHeaderBg = () => {
@@ -15,27 +34,29 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode }) => {
     return 'bg-orange-500 dark:bg-orange-600';
   };
 
+  if (!shouldShow() && searchQuery) return null;
+
   return (
-    <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'}`}>
+    <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 search-result-match ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'} ${searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`}>
       <h2 className={`font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 px-2 py-1 -mx-2 -mt-2 ${getHeaderBg()}`}>Jessica's Professional Profile</h2>
       <div className="space-y-2 sm:space-y-3 text-xs">
         <div>
           <span className="font-bold text-blue-600 dark:text-blue-400">About me:</span>
           <div className="text-black dark:text-gray-300 mt-1 space-y-2">
             <p className="break-words">
-              Senior Software Engineer with extensive expertise in AWS cloud infrastructure, PHP backend development, and Docker containerization. Specialized in DoD/STIG-compliant environments with proven experience in secure, scalable system design and analytics-driven applications.
+              {highlightText("Senior Software Engineer with extensive expertise in AWS cloud infrastructure, PHP backend development, and Docker containerization. Specialized in DoD/STIG-compliant environments with proven experience in secure, scalable system design and analytics-driven applications.")}
             </p>
             
             <p className="break-words">
-              Core competencies include Moodle Workplace customization, Apache Superset data visualization, and full-stack development using React, TypeScript, and Python. Experienced in building Iron Bank-compliant containers and implementing CI/CD pipelines with GitLab CI for enterprise deployments.
+              {highlightText("Core competencies include Moodle Workplace customization, Apache Superset data visualization, and full-stack development using React, TypeScript, and Python. Experienced in building Iron Bank-compliant containers and implementing CI/CD pipelines with GitLab CI for enterprise deployments.")}
             </p>
             
             <p className="break-words">
-              Strong background in data integration, PostgreSQL/MySQL database optimization, and AWS ECS orchestration. Passionate about creating secure, maintainable solutions that meet strict compliance requirements while delivering exceptional user experiences.
+              {highlightText("Strong background in data integration, PostgreSQL/MySQL database optimization, and AWS ECS orchestration. Passionate about creating secure, maintainable solutions that meet strict compliance requirements while delivering exceptional user experiences.")}
             </p>
             
             <p className="break-words">
-              Currently available for new opportunities in senior engineering roles, particularly those involving cloud architecture, data analytics, and secure application development. Open to remote and hybrid positions.
+              {highlightText("Currently available for new opportunities in senior engineering roles, particularly those involving cloud architecture, data analytics, and secure application development. Open to remote and hybrid positions.")}
             </p>
           </div>
         </div>

@@ -10,10 +10,32 @@ interface LearningEntry {
 
 interface LearningWallProps {
   isMyspaceMode: boolean;
+  searchQuery: string;
 }
 
-const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode }) => {
+const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery }) => {
   const { isDarkMode } = useDarkMode();
+  
+  // Filter entries based on search query
+  const shouldShow = (entry: LearningEntry): boolean => {
+    if (!searchQuery.trim()) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      entry.learning.toLowerCase().includes(query) ||
+      entry.focus.toLowerCase().includes(query) ||
+      entry.timestamp.toLowerCase().includes(query)
+    );
+  };
+  
+  const highlightText = (text: string) => {
+    if (!searchQuery.trim()) return text;
+    const parts = text.split(new RegExp(`(${searchQuery})`, 'gi'));
+    return parts.map((part, index) => 
+      part.toLowerCase() === searchQuery.toLowerCase() ? (
+        <span key={index} className="bg-yellow-300 dark:bg-yellow-600 font-semibold">{part}</span>
+      ) : part
+    );
+  };
   
   // Determine header background color based on mode
   const getHeaderBg = () => {
@@ -55,17 +77,27 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode }) => {
     }
   ];
 
+  const filteredEntries = entries.filter(shouldShow);
+  
+  if (filteredEntries.length === 0 && searchQuery) return null;
+
   return (
-    <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'}`}>
+    <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 search-result-match ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'} ${searchQuery && filteredEntries.length > 0 ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`}>
       <h2 className={`font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 px-2 py-1 -mx-2 -mt-2 ${getHeaderBg()}`}>What I'm Learning</h2>
       <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">
         <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">View/Edit All Comments</a>
+        {searchQuery && filteredEntries.length < entries.length && (
+          <span className="ml-2 text-pink-600 dark:text-pink-400">
+            ({filteredEntries.length} match{filteredEntries.length !== 1 ? 'es' : ''})
+          </span>
+        )}
       </p>
       
       {/* Comments Container */}
       <div>
-        {entries.map((entry, index) => {
-          const isEven = index % 2 === 0;
+        {filteredEntries.map((entry, index) => {
+          const entryIndex = entries.findIndex(e => e.id === entry.id);
+          const isEven = entryIndex % 2 === 0;
           const borderColor = isEven 
             ? (isDarkMode ? '#5a5a5a' : '#d0d0d0') 
             : (isDarkMode ? '#4a4a4a' : '#e5e5e5');
@@ -76,7 +108,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode }) => {
           
           return (
             <React.Fragment key={entry.id}>
-              {index > 0 && (
+              {index > 0 && entryIndex > 0 && (
                 <div 
                   className="my-0"
                   style={{ 
@@ -132,7 +164,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode }) => {
                       fontSize: '11px'
                     }}
                   >
-                    {entry.timestamp}
+                    {highlightText(entry.timestamp)}
                   </div>
                   
                   {/* Learning Text in Bubble */}
@@ -154,7 +186,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode }) => {
                         margin: 0
                       }}
                     >
-                      {entry.learning}
+                      {highlightText(entry.learning)}
                     </p>
                   </div>
                   
@@ -169,7 +201,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode }) => {
                       fontStyle: 'italic'
                     }}
                   >
-                    {entry.focus}
+                    {highlightText(entry.focus)}
                   </p>
                 </div>
               </div>
