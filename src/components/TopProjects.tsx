@@ -11,8 +11,7 @@ const TopProjects: React.FC = () => {
   return (
     <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
       <h2 className="font-bold text-black dark:text-white text-sm mb-3">Jessica's Highlighted Projects</h2>
-      <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">[view all]</a>
-      <p className="text-xs text-black dark:text-gray-300 mt-2">Featured enterprise solutions and integrations.</p>
+      <p className="text-xs text-black dark:text-gray-300 mb-3">Featured enterprise solutions and integrations.</p>
       <div className="mt-3 grid grid-cols-2 gap-3">
         {projects.map((project, index) => (
           <div key={index} className="border border-gray-300 dark:border-gray-600 p-2">

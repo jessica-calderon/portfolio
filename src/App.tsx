@@ -5,6 +5,7 @@ import Education from './components/Education';
 import CaseStudiesGrid from './components/CaseStudiesGrid';
 import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
+import ResumeModal from './components/ResumeModal';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import profilePic from './assets/8bitme.png';
 import './App.css';
@@ -14,6 +15,7 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
+  const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
   const { isDarkMode } = useDarkMode();
 
   // Check if user wants to force desktop view
@@ -80,15 +82,36 @@ function AppContent() {
 
   // Navigation items - same for both modes
   const navigationItems = [
-    { label: 'Home', href: '#' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Tech Stack', href: '#tech' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Resume', href: '#resume' },
-    { label: 'Contact', href: '#contact' },
-    { label: 'Blog', href: '#blog' },
-    { label: 'About', href: '#about' }
+    { label: 'Home', href: '#', scrollToId: '' },
+    { label: 'Projects', href: '#projects', scrollToId: 'projects' },
+    { label: 'Tech Stack', href: '#tech', scrollToId: 'tech' },
+    { label: 'Experience', href: '#experience', scrollToId: 'experience' },
+    { label: 'Resume', href: '#resume', scrollToId: 'resume', isModal: true },
+    { label: 'Contact', href: '#contact', scrollToId: 'contact' },
+    { label: 'About', href: '#about', scrollToId: 'about' }
   ];
+
+  // Scroll to section handler
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof navigationItems[0]) => {
+    e.preventDefault();
+    
+    if (item.isModal) {
+      // Handle Resume modal
+      setShowResumeModal(true);
+      return;
+    }
+    
+    if (!item.scrollToId) {
+      // Scroll to top for Home
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    
+    const element = document.getElementById(item.scrollToId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <div className={getThemeClasses()}>
@@ -163,7 +186,8 @@ function AppContent() {
             <a 
               key={index} 
               href={item.href} 
-              className={`transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'}`}
+              onClick={(e) => handleNavClick(e, item)}
+              className={`transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} cursor-pointer`}
             >
               {item.label}
             </a>
@@ -201,10 +225,10 @@ function AppContent() {
           <div className={`bg-white dark:bg-gray-800 border-2 p-4 ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
-          <Education searchQuery={searchQuery} />
+          <div id="about"><Education searchQuery={searchQuery} /></div>
           <AboutMe isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
-          <CaseStudiesGrid isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
-          <LearningWall isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
+          <div id="projects"><CaseStudiesGrid isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} /></div>
+          <div id="experience"><LearningWall isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} /></div>
         </div>
       </div>
       
@@ -240,7 +264,7 @@ function AppContent() {
         </div>
         
         {/* Contact Info - order 3 */}
-        <div className="mobile-order-3">
+        <div className="mobile-order-3" id="contact">
           <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 p-4">
             <h3 className="font-bold text-black dark:text-white text-sm mb-3">Contacting Jessica</h3>
             <div className="grid grid-cols-2 gap-2">
@@ -267,12 +291,12 @@ function AppContent() {
         </div>
         
         {/* Professional Profile - order 4 */}
-        <div className="mobile-order-4">
+        <div className="mobile-order-4" id="about">
           <AboutMe isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
         </div>
         
         {/* Jessica's Links - order 5 */}
-        <div className="mobile-order-5 overflow-x-auto">
+        <div className="mobile-order-5 overflow-x-auto" id="tech">
           <table className="myspace-box">
             <thead>
               <tr>
@@ -300,6 +324,8 @@ function AppContent() {
         <div className="mobile-order-6">
           <Education searchQuery={searchQuery} />
         </div>
+        
+        {/* Projects section for mobile */}
         
         {/* Technical Skills - order 7 */}
         <div className="mobile-order-7 overflow-x-auto">
@@ -339,16 +365,19 @@ function AppContent() {
         </div>
         
         {/* Case Studies - order 8 */}
-        <div className="mobile-order-8">
+        <div className="mobile-order-8" id="projects">
           <CaseStudiesGrid isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
         </div>
         
         {/* What I'm Learning - order 9 */}
-        <div className="mobile-order-9">
+        <div className="mobile-order-9" id="experience">
           <LearningWall isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
         </div>
       </div>
     </div>
+    
+    {/* Resume Modal */}
+    {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
     </div>
   );
 }

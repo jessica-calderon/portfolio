@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* Contacting Jessica */}
-      <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4">
+      <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4" id="contact">
         <h3 className="font-bold text-black dark:text-white text-xs sm:text-sm mb-2 sm:mb-3">Contacting Jessica</h3>
         <div className="grid grid-cols-2 gap-2">
           <a href="mailto:calderonjessica13@yahoo.com" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
@@ -70,7 +70,7 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* Jessica's Technical Skills */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto" id="tech">
         <table className="myspace-box">
           <thead>
             <tr>

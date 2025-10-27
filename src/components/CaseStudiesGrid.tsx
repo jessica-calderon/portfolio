@@ -126,15 +126,6 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
           ))}
         </div>
         ) : null}
-
-        {/* "View All" link */}
-        {filteredStudies.length > 0 && (
-        <div className="text-center pt-2 border-t border-gray-300 dark:border-gray-600">
-          <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
-            View All Case Studies
-          </a>
-        </div>
-        )}
       </div>
 
       {selectedCaseStudy && (

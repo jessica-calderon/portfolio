@@ -97,7 +97,6 @@ const Education: React.FC<EducationProps> = ({ searchQuery }) => {
   return (
     <div className={`bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4 search-result-match ${searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`}>
       <h2 className="font-bold text-black dark:text-white text-xs sm:text-sm mb-2 sm:mb-3">Jessica's Certifications & Education</h2>
-      <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline">[Subscribe to Updates]</a>
       <div className="mt-3">
         {filteredItems.map((item) => (
           <MySpaceBlogItem
@@ -111,7 +110,6 @@ const Education: React.FC<EducationProps> = ({ searchQuery }) => {
           />
         ))}
       </div>
-      <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline mt-2 block">[View Full Education History]</a>
     </div>
   );
 };
