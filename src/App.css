@@ -563,6 +563,35 @@ body {
   }
 }
 
+/* Modal animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalAppear {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.animate-modalAppear {
+  animation: modalAppear 0.2s ease-out;
+}
+
 /* MySpace Table Box Styling */
 .myspace-box {
   width: 100%;
@@ -695,3 +724,24 @@ body {
 .mobile-order-7 { order: 7; } /* Technical Skills */
 .mobile-order-8 { order: 8; } /* Case Studies */
 .mobile-order-9 { order: 9; } /* What I'm Learning */
+
+/* Scroll margin for anchor targets */
+#about,
+#projects,
+#tech,
+#experience,
+#contact,
+#education {
+  scroll-margin-top: 140px;
+}
+
+@media (min-width: 768px) {
+  #about,
+  #projects,
+  #tech,
+  #experience,
+  #contact,
+  #education {
+    scroll-margin-top: 100px;
+  }
+}

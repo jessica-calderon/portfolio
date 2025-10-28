@@ -6,8 +6,10 @@ import CaseStudiesGrid from './components/CaseStudiesGrid';
 import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
 import ResumeModal from './components/ResumeModal';
+import ShareProfileModal from './components/ShareProfileModal';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import profilePic from './assets/8bitme.png';
+import DinoGameModal from './components/DinoGameModal';
 import './App.css';
 
 function AppContent() {
@@ -16,6 +18,8 @@ function AppContent() {
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
   const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
+  const [showShareModal, setShowShareModal] = useState<boolean>(false);
+  const [showDinoModal, setShowDinoModal] = useState<boolean>(false);
   const { isDarkMode } = useDarkMode();
 
   // Check if user wants to force desktop view
@@ -48,6 +52,7 @@ function AppContent() {
     { category: 'Skill', title: 'Moodle Workplace', keywords: 'Moodle workplace LMS learning management system integration' },
     { category: 'Tool', title: 'VS Code GitLab Apache Superset', keywords: 'VS Code IDE GitLab Superset data visualization business intelligence' },
     { category: 'Cloud', title: 'AWS ECS S3 RDS CloudWatch', keywords: 'AWS cloud infrastructure ECS containers S3 storage RDS database CloudWatch monitoring' },
+    { category: 'Tech Stack', title: 'React TypeScript Vite Tailwind', keywords: 'React TypeScript Vite Tailwind CSS frontend development build tools npm GitHub Pages' },
   ];
 
   // Search functionality
@@ -94,6 +99,7 @@ function AppContent() {
   // Scroll to section handler
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof navigationItems[0]) => {
     e.preventDefault();
+    e.stopPropagation();
     
     if (item.isModal) {
       // Handle Resume modal
@@ -107,10 +113,15 @@ function AppContent() {
       return;
     }
     
-    const element = document.getElementById(item.scrollToId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    // Use requestAnimationFrame for better mobile compatibility
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const element = document.getElementById(item.scrollToId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
   };
 
   return (
@@ -162,13 +173,13 @@ function AppContent() {
               ✕
             </button>
           )}
-          <a href="#" className="hidden lg:inline text-sm hover:text-pink-200 transition-colors duration-200">Help</a>
+          <a href="#" className="hidden md:inline text-sm hover:text-pink-200 transition-colors duration-200">Help</a>
           <button
             onClick={() => handleModeChange(!isMyspaceMode)}
-            className="hidden sm:flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors duration-200 flex-shrink-0"
+            className="flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors duration-200 flex-shrink-0"
           >
             <span className="hidden md:inline">{isMyspaceMode ? 'Default View' : 'Custom View'}</span>
-            <span className="md:hidden">CV</span>
+            <span className="md:hidden">{isMyspaceMode ? 'Default' : 'Custom'}</span>
           </button>
           <DarkModeToggle />
         </div>
@@ -195,7 +206,7 @@ function AppContent() {
           {/* View Desktop Version Link - Only visible on mobile */}
           <a 
             href="?view=desktop" 
-            className={`${forceDesktopView ? 'hidden' : ''} lg:hidden transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} flex items-center gap-1`}
+            className={`${forceDesktopView ? 'hidden' : ''} md:hidden transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} flex items-center gap-1`}
           >
             <span>🖥️</span> Desktop View
           </a>
@@ -213,7 +224,7 @@ function AppContent() {
     {/* Main Content */}
     <div className="max-w-6xl mx-auto p-2 sm:p-4">
       {/* Desktop Layout: Sidebar + Main Content */}
-      <div className={`${forceDesktopView ? 'flex' : 'hidden lg:flex'} flex-row gap-4`}>
+      <div className={`${forceDesktopView ? 'flex' : 'hidden md:flex'} flex-row gap-4`}>
         {/* Left Sidebar */}
         <div className="w-1/3">
           <Sidebar />
@@ -233,7 +244,7 @@ function AppContent() {
       </div>
       
       {/* Mobile Layout: All sections in one column with custom order */}
-      <div className={`flex flex-col gap-3 sm:gap-4 ${forceDesktopView ? 'hidden' : 'lg:hidden'}`}>
+      <div className={`flex flex-col gap-3 sm:gap-4 ${forceDesktopView ? 'hidden' : 'md:hidden'}`}>
         {/* Profile Picture - order 1 */}
         <div className="mobile-order-1">
           <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
@@ -242,7 +253,9 @@ function AppContent() {
               <img 
                 src={profilePic}
                 alt="Jessica Calderon" 
-                className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover flex-shrink-0"
+                onClick={() => setShowDinoModal(true)}
+                className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover flex-shrink-0 cursor-pointer hover:opacity-75 transition-opacity"
+                title="Click for a surprise! 🦖"
               />
               <div className="flex-1 min-w-0">
                 <p className="text-xs text-black dark:text-white">"Currently coding... "</p>
@@ -271,18 +284,18 @@ function AppContent() {
               <a href="mailto:calderonjessica13@yahoo.com" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">✉️</span> Send Message
               </a>
-              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">👥</span> Connect
               </a>
-              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <button onClick={() => window.open('https://calendly.com')} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">💬</span> Schedule Call
-              </a>
-              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              </button>
+              <button onClick={() => setShowResumeModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">📄</span> View Resume
-              </a>
-              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              </button>
+              <button onClick={() => setShowShareModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">↗️</span> Share Profile
-              </a>
+              </button>
               <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">⭐</span> Add to Favorites
               </a>
@@ -376,8 +389,56 @@ function AppContent() {
       </div>
     </div>
     
+    {/* Footer */}
+    <div className={`text-white py-4 px-4 mt-8 ${isMyspaceMode 
+      ? 'bg-gradient-to-r from-pink-400 to-purple-400 dark:from-purple-600 dark:to-pink-600' 
+      : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800'
+    }`}>
+      <div className="max-w-6xl mx-auto">
+        {/* Sitemap / Navigation Links */}
+        <div className="mb-3">
+          <p className="text-xs font-semibold mb-2 text-center sm:text-left">Sitemap</p>
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3 text-xs">
+            {navigationItems.map((item, index) => (
+              <a 
+                key={index} 
+                href={item.href} 
+                onClick={(e) => handleNavClick(e, item)}
+                className={`transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} cursor-pointer`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+        
+        {/* Copyright and Attribution */}
+        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between text-xs sm:text-sm gap-2 pt-2 border-t border-white/20">
+          <p className="text-center sm:text-left">
+            Made by <a 
+              href="https://github.com/jessica-calderon" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={`underline transition-colors duration-200 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'}`}
+            >
+              Jessica Calderon
+            </a>
+          </p>
+          <p className="text-center sm:text-right opacity-75">
+            © {new Date().getFullYear()}
+          </p>
+        </div>
+      </div>
+    </div>
+    
     {/* Resume Modal */}
     {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
+    
+    {/* Share Profile Modal */}
+    {showShareModal && <ShareProfileModal onClose={() => setShowShareModal(false)} />}
+    
+    {/* Dino Game Modal */}
+    {showDinoModal && <DinoGameModal onClose={() => setShowDinoModal(false)} />}
     </div>
   );
 }

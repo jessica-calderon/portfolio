@@ -95,7 +95,7 @@ const Education: React.FC<EducationProps> = ({ searchQuery }) => {
   if (filteredItems.length === 0 && searchQuery) return null;
 
   return (
-    <div className={`bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4 search-result-match ${searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`}>
+    <div className={`bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4 search-result-match ${searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`} id="education">
       <h2 className="font-bold text-black dark:text-white text-xs sm:text-sm mb-2 sm:mb-3">Jessica's Certifications & Education</h2>
       <div className="mt-3">
         {filteredItems.map((item) => (

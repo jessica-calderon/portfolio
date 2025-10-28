@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import profilePic from '../assets/8bitme.png';
 import ResumeModal from './ResumeModal';
 import ShareProfileModal from './ShareProfileModal';
+import DinoGameModal from './DinoGameModal';
 
 const Sidebar: React.FC = () => {
   const [showResumeModal, setShowResumeModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showDinoModal, setShowDinoModal] = useState(false);
 
   return (
     <div className="space-y-4">
@@ -16,7 +18,9 @@ const Sidebar: React.FC = () => {
           <img 
             src={profilePic} 
             alt="Jessica Calderon" 
-            className="w-16 h-16 sm:w-20 sm:h-20 border-2 border-blue-500 dark:border-blue-400 object-cover myspace-light-img-border flex-shrink-0"
+            onClick={() => setShowDinoModal(true)}
+            className="w-16 h-16 sm:w-20 sm:h-20 border-2 border-blue-500 dark:border-blue-400 object-cover myspace-light-img-border flex-shrink-0 cursor-pointer hover:opacity-75 transition-opacity"
+            title="Click for a surprise! 🦖"
           />
           <div className="flex-1 min-w-0">
           <p className="text-xs text-black dark:text-white">"Currently coding... "</p>
@@ -140,6 +144,9 @@ const Sidebar: React.FC = () => {
       
       {/* Share Profile Modal */}
       {showShareModal && <ShareProfileModal onClose={() => setShowShareModal(false)} />}
+      
+      {/* Dino Game Modal */}
+      {showDinoModal && <DinoGameModal onClose={() => setShowDinoModal(false)} />}
     </div>
   );
 };
