@@ -2,6 +2,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Arial,sans-serif');
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
 
+/* Standardized spacing variables */
+:root {
+  --spacing-xs: 0.5rem;    /* 8px */
+  --spacing-sm: 0.75rem;    /* 12px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.25rem;    /* 20px */
+  --spacing-xl: 1.5rem;     /* 24px */
+  --spacing-2xl: 2rem;      /* 32px */
+  --spacing-3xl: 2.5rem;    /* 40px */
+  
+  /* Container padding */
+  --container-padding-sm: 0.75rem;  /* 12px */
+  --container-padding-md: 1rem;      /* 16px */
+  --container-padding-lg: 1.25rem;   /* 20px */
+  
+  /* Section spacing */
+  --section-gap-sm: 0.75rem;  /* 12px */
+  --section-gap-md: 1rem;    /* 16px */
+  --section-gap-lg: 1.25rem;  /* 20px */
+}
+
+/* Standardized spacing utility classes */
+.spacing-standard {
+  padding: var(--container-padding-md);
+  margin-bottom: var(--section-gap-md);
+}
+
+.spacing-standard-sm {
+  padding: var(--container-padding-sm);
+  margin-bottom: var(--section-gap-sm);
+}
+
+.spacing-standard-lg {
+  padding: var(--container-padding-lg);
+  margin-bottom: var(--section-gap-lg);
+}
+
+/* Consistent section spacing */
+.section-spacing {
+  margin-bottom: var(--section-gap-md);
+}
+
+.section-spacing-sm {
+  margin-bottom: var(--section-gap-sm);
+}
+
+.section-spacing-lg {
+  margin-bottom: var(--section-gap-lg);
+}
+
 /* MySpace-inspired styling */
 
 /* Authentic MySpace styling */
@@ -715,15 +765,15 @@ body {
 
 /* Mobile Layout: All sections stacked in order */
 /* Mobile ordering classes ensure proper flow on small screens */
-.mobile-order-1 { order: 1; } /* Profile Picture */
-.mobile-order-2 { order: 2; } /* Professional Contact Banner */
-.mobile-order-3 { order: 3; } /* Contact Info */
-.mobile-order-4 { order: 4; } /* Professional Profile */
-.mobile-order-5 { order: 5; } /* Jessica's Links */
-.mobile-order-6 { order: 6; } /* Certifications & Education */
-.mobile-order-7 { order: 7; } /* Technical Skills */
-.mobile-order-8 { order: 8; } /* Case Studies */
-.mobile-order-9 { order: 9; } /* What I'm Learning */
+.mobile-order-1 { order: 1; margin-bottom: var(--section-gap-md); } /* Profile Picture */
+.mobile-order-2 { order: 2; margin-bottom: var(--section-gap-md); } /* Professional Contact Banner */
+.mobile-order-3 { order: 3; margin-bottom: var(--section-gap-md); } /* Contact Info */
+.mobile-order-4 { order: 4; margin-bottom: var(--section-gap-md); } /* Professional Profile */
+.mobile-order-5 { order: 5; margin-bottom: var(--section-gap-md); } /* Jessica's Links */
+.mobile-order-6 { order: 6; margin-bottom: var(--section-gap-md); } /* Certifications & Education */
+.mobile-order-7 { order: 7; margin-bottom: var(--section-gap-md); } /* Technical Skills */
+.mobile-order-8 { order: 8; margin-bottom: var(--section-gap-md); } /* Case Studies */
+.mobile-order-9 { order: 9; margin-bottom: var(--section-gap-md); } /* What I'm Learning */
 
 /* MySpace Details Box Container - no background, just spacing */
 .myspace-details-container {

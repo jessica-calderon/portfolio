@@ -73,7 +73,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
 
   return (
     <>
-      <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 search-result-match ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'} ${searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`}>
+      <div className={`bg-white dark:bg-gray-800 border-2 spacing-standard search-result-match ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'} ${searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`}>
         <h2 className={`font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 px-2 py-1 -mx-2 -mt-2 ${getHeaderBg()}`}>Jessica's Case Studies</h2>
         <p className="text-xs mb-3 text-black dark:text-gray-300">
           Jessica has{' '}

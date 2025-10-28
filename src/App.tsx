@@ -231,9 +231,9 @@ function AppContent() {
         </div>
         
         {/* Right Main Content */}
-        <div className="w-2/3 space-y-4">
+        <div className="w-2/3 space-y-4 section-spacing">
           {/* Profile Banner */}
-          <div className={`bg-white dark:bg-gray-800 border-2 p-4 ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
+          <div className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
           <div id="about"><Education searchQuery={searchQuery} /></div>
@@ -244,10 +244,10 @@ function AppContent() {
       </div>
       
       {/* Mobile Layout: All sections in one column with custom order */}
-      <div className={`flex flex-col gap-3 sm:gap-4 ${forceDesktopView ? 'hidden' : 'md:hidden'}`}>
+      <div className={`flex flex-col section-spacing ${forceDesktopView ? 'hidden' : 'md:hidden'}`}>
         {/* Profile Picture - order 1 */}
         <div className="mobile-order-1">
-          <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-4">
+          <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard">
             <p className="text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
             <div className="flex items-start space-x-3">
               <img 
@@ -271,14 +271,14 @@ function AppContent() {
         
         {/* Professional Contact Banner - order 2 */}
         <div className={`mobile-order-2 ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
-          <div className="bg-white dark:bg-gray-800 border-2 p-4">
+          <div className="bg-white dark:bg-gray-800 border-2 spacing-standard">
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
         </div>
         
         {/* Contact Info - order 3 */}
         <div className="mobile-order-3" id="contact">
-          <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 p-4">
+          <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 spacing-standard">
             <h3 className="font-bold text-black dark:text-white text-sm mb-3">Contacting Jessica</h3>
             <div className="grid grid-cols-2 gap-2">
               <a href="mailto:calderonjessica13@yahoo.com" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">

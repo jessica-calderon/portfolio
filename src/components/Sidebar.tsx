@@ -12,7 +12,7 @@ const Sidebar: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Profile Picture and Basic Info */}
-      <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4">
+      <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard">
         <p className="text-sm sm:text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
         <div className="flex items-start space-x-2 sm:space-x-3">
           <img 
@@ -37,7 +37,7 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* Contacting Jessica */}
-      <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 p-3 sm:p-4" id="contact">
+      <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 spacing-standard" id="contact">
         <h3 className="font-bold text-black dark:text-white text-xs sm:text-sm mb-2 sm:mb-3">Contacting Jessica</h3>
         <div className="grid grid-cols-2 gap-2">
           <a href="mailto:calderonjessica13@yahoo.com" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
@@ -68,7 +68,7 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* Portfolio URL */}
-      <div className="bg-white dark:bg-gray-800 border border-black dark:border-gray-600 p-2 sm:p-3">
+      <div className="bg-white dark:bg-gray-800 border border-black dark:border-gray-600 spacing-standard-sm">
         <p className="text-xs text-black dark:text-white">Portfolio URL:</p>
         <a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-all">https://jessica-calderon.github.io/myspace-portfolio/</a>
       </div>
