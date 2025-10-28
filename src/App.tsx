@@ -310,7 +310,7 @@ function AppContent() {
         
         {/* Jessica's Links - order 5 */}
         <div className="mobile-order-5 overflow-x-auto" id="tech">
-          <table className="myspace-box">
+          <table className="myspace-details-box">
             <thead>
               <tr>
                 <th colSpan={2}>Jessica's Links</th>
@@ -318,16 +318,16 @@ function AppContent() {
             </thead>
             <tbody>
               <tr>
-                <td><b>GitHub:</b></td>
-                <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">github.com/jessica-calderon</a></td>
+                <td>GitHub:</td>
+                <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer">github.com/jessica-calderon</a></td>
               </tr>
               <tr>
-                <td><b>LinkedIn:</b></td>
-                <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">linkedin.com/in/Jessica-Calderon-00</a></td>
+                <td>LinkedIn:</td>
+                <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer">linkedin.com/in/Jessica-Calderon-00</a></td>
               </tr>
               <tr>
-                <td><b>Portfolio:</b></td>
-                <td><a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">github.io/myspace-portfolio</a></td>
+                <td>Portfolio:</td>
+                <td><a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer">github.io/myspace-portfolio</a></td>
               </tr>
             </tbody>
           </table>
@@ -342,7 +342,7 @@ function AppContent() {
         
         {/* Technical Skills - order 7 */}
         <div className="mobile-order-7 overflow-x-auto">
-          <table className="myspace-box">
+          <table className="myspace-details-box">
             <thead>
               <tr>
                 <th colSpan={2}>Jessica's Technical Skills</th>
@@ -350,27 +350,27 @@ function AppContent() {
             </thead>
             <tbody>
               <tr>
-                <td><b>Programming:</b></td>
+                <td>Programming:</td>
                 <td>PHP, TypeScript, JavaScript, Python, React, Node.js</td>
               </tr>
               <tr>
-                <td><b>DevOps:</b></td>
+                <td>DevOps:</td>
                 <td>Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</td>
               </tr>
               <tr>
-                <td><b>Databases:</b></td>
+                <td>Databases:</td>
                 <td>PostgreSQL, MySQL, Redis, OpenSearch</td>
               </tr>
               <tr>
-                <td><b>Tools:</b></td>
+                <td>Tools:</td>
                 <td>VS Code, GitLab CI, Fluent Bit, Apache Superset</td>
               </tr>
               <tr>
-                <td><b>Cloud:</b></td>
+                <td>Cloud:</td>
                 <td>AWS, ECS, S3, RDS, CloudWatch</td>
               </tr>
               <tr>
-                <td><b>Specialties:</b></td>
+                <td>Specialties:</td>
                 <td>Moodle Workplace, Data Integration, Iron Bank Containers</td>
               </tr>
             </tbody>

@@ -73,70 +73,73 @@ const Sidebar: React.FC = () => {
         <a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-all">https://jessica-calderon.github.io/myspace-portfolio/</a>
       </div>
 
-      {/* Jessica's Technical Skills */}
-      <div className="overflow-x-auto" id="tech">
-        <table className="myspace-box">
-          <thead>
-            <tr>
-              <th colSpan={2} className="whitespace-nowrap">Jessica's Technical Skills</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="text-black dark:text-gray-300 whitespace-nowrap"><b>Programming:</b></td>
-              <td className="text-black dark:text-gray-300">PHP, TypeScript, JavaScript, Python, React, Node.js</td>
-            </tr>
-            <tr>
-              <td className="text-black dark:text-gray-300 whitespace-nowrap"><b>DevOps:</b></td>
-              <td className="text-black dark:text-gray-300">Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</td>
-            </tr>
-            <tr>
-              <td className="text-black dark:text-gray-300 whitespace-nowrap"><b>Databases:</b></td>
-              <td className="text-black dark:text-gray-300">PostgreSQL, MySQL, Redis, OpenSearch</td>
-            </tr>
-            <tr>
-              <td className="text-black dark:text-gray-300 whitespace-nowrap"><b>Tools:</b></td>
-              <td className="text-black dark:text-gray-300">VS Code, GitLab CI, Fluent Bit, Apache Superset</td>
-            </tr>
-            <tr>
-              <td className="text-black dark:text-gray-300 whitespace-nowrap"><b>Cloud:</b></td>
-              <td className="text-black dark:text-gray-300">AWS, ECS, S3, RDS, CloudWatch</td>
-            </tr>
-            <tr>
-              <td className="text-black dark:text-gray-300 whitespace-nowrap"><b>Specialties:</b></td>
-              <td className="text-black dark:text-gray-300">Moodle Workplace, Data Integration, Iron Bank Containers</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {/* Jessica's Technical Skills and Links Container */}
+      <div className="myspace-details-container">
+        {/* Jessica's Technical Skills */}
+        <div className="overflow-x-auto" id="tech">
+          <table className="myspace-details-box border-blue-500 dark:border-blue-400">
+            <thead>
+              <tr>
+                <th colSpan={2} className="whitespace-nowrap">Jessica's Technical Skills</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="whitespace-nowrap">Programming:</td>
+                <td>PHP, TypeScript, JavaScript, Python, React, Node.js</td>
+              </tr>
+              <tr>
+                <td className="whitespace-nowrap">DevOps:</td>
+                <td>Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</td>
+              </tr>
+              <tr>
+                <td className="whitespace-nowrap">Databases:</td>
+                <td>PostgreSQL, MySQL, Redis, OpenSearch</td>
+              </tr>
+              <tr>
+                <td className="whitespace-nowrap">Tools:</td>
+                <td>VS Code, GitLab CI, Fluent Bit, Apache Superset</td>
+              </tr>
+              <tr>
+                <td className="whitespace-nowrap">Cloud:</td>
+                <td>AWS, ECS, S3, RDS, CloudWatch</td>
+              </tr>
+              <tr>
+                <td className="whitespace-nowrap">Specialties:</td>
+                <td>Moodle Workplace, Data Integration, Iron Bank Containers</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      {/* Jessica's Links */}
-      <div className="overflow-x-auto">
-        <table className="myspace-box">
-          <thead>
-            <tr>
-              <th colSpan={2} className="whitespace-nowrap">Jessica's Links</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="whitespace-nowrap"><b>GitHub:</b></td>
-              <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline break-all">github.com/jessica-calderon</a></td>
-            </tr>
-            <tr>
-              <td className="whitespace-nowrap"><b>LinkedIn:</b></td>
-              <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline break-all">linkedin.com/in/Jessica-Calderon-00</a></td>
-            </tr>
-            <tr>
-              <td className="whitespace-nowrap"><b>Portfolio:</b></td>
-              <td><a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline break-all">github.io/myspace-portfolio</a></td>
-            </tr>
-            <tr>
-              <td className="whitespace-nowrap"><b>Resume:</b></td>
-              <td><button onClick={() => setShowResumeModal(true)} className="text-blue-600 dark:text-blue-400 hover:underline break-all">View Resume</button></td>
-            </tr>
-          </tbody>
-        </table>
+        {/* Jessica's Links */}
+        <div className="overflow-x-auto">
+          <table className="myspace-details-box border-blue-500 dark:border-blue-400">
+            <thead>
+              <tr>
+                <th colSpan={2} className="whitespace-nowrap">Jessica's Links</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="whitespace-nowrap">GitHub:</td>
+                <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="break-all">github.com/jessica-calderon</a></td>
+              </tr>
+              <tr>
+                <td className="whitespace-nowrap">LinkedIn:</td>
+                <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="break-all">linkedin.com/in/Jessica-Calderon-00</a></td>
+              </tr>
+              <tr>
+                <td className="whitespace-nowrap">Portfolio:</td>
+                <td><a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer" className="break-all">github.io/myspace-portfolio</a></td>
+              </tr>
+              <tr>
+                <td className="whitespace-nowrap">Resume:</td>
+                <td><button onClick={() => setShowResumeModal(true)} className="break-all">View Resume</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Resume Modal */}
