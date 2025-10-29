@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
+import SearchHighlight from './shared/SearchHighlight';
+import ExpandableItem from './shared/ExpandableItem';
+import MySpaceContainer from './shared/MySpaceContainer';
 
 interface EducationProps {
   searchQuery: string;
+  isMyspaceMode?: boolean;
 }
 
-const Education: React.FC<EducationProps> = ({ searchQuery }) => {
+const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = false }) => {
   const [openItem, setOpenItem] = useState<string | null>(null);
   
   // Helper function to highlight search matches
   const highlightText = (text: string) => {
-    if (!searchQuery.trim()) return text;
-    const parts = text.split(new RegExp(`(${searchQuery})`, 'gi'));
-    return parts.map((part, index) => 
-      part.toLowerCase() === searchQuery.toLowerCase() ? (
-        <span key={index} className="bg-yellow-300 dark:bg-yellow-600 font-semibold">{part}</span>
-      ) : part
-    );
+    return <SearchHighlight text={text} searchQuery={searchQuery} />;
   };
   
   // Education data
@@ -44,62 +42,14 @@ const Education: React.FC<EducationProps> = ({ searchQuery }) => {
     setOpenItem(openItem === itemKey ? null : itemKey);
   };
 
-  interface MySpaceBlogItemProps {
-    title: string;
-    details?: string;
-    isOpen: boolean;
-    onToggle: () => void;
-    highlightTitle?: React.ReactNode;
-    highlightDetails?: React.ReactNode;
-  }
-
-  const MySpaceBlogItem: React.FC<MySpaceBlogItemProps> = ({ title, details, isOpen, onToggle, highlightTitle, highlightDetails }) => {
-    const handleToggle = (e: React.MouseEvent) => {
-      e.preventDefault();
-      onToggle();
-    };
-
-    return (
-      <div className="mt-1 first:mt-0">
-      <div 
-        className="flex justify-between items-center cursor-pointer py-1 hover:bg-gray-50 dark:hover:bg-gray-700/50"
-        onClick={handleToggle}
-        style={{ fontFamily: 'Tahoma, sans-serif', fontSize: '12px' }}
-      >
-        <a 
-          href="#"
-          className="cursor-pointer text-[#0000EE] dark:text-blue-400 hover:text-[#000099] dark:hover:text-blue-300 break-words pr-2"
-          onClick={handleToggle}
-        >
-          {highlightTitle || title}
-        </a>
-        <span className="text-[#0000EE] dark:text-blue-400 hover:text-[#000099] dark:hover:text-blue-300 cursor-pointer whitespace-nowrap text-xs">(view more)</span>
-      </div>
-        
-        <div 
-          className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'}`}
-        >
-          {details && (
-            <div 
-              className="bg-[#f7f7f7] dark:bg-gray-800 text-black dark:text-gray-200 p-2 rounded-sm mt-1 break-words"
-              style={{ fontFamily: 'Tahoma, sans-serif', fontSize: '11px', lineHeight: '1.4' }}
-            >
-              {highlightDetails || details}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  };
-
   if (filteredItems.length === 0 && searchQuery) return null;
 
   return (
-    <div className={`bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard search-result-match ${searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`} id="education">
+    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} id="education">
       <h2 className="font-bold text-black dark:text-white text-xs sm:text-sm mb-2 sm:mb-3">Jessica's Certifications & Education</h2>
       <div className="mt-3">
         {filteredItems.map((item) => (
-          <MySpaceBlogItem
+          <ExpandableItem
             key={item.key}
             title={item.title}
             details={item.details}
@@ -110,7 +60,7 @@ const Education: React.FC<EducationProps> = ({ searchQuery }) => {
           />
         ))}
       </div>
-    </div>
+    </MySpaceContainer>
   );
 };
 

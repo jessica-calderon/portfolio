@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import CaseStudyModal from './CaseStudyModal';
-import { useDarkMode } from '../contexts/DarkModeContext';
+import SearchHighlight from './shared/SearchHighlight';
+import MySpaceContainer from './shared/MySpaceContainer';
+import ThemeAwareHeader from './shared/ThemeAwareHeader';
 
 interface CaseStudy {
   name: string;
@@ -15,7 +17,6 @@ interface CaseStudiesGridProps {
 }
 
 const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, searchQuery }) => {
-  const { isDarkMode } = useDarkMode();
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
 
   const caseStudies: CaseStudy[] = [
@@ -64,17 +65,12 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
     return null;
   }
 
-  // Determine header background color based on mode
-  const getHeaderBg = () => {
-    if (isMyspaceMode && isDarkMode) return 'bg-purple-600';
-    if (isMyspaceMode && !isDarkMode) return 'bg-pink-500';
-    return 'bg-orange-500 dark:bg-orange-600';
-  };
-
   return (
     <>
-      <div className={`bg-white dark:bg-gray-800 border-2 spacing-standard search-result-match ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'} ${searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`}>
-        <h2 className={`font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 px-2 py-1 -mx-2 -mt-2 ${getHeaderBg()}`}>Jessica's Case Studies</h2>
+      <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery}>
+        <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
+          Jessica's Case Studies
+        </ThemeAwareHeader>
         <p className="text-xs mb-3 text-black dark:text-gray-300">
           Jessica has{' '}
           <span className="text-blue-600 dark:text-blue-400">{caseStudies.length}</span>
@@ -112,7 +108,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
               {/* Title */}
               <p className="text-sm font-bold mb-1 mt-1 text-center">
                 <span className="text-black dark:text-white break-words">
-                  {caseStudy.name}
+                  <SearchHighlight text={caseStudy.name} searchQuery={searchQuery} />
                 </span>
               </p>
               
@@ -126,7 +122,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
           ))}
         </div>
         ) : null}
-      </div>
+      </MySpaceContainer>
 
       {selectedCaseStudy && (
         <CaseStudyModal 

@@ -236,7 +236,7 @@ function AppContent() {
           <div className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
-          <div id="about"><Education searchQuery={searchQuery} /></div>
+          <div id="about"><Education searchQuery={searchQuery} isMyspaceMode={isMyspaceMode} /></div>
           <AboutMe isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
           <div id="projects"><CaseStudiesGrid isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} /></div>
           <div id="experience"><LearningWall isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} /></div>
@@ -335,7 +335,7 @@ function AppContent() {
         
         {/* Certifications & Education - order 6 */}
         <div className="mobile-order-6">
-          <Education searchQuery={searchQuery} />
+          <Education searchQuery={searchQuery} isMyspaceMode={isMyspaceMode} />
         </div>
         
         {/* Projects section for mobile */}

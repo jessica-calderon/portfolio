@@ -1,5 +1,8 @@
 import React from 'react';
 import { useDarkMode } from '../contexts/DarkModeContext';
+import SearchHighlight from './shared/SearchHighlight';
+import MySpaceContainer from './shared/MySpaceContainer';
+import ThemeAwareHeader from './shared/ThemeAwareHeader';
 
 interface LearningEntry {
   id: number;
@@ -28,21 +31,9 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
   };
   
   const highlightText = (text: string) => {
-    if (!searchQuery.trim()) return text;
-    const parts = text.split(new RegExp(`(${searchQuery})`, 'gi'));
-    return parts.map((part, index) => 
-      part.toLowerCase() === searchQuery.toLowerCase() ? (
-        <span key={index} className="bg-yellow-300 dark:bg-yellow-600 font-semibold">{part}</span>
-      ) : part
-    );
+    return <SearchHighlight text={text} searchQuery={searchQuery} />;
   };
   
-  // Determine header background color based on mode
-  const getHeaderBg = () => {
-    if (isMyspaceMode && isDarkMode) return 'bg-purple-600';
-    if (isMyspaceMode && !isDarkMode) return 'bg-pink-500';
-    return 'bg-orange-500 dark:bg-orange-600';
-  };
   
   const entries: LearningEntry[] = [
     {
@@ -82,8 +73,10 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
   if (filteredEntries.length === 0 && searchQuery) return null;
 
   return (
-    <div className={`bg-white dark:bg-gray-800 border-2 p-3 sm:p-4 search-result-match ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : 'border-blue-500'} ${isMyspaceMode && isDarkMode ? 'border-purple-500' : 'dark:border-blue-400'} ${searchQuery && filteredEntries.length > 0 ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''}`}>
-      <h2 className={`font-bold text-white text-xs sm:text-sm mb-2 sm:mb-3 px-2 py-1 -mx-2 -mt-2 ${getHeaderBg()}`}>What I'm Learning</h2>
+    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} className="p-3 sm:p-4">
+      <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
+        What I'm Learning
+      </ThemeAwareHeader>
       <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">
         <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">View/Edit All Comments</a>
         {searchQuery && filteredEntries.length < entries.length && (
@@ -209,7 +202,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           );
         })}
       </div>
-    </div>
+    </MySpaceContainer>
   );
 };
 
