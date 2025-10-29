@@ -29,13 +29,12 @@ const ExpandableItem: React.FC<ExpandableItemProps> = ({
         onClick={handleToggle}
         style={{ fontFamily: 'Tahoma, sans-serif', fontSize: '12px' }}
       >
-        <a 
-          href="#"
-          className="cursor-pointer text-[#0000EE] dark:text-blue-400 hover:text-[#000099] dark:hover:text-blue-300 break-words pr-2"
+        <button 
+          className="cursor-pointer text-[#0000EE] dark:text-blue-400 hover:text-[#000099] dark:hover:text-blue-300 break-words pr-2 bg-transparent border-none p-0 text-left"
           onClick={handleToggle}
         >
           {highlightTitle || title}
-        </a>
+        </button>
         <span className="text-[#0000EE] dark:text-blue-400 hover:text-[#000099] dark:hover:text-blue-300 cursor-pointer whitespace-nowrap text-xs">(view more)</span>
       </div>
         

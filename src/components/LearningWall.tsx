@@ -78,7 +78,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
         What I'm Learning
       </ThemeAwareHeader>
       <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">
-        <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">View/Edit All Comments</a>
+        <a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">View/Edit All Comments</a>
         {searchQuery && filteredEntries.length < entries.length && (
           <span className="ml-2 text-pink-600 dark:text-pink-400">
             ({filteredEntries.length} match{filteredEntries.length !== 1 ? 'es' : ''})

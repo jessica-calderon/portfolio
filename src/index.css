@@ -2,14 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CSS Custom Properties for Customization */
+:root {
+  --accent-color: #FF9900;
+  --font-family: 'Verdana', Arial, sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #0a0a0a;
+}
+
+/* Customization Classes */
+.custom-accent {
+  color: var(--accent-color) !important;
+}
+
+.custom-accent-bg {
+  background-color: var(--accent-color) !important;
+}
+
+.custom-accent-border {
+  border-color: var(--accent-color) !important;
+}
+
+.custom-font {
+  font-family: var(--font-family) !important;
+}
+
+/* Animation Control */
+.animations-enabled * {
+  transition: all 0.3s ease;
+}
+
+.animations-disabled * {
+  transition: none !important;
+  animation: none !important;
 }
 
 * {

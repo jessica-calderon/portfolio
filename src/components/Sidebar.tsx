@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import ResumeModal from './ResumeModal';
 import ShareProfileModal from './ShareProfileModal';
-import DinoGameModal from './DinoGameModal';
+import RatingModal from './RatingModal';
+import CustomizeModal from './CustomizeModal';
 import ProfileSection from './ProfileSection';
 import ContactSection from './ContactSection';
 import PortfolioUrl from './PortfolioUrl';
@@ -11,13 +12,13 @@ import LinksTable from './LinksTable';
 const Sidebar: React.FC = () => {
   const [showResumeModal, setShowResumeModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [showDinoModal, setShowDinoModal] = useState(false);
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [showCustomizeModal, setShowCustomizeModal] = useState(false);
 
   return (
     <div className="space-y-4">
       {/* Profile Picture and Basic Info */}
       <ProfileSection 
-        onDinoGameClick={() => setShowDinoModal(true)}
         onResumeClick={() => setShowResumeModal(true)}
       />
 
@@ -25,6 +26,8 @@ const Sidebar: React.FC = () => {
       <ContactSection 
         onResumeClick={() => setShowResumeModal(true)}
         onShareClick={() => setShowShareModal(true)}
+        onRatingClick={() => setShowRatingModal(true)}
+        onCustomizeClick={() => setShowCustomizeModal(true)}
       />
 
       {/* Portfolio URL */}
@@ -45,8 +48,12 @@ const Sidebar: React.FC = () => {
       {/* Share Profile Modal */}
       {showShareModal && <ShareProfileModal onClose={() => setShowShareModal(false)} />}
       
-      {/* Dino Game Modal */}
-      {showDinoModal && <DinoGameModal onClose={() => setShowDinoModal(false)} />}
+      
+      {/* Rating Modal */}
+      {showRatingModal && <RatingModal onClose={() => setShowRatingModal(false)} />}
+      
+      {/* Customize Modal */}
+      {showCustomizeModal && <CustomizeModal onClose={() => setShowCustomizeModal(false)} />}
     </div>
   );
 };

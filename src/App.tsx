@@ -9,7 +9,6 @@ import ResumeModal from './components/ResumeModal';
 import ShareProfileModal from './components/ShareProfileModal';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import profilePic from './assets/8bitme.png';
-import DinoGameModal from './components/DinoGameModal';
 import './App.css';
 
 function AppContent() {
@@ -19,7 +18,6 @@ function AppContent() {
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
   const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
-  const [showDinoModal, setShowDinoModal] = useState<boolean>(false);
   const { isDarkMode } = useDarkMode();
 
   // Check if user wants to force desktop view
@@ -173,7 +171,7 @@ function AppContent() {
               ✕
             </button>
           )}
-          <a href="#" className="hidden md:inline text-sm hover:text-pink-200 transition-colors duration-200">Help</a>
+          <a href="mailto:calderonjessica13@yahoo.com" className="hidden md:inline text-sm hover:text-pink-200 transition-colors duration-200">Help</a>
           <button
             onClick={() => handleModeChange(!isMyspaceMode)}
             className="flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors duration-200 flex-shrink-0"
@@ -253,7 +251,6 @@ function AppContent() {
               <img 
                 src={profilePic}
                 alt="Jessica Calderon" 
-                onClick={() => setShowDinoModal(true)}
                 className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover flex-shrink-0 cursor-pointer hover:opacity-75 transition-opacity"
                 title="Click for a surprise! 🦖"
               />
@@ -287,7 +284,7 @@ function AppContent() {
               <a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">👥</span> Connect
               </a>
-              <button onClick={() => window.open('https://calendly.com')} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <button onClick={() => window.open('https://cal.com/jessica-calderon')} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">💬</span> Schedule Call
               </button>
               <button onClick={() => setShowResumeModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
@@ -296,7 +293,7 @@ function AppContent() {
               <button onClick={() => setShowShareModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">↗️</span> Share Profile
               </button>
-              <a href="#" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
                 <span className="mr-1">⭐</span> Add to Favorites
               </a>
             </div>
@@ -437,8 +434,6 @@ function AppContent() {
     {/* Share Profile Modal */}
     {showShareModal && <ShareProfileModal onClose={() => setShowShareModal(false)} />}
     
-    {/* Dino Game Modal */}
-    {showDinoModal && <DinoGameModal onClose={() => setShowDinoModal(false)} />}
     </div>
   );
 }

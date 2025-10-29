@@ -2,11 +2,10 @@ import React from 'react';
 import profilePic from '../assets/8bitme.png';
 
 interface ProfileSectionProps {
-  onDinoGameClick: () => void;
   onResumeClick: () => void;
 }
 
-const ProfileSection: React.FC<ProfileSectionProps> = ({ onDinoGameClick, onResumeClick }) => {
+const ProfileSection: React.FC<ProfileSectionProps> = ({ onResumeClick }) => {
   return (
     <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard">
       <p className="text-sm sm:text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
@@ -14,9 +13,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onDinoGameClick, onResu
         <img 
           src={profilePic} 
           alt="Jessica Calderon" 
-          onClick={onDinoGameClick}
-          className="w-16 h-16 sm:w-20 sm:h-20 border-2 border-blue-500 dark:border-blue-400 object-cover myspace-light-img-border flex-shrink-0 cursor-pointer hover:opacity-75 transition-opacity"
-          title="Click for a surprise! 🦖"
+          className="w-16 h-16 sm:w-20 sm:h-20 border-2 border-blue-500 dark:border-blue-400 object-cover myspace-light-img-border flex-shrink-0"
         />
         <div className="flex-1 min-w-0">
           <p className="text-xs text-black dark:text-white">"Currently coding... "</p>

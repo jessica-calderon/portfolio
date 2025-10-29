@@ -57,59 +57,51 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
       {/* Single clean bordered container - NO nested containers */}
       <div>
         {/* About Me Header - Theme adaptive */}
-        <h4 className="font-bold" style={{ 
-          color: isDarkMode ? '#fbbf24' : '#FF9900',
-          fontFamily: 'Verdana, Arial, sans-serif',
+        <h4 className="font-bold custom-accent custom-font" style={{ 
           fontSize: '12px',
           marginTop: '10px',
           marginBottom: '6px'
         }}>About Me</h4>
         
         {/* Professional Profile Text */}
-        <p style={{ 
+        <p className="custom-font" style={{ 
           color: isDarkMode ? '#e5e7eb' : '#000000',
           fontSize: '11px',
           lineHeight: '1.4',
-          fontFamily: 'Verdana, Arial, sans-serif',
           marginBottom: '8px'
         }}>
           {highlightText("Senior Software Engineer with extensive expertise in AWS cloud infrastructure, PHP backend development, and Docker containerization. Specialized in DoD/STIG-compliant environments with proven experience in secure, scalable system design and analytics-driven applications.")}
         </p>
         
-        <p style={{ 
+        <p className="custom-font" style={{ 
           color: isDarkMode ? '#e5e7eb' : '#000000',
           fontSize: '11px',
           lineHeight: '1.4',
-          fontFamily: 'Verdana, Arial, sans-serif',
           marginBottom: '8px'
         }}>
           {highlightText("Core competencies include Moodle Workplace customization, Apache Superset data visualization, and full-stack development using React, TypeScript, and Python. Experienced in building Iron Bank-compliant containers and implementing CI/CD pipelines with GitLab CI for enterprise deployments.")}
         </p>
         
-        <p style={{ 
+        <p className="custom-font" style={{ 
           color: isDarkMode ? '#e5e7eb' : '#000000',
           fontSize: '11px',
           lineHeight: '1.4',
-          fontFamily: 'Verdana, Arial, sans-serif',
           marginBottom: '8px'
         }}>
           {highlightText("Strong background in data integration, PostgreSQL/MySQL database optimization, and AWS ECS orchestration. Passionate about creating secure, maintainable solutions that meet strict compliance requirements while delivering exceptional user experiences.")}
         </p>
         
-        <p style={{ 
+        <p className="custom-font" style={{ 
           color: isDarkMode ? '#e5e7eb' : '#000000',
           fontSize: '11px',
           lineHeight: '1.4',
-          fontFamily: 'Verdana, Arial, sans-serif',
           marginBottom: '12px'
         }}>
           {highlightText("Currently available for new opportunities in senior engineering roles, particularly those involving cloud architecture, data analytics, and secure application development. Open to remote and hybrid positions.")}
         </p>
 
         {/* Built With Header - Theme adaptive */}
-        <h4 className="font-bold" style={{ 
-          color: isDarkMode ? '#fbbf24' : '#FF9900',
-          fontFamily: 'Verdana, Arial, sans-serif',
+        <h4 className="font-bold custom-accent custom-font" style={{ 
           fontSize: '12px',
           marginTop: '10px',
           marginBottom: '6px'
