@@ -17,7 +17,7 @@ const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick }) => {
     },
     { 
       label: 'Portfolio', 
-      value: <a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer" className="break-all">github.io/myspace-portfolio</a>
+      value: <a href="https://jessica-calderon.github.io/portfolio/" target="_blank" rel="noopener noreferrer" className="break-all">github.io/portfolio</a>
     },
     { 
       label: 'Resume', 

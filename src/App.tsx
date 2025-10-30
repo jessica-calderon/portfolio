@@ -324,7 +324,7 @@ function AppContent() {
               </tr>
               <tr>
                 <td>Portfolio:</td>
-                <td><a href="https://jessica-calderon.github.io/myspace-portfolio/" target="_blank" rel="noopener noreferrer">github.io/myspace-portfolio</a></td>
+                <td><a href="https://jessica-calderon.github.io/portfolio/" target="_blank" rel="noopener noreferrer">github.io/portfolio</a></td>
               </tr>
             </tbody>
           </table>

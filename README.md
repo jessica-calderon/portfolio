@@ -1,4 +1,4 @@
-# MySpace Portfolio
+# Portfolio
 
 A modern portfolio website inspired by the classic MySpace aesthetic, built with React, TypeScript, and Tailwind CSS.
 
@@ -16,7 +16,7 @@ This project is configured to deploy automatically to GitHub Pages.
 
 2. **Push to main branch:**
    - The site will automatically deploy whenever you push to the `main` branch
-   - Visit your site at: `https://jessica-calderon.github.io/myspace-portfolio/`
+   - Visit your site at: `https://jessica-calderon.github.io/portfolio/`
 
 ### Manual Deployment
 
