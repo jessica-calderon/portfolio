@@ -412,7 +412,7 @@ function AppContent() {
         {/* Copyright and Attribution */}
         <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between text-xs sm:text-sm gap-2 pt-2 border-t border-white/20">
           <p className="text-center sm:text-left">
-            Made by <a 
+            Built, designed & created by <a 
               href="https://github.com/jessica-calderon" 
               target="_blank" 
               rel="noopener noreferrer"
