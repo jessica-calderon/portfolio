@@ -383,8 +383,11 @@ function AppContent() {
         <div className="w-2/3 space-y-2 section-spacing">
           {/* Profile Banner */}
           <div 
-            className="bg-white dark:bg-gray-800 border-2 spacing-standard"
-            style={{ borderColor: customization.accentColor }}
+            className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${
+              isMyspaceMode && !isDarkMode ? 'border-pink-500' : 
+              isMyspaceMode && isDarkMode ? 'border-purple-500' : 
+              'border-blue-500 dark:border-blue-400'
+            }`}
           >
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
@@ -437,8 +440,11 @@ function AppContent() {
         {/* Professional Contact Banner - order 2 */}
         <div className="mobile-order-2">
           <div 
-            className="bg-white dark:bg-gray-800 border-2 spacing-standard"
-            style={{ borderColor: customization.accentColor }}
+            className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${
+              isMyspaceMode && !isDarkMode ? 'border-pink-500' : 
+              isMyspaceMode && isDarkMode ? 'border-purple-500' : 
+              'border-blue-500 dark:border-blue-400'
+            }`}
           >
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
@@ -517,7 +523,18 @@ function AppContent() {
           <table className={`myspace-details-box ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : isMyspaceMode && isDarkMode ? 'border-purple-500' : 'border-blue-500 dark:border-blue-400'}`}>
             <thead>
               <tr>
-                <th colSpan={2}>Jessica's Links</th>
+                <th 
+                  colSpan={2}
+                  className={isMyspaceMode ? '' : 'text-white'}
+                  style={{
+                    backgroundColor: isMyspaceMode && !isDarkMode ? '#ec4899' : // pink-500
+                                    isMyspaceMode && isDarkMode ? '#9333ea' : // purple-600
+                                    isDarkMode ? '#374151' : // gray-700
+                                    '#3b82f6' // blue-500
+                  }}
+                >
+                  Jessica's Links
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -546,7 +563,16 @@ function AppContent() {
           >
             <thead>
               <tr>
-                <th colSpan={2} className={`whitespace-nowrap custom-font ${isMyspaceMode ? '' : 'text-white'}`}>
+                <th 
+                  colSpan={2} 
+                  className={`whitespace-nowrap custom-font ${isMyspaceMode ? '' : 'text-white'}`}
+                  style={{
+                    backgroundColor: isMyspaceMode && !isDarkMode ? '#ec4899' : // pink-500
+                                    isMyspaceMode && isDarkMode ? '#9333ea' : // purple-600
+                                    isDarkMode ? '#374151' : // gray-700
+                                    '#3b82f6' // blue-500
+                  }}
+                >
                   Jessica's Technical Skills
                 </th>
               </tr>

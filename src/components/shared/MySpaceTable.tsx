@@ -37,6 +37,14 @@ const MySpaceTable: React.FC<MySpaceTableProps> = ({ title, rows, className = ''
     return 'border-blue-500 dark:border-blue-400';
   };
 
+  // Get header background color - match theme colors (like borders)
+  const getHeaderBgColor = () => {
+    if (isMyspaceMode && !isDarkMode) return '#ec4899'; // pink-500
+    if (isMyspaceMode && isDarkMode) return '#9333ea'; // purple-600
+    if (isDarkMode) return '#374151'; // gray-700
+    return '#3b82f6'; // blue-500
+  };
+
   const labelColor = getLabelColor();
   const valueColor = getValueColor();
 
@@ -52,7 +60,7 @@ const MySpaceTable: React.FC<MySpaceTableProps> = ({ title, rows, className = ''
             <th 
               colSpan={2} 
               className="whitespace-nowrap custom-font text-white"
-              style={{ backgroundColor: customization.accentColor }}
+              style={{ backgroundColor: getHeaderBgColor() }}
             >
               {title}
             </th>

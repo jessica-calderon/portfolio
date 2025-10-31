@@ -12,21 +12,20 @@ const ThemeAwareHeader: React.FC<ThemeAwareHeaderProps> = ({
   isMyspaceMode, 
   className = '' 
 }) => {
-  const { isDarkMode, customization } = useDarkMode();
+  const { isDarkMode } = useDarkMode();
   
-  const getHeaderStyle = (): React.CSSProperties => {
-    return { 
-      backgroundColor: customization.accentColor,
-      borderBottom: '1px solid white'
-    };
+  // Get header background color based on theme (not customization)
+  const getHeaderBg = () => {
+    if (isMyspaceMode && isDarkMode) return 'bg-purple-600'; // purple-600 for MySpace dark
+    if (isMyspaceMode && !isDarkMode) return 'bg-pink-500'; // pink-500 for MySpace light
+    if (isDarkMode) return 'bg-gray-700'; // gray-700 for default dark
+    return 'bg-orange-500'; // orange-500 for default light
   };
-
-  const headerStyle = getHeaderStyle();
 
   return (
     <div 
-      className={`px-2 py-1 -mx-2 -mt-2 mb-0 ${className}`} 
-      style={headerStyle}
+      className={`${getHeaderBg()} px-2 py-1 -mx-2 -mt-2 mb-0 ${className}`}
+      style={{ borderBottom: '1px solid white' }}
     >
       <h2 className="font-bold text-white text-xs sm:text-sm custom-font">{children}</h2>
     </div>
