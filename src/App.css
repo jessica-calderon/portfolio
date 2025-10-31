@@ -1068,3 +1068,116 @@ body {
     scroll-margin-top: 100px;
   }
 }
+
+/* Layout Toggle Button Styling */
+.layout-toggle {
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.layout-toggle:hover {
+  transform: translateY(-1px);
+}
+
+.layout-toggle:active {
+  transform: translateY(0);
+}
+
+/* Default layout light mode styling (default blue gradient) */
+.default-layout .layout-toggle {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.default-layout .layout-toggle:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+}
+
+/* Default layout dark mode styling */
+.dark .default-layout .layout-toggle {
+  background: linear-gradient(135deg, #1e40af, #1e3a8a) !important;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(30, 64, 175, 0.4);
+}
+
+.dark .default-layout .layout-toggle:hover {
+  background: linear-gradient(135deg, #1e3a8a, #172554) !important;
+  box-shadow: 0 6px 20px rgba(30, 64, 175, 0.6);
+}
+
+/* MySpace mode styling for layout toggle (light mode) */
+.custom-layout .layout-toggle {
+  background: linear-gradient(135deg, #ec4899, #a855f7) !important;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+}
+
+.custom-layout .layout-toggle:hover {
+  background: linear-gradient(135deg, #f472b6, #c084fc) !important;
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+}
+
+/* MySpace mode dark styling */
+.dark .custom-layout .layout-toggle {
+  background: linear-gradient(135deg, #9c27b0, #bb86fc) !important;
+  box-shadow: 0 4px 15px rgba(187, 134, 252, 0.4);
+}
+
+.dark .custom-layout .layout-toggle:hover {
+  background: linear-gradient(135deg, #ba68c8, #ce93d8) !important;
+  box-shadow: 0 6px 20px rgba(187, 134, 252, 0.6);
+}
+
+/* Legacy MySpace mode selectors for backwards compatibility */
+.myspace-mode .layout-toggle {
+  background: linear-gradient(135deg, #ec4899, #a855f7) !important;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+}
+
+.myspace-mode .layout-toggle:hover {
+  background: linear-gradient(135deg, #f472b6, #c084fc) !important;
+  box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+}
+
+.myspace-mode.dark .layout-toggle {
+  background: linear-gradient(135deg, #9c27b0, #bb86fc) !important;
+  box-shadow: 0 4px 15px rgba(187, 134, 252, 0.4);
+}
+
+.myspace-mode.dark .layout-toggle:hover {
+  background: linear-gradient(135deg, #ba68c8, #ce93d8) !important;
+  box-shadow: 0 6px 20px rgba(187, 134, 252, 0.6);
+}
+
+/* Search Bar Enhancements */
+.search-suggestion-item {
+  outline: none;
+}
+
+.search-suggestion-item:focus {
+  transform: translateX(2px);
+}
+
+/* Smooth search input animations */
+input[type="text"]:focus {
+  transform: scale(1.01);
+}
+
+/* Animate suggestions dropdown */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-suggestions-container {
+  animation: slideDown 0.2s ease-out;
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Sidebar from './components/Sidebar';
 import AboutMe from './components/AboutMe';
 import Education from './components/Education';
@@ -13,7 +13,14 @@ import profilePic from './assets/8bitme.png';
 import './App.css';
 
 function AppContent() {
-  const [isMyspaceMode, setIsMyspaceMode] = useState<boolean>(false);
+  // Initialize layout mode from localStorage, default to 'default'
+  const [layoutMode, setLayoutMode] = useState<'default' | 'custom'>(() => {
+    const saved = localStorage.getItem('layoutMode');
+    return (saved === 'default' || saved === 'custom') ? saved : 'default';
+  });
+  
+  const isMyspaceMode = layoutMode === 'custom';
+  
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
@@ -23,6 +30,17 @@ function AppContent() {
   const { isDarkMode } = useDarkMode();
 
   const [lastDeployed, setLastDeployed] = useState<string>('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Apply body class based on layout mode
+  useEffect(() => {
+    document.body.classList.remove('default-layout', 'custom-layout');
+    document.body.classList.add(`${layoutMode}-layout`);
+    
+    // Save to localStorage
+    localStorage.setItem('layoutMode', layoutMode);
+  }, [layoutMode]);
+
 
   // Check if user wants to force desktop view
   useEffect(() => {
@@ -59,8 +77,8 @@ function AppContent() {
     setLastDeployed(formatTimeAgo(deployTime));
   }, []);
 
-  const handleModeChange = (isMyspace: boolean) => {
-    setIsMyspaceMode(isMyspace);
+  const toggleLayoutMode = () => {
+    setLayoutMode(prev => prev === 'default' ? 'custom' : 'default');
   };
 
   // Search data - all searchable content
@@ -165,50 +183,151 @@ function AppContent() {
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold">MyPortfolio</h1>
           <span className="hidden sm:inline text-sm text-gray-100">a place to showcase my work</span>
         </div>
-        <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0 relative">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0 relative max-w-2xl">
           <div className="relative flex-1 min-w-0">
+            {/* Search Icon */}
+            <div className="absolute left-2.5 sm:left-3 top-1/2 transform -translate-y-1/2 pointer-events-none z-10">
+              <svg 
+                className={`w-4 h-4 transition-colors duration-200 ${
+                  isMyspaceMode 
+                    ? 'text-pink-500 dark:text-pink-400' 
+                    : 'text-gray-500 dark:text-gray-400'
+                }`} 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            
             <input 
+              ref={searchInputRef}
               type="text" 
-              placeholder="Search profile" 
+              placeholder="Search profile..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setShowSuggestions(true)}
               onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-              className={`px-2 sm:px-3 py-1 sm:py-2 w-full text-xs sm:text-sm ${isMyspaceMode ? 'bg-pink-100 border-pink-300 focus:ring-pink-500' : 'bg-gray-50 border-gray-300 focus:ring-blue-500'} text-gray-900 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200`}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  setSearchQuery('');
+                  setShowSuggestions(false);
+                  searchInputRef.current?.blur();
+                }
+                if (e.key === 'Enter' && suggestions.length > 0) {
+                  setSearchQuery(suggestions[0].title);
+                  setShowSuggestions(false);
+                }
+                // Arrow key navigation
+                if (e.key === 'ArrowDown' && suggestions.length > 0) {
+                  e.preventDefault();
+                  const firstSuggestion = document.querySelector('.search-suggestion-item');
+                  (firstSuggestion as HTMLElement)?.focus();
+                }
+              }}
+              className={`pl-8 sm:pl-9 pr-8 sm:pr-9 py-1.5 sm:py-2 w-full text-xs sm:text-sm ${isMyspaceMode 
+                ? 'bg-white/90 dark:bg-pink-900/30 border-pink-300 dark:border-pink-500 focus:ring-pink-400 focus:border-pink-400 placeholder:text-pink-300 dark:placeholder:text-pink-400' 
+                : 'bg-white/90 dark:bg-gray-800/90 border-gray-300 dark:border-gray-600 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-400 dark:placeholder:text-gray-500'
+              } text-gray-900 dark:text-gray-100 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 shadow-sm hover:shadow-md`}
             />
+            
+            {/* Clear Button (inside input) */}
+            {searchQuery && (
+              <button 
+                onClick={() => {
+                  setSearchQuery('');
+                  setShowSuggestions(false);
+                }}
+                className={`absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded-full transition-all duration-200 flex-shrink-0 ${
+                  isMyspaceMode 
+                    ? 'text-pink-500 hover:bg-pink-100 dark:hover:bg-pink-900/50' 
+                    : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                }`}
+                title="Clear search (Esc)"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+            
+            {/* Suggestions Dropdown */}
             {suggestions.length > 0 && showSuggestions && (
-              <div className={`absolute top-full mt-1 w-full z-50 rounded-lg shadow-lg border-2 max-h-64 overflow-y-auto ${isMyspaceMode ? 'bg-pink-50 border-pink-300' : 'bg-white border-gray-300'}`}>
-                {suggestions.map((suggestion, index) => (
-                  <div 
-                    key={index}
-                    onClick={() => {
-                      setSearchQuery(suggestion.title);
-                      setShowSuggestions(false);
-                    }}
-                    className={`px-3 py-2 cursor-pointer hover:bg-opacity-50 transition-colors border-b ${isMyspaceMode ? 'hover:bg-pink-200 border-pink-200' : 'hover:bg-gray-100 border-gray-200'}`}
-                  >
-                    <p className="text-xs font-semibold text-gray-800">{suggestion.category}: {suggestion.title}</p>
+              <div className={`absolute top-full mt-1.5 w-full z-50 rounded-lg shadow-xl border backdrop-blur-sm search-suggestions-container ${
+                isMyspaceMode 
+                  ? 'bg-pink-50/95 dark:bg-purple-900/90 border-pink-300 dark:border-purple-500' 
+                  : 'bg-white/95 dark:bg-gray-800/95 border-gray-300 dark:border-gray-600'
+              }`}>
+                <div className="max-h-64 overflow-y-auto rounded-lg">
+                  <div className={`px-2 py-1.5 text-xs font-semibold ${
+                    isMyspaceMode 
+                      ? 'text-pink-600 dark:text-pink-300 border-b border-pink-200 dark:border-pink-700' 
+                      : 'text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700'
+                  }`}>
+                    {suggestions.length} result{suggestions.length !== 1 ? 's' : ''}
                   </div>
-                ))}
+                  {suggestions.map((suggestion, index) => (
+                    <div 
+                      key={index}
+                      tabIndex={0}
+                      onClick={() => {
+                        setSearchQuery(suggestion.title);
+                        setShowSuggestions(false);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          setSearchQuery(suggestion.title);
+                          setShowSuggestions(false);
+                        }
+                      }}
+                      className={`search-suggestion-item px-3 py-2.5 cursor-pointer transition-all duration-150 border-b last:border-b-0 focus:outline-none focus:ring-2 focus:ring-inset ${
+                        isMyspaceMode 
+                          ? 'hover:bg-pink-100 dark:hover:bg-purple-800/50 border-pink-200 dark:border-pink-700/50 active:bg-pink-200 dark:active:bg-purple-700 focus:ring-pink-400' 
+                          : 'hover:bg-blue-50 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-700 active:bg-blue-100 dark:active:bg-gray-600 focus:ring-blue-400'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className={`text-xs ${
+                          isMyspaceMode 
+                            ? 'text-pink-600 dark:text-pink-400' 
+                            : 'text-blue-600 dark:text-blue-400'
+                        } font-semibold uppercase tracking-wide`}>
+                          {suggestion.category}
+                        </span>
+                      </div>
+                      <p className={`text-sm font-medium mt-0.5 ${
+                        isMyspaceMode 
+                          ? 'text-gray-800 dark:text-gray-200' 
+                          : 'text-gray-900 dark:text-gray-100'
+                      }`}>
+                        {suggestion.title}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
-          {searchQuery && (
-            <button 
-              onClick={() => setSearchQuery('')}
-              className={`px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 flex-shrink-0 ${isMyspaceMode ? 'bg-red-500 hover:bg-red-600' : 'bg-red-500 hover:bg-red-600'}`}
-              title="Clear search"
-            >
-              ✕
-            </button>
-          )}
-          <a href="mailto:calderonjessica13@yahoo.com" className="hidden md:inline text-sm hover:text-pink-200 transition-colors duration-200">Help</a>
-          <button
-            onClick={() => handleModeChange(!isMyspaceMode)}
-            className="flex items-center justify-center px-2 sm:px-4 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 transition-colors duration-200 flex-shrink-0"
+          <a 
+            href="mailto:calderonjessica13@yahoo.com" 
+            className="hidden md:flex items-center gap-1 text-sm hover:text-pink-200 dark:hover:text-pink-300 transition-colors duration-200 whitespace-nowrap"
           >
-            <span className="hidden md:inline">{isMyspaceMode ? 'Default View' : 'Custom View'}</span>
-            <span className="md:hidden">{isMyspaceMode ? 'Default' : 'Custom'}</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Help
+          </a>
+        </div>
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+          <button
+            onClick={toggleLayoutMode}
+            title="Switch between Default and Custom MySpace layouts"
+            className="layout-toggle flex items-center justify-center px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 shadow-md hover:shadow-lg"
+          >
+            <span className="mr-1">🪄</span>
+            <span className="hidden sm:inline">{layoutMode === 'custom' ? 'Default Layout' : 'Custom Layout'}</span>
+            <span className="sm:hidden">{layoutMode === 'custom' ? 'Default' : 'Custom'}</span>
           </button>
           <DarkModeToggle />
         </div>
