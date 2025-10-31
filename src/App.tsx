@@ -8,6 +8,7 @@ import DarkModeToggle from './components/DarkModeToggle';
 import ResumeModal from './components/ResumeModal';
 import ShareProfileModal from './components/ShareProfileModal';
 import LegacyProfileModal from './components/LegacyProfileModal';
+import JumpToTop from './components/JumpToTop';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import profilePic from './assets/8bitme.png';
 import './App.css';
@@ -677,6 +678,9 @@ function AppContent() {
     
     {/* Legacy Profile Modal */}
     {showLegacyModal && <LegacyProfileModal onClose={() => setShowLegacyModal(false)} />}
+    
+    {/* Jump to Top Button */}
+    <JumpToTop isMyspaceMode={isMyspaceMode} />
     
     </div>
   );
