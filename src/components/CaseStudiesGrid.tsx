@@ -71,12 +71,12 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
         <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
           Jessica's Case Studies
         </ThemeAwareHeader>
-        <p className="text-xs mb-3 text-black dark:text-gray-300">
+        <p className="text-xs mb-3 text-black dark:text-gray-300 custom-font">
           Jessica has{' '}
-          <span className="text-blue-600 dark:text-blue-400">{caseStudies.length}</span>
+          <span className="text-blue-600 dark:text-blue-400 custom-font">{caseStudies.length}</span>
           {' '}Featured Case Studies.
           {searchQuery && filteredStudies.length < caseStudies.length && (
-            <span className="ml-2 text-pink-600 dark:text-pink-400">
+            <span className="ml-2 text-pink-600 dark:text-pink-400 custom-font">
               ({filteredStudies.length} match{filteredStudies.length !== 1 ? 'es' : ''})
             </span>
           )}

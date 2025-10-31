@@ -13,9 +13,8 @@ const TechBadge: React.FC<TechBadgeProps> = ({ name, icon, searchQuery, highligh
 
   return (
     <div 
-      className="group inline-flex items-center gap-1.5 px-3 py-1.5 cursor-pointer transform transition-all duration-300 hover:scale-110 hover:-translate-y-1"
+      className="group inline-flex items-center gap-1.5 px-3 py-1.5 cursor-pointer transform transition-all duration-300 hover:scale-110 hover:-translate-y-1 custom-font"
       style={{ 
-        fontFamily: 'Verdana, Arial, sans-serif', 
         fontSize: '10px',
         borderRadius: '12px',
         background: isDarkMode 

@@ -209,11 +209,11 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
 
       {/* Comment Links - Directly below header */}
       <div
+        className="custom-font"
         style={{
           padding: '8px 0',
           color: myspaceColors.textColor,
-          fontSize: '12px',
-          fontFamily: 'Arial, Helvetica, sans-serif'
+          fontSize: '12px'
         }}
       >
         Displaying {filteredEntries.length} of {entries.length} entries ( 
@@ -221,10 +221,10 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           href="https://github.com/jessica-calderon"
           target="_blank"
           rel="noopener noreferrer"
+          className="custom-font"
           style={{
             color: myspaceColors.linkColor,
-            textDecoration: 'none',
-            fontFamily: 'Arial, Helvetica, sans-serif'
+            textDecoration: 'none'
           }}
           onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
           onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
@@ -236,10 +236,10 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           href="https://linkedin.com/in/Jessica-Calderon-00"
           target="_blank"
           rel="noopener noreferrer"
+          className="custom-font"
           style={{
             color: myspaceColors.linkColor,
-            textDecoration: 'none',
-            fontFamily: 'Arial, Helvetica, sans-serif'
+            textDecoration: 'none'
           }}
           onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
           onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
@@ -251,11 +251,11 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
       
       {/* Comments Container - Continuous vertical stack */}
       <div 
+        className="custom-font"
         style={{ 
           backgroundColor: myspaceColors.commentSectionBg,
           marginTop: '8px',
           padding: 0,
-          fontFamily: 'Arial, Helvetica, sans-serif',
           fontSize: '12px'
         }}
       >
@@ -263,12 +263,12 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           <React.Fragment key={entry.id}>
             {/* Comment Box */}
             <div
+              className="custom-font"
               style={{
                 backgroundColor: myspaceColors.commentBg,
                 padding: '8px',
                 display: 'flex',
-                alignItems: 'flex-start',
-                fontFamily: 'Arial, Helvetica, sans-serif'
+                alignItems: 'flex-start'
               }}
             >
               {/* Profile Image - Square, Left Aligned, Top */}
@@ -307,12 +307,12 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
                     href="https://github.com/jessica-calderon"
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="custom-font"
                     style={{
                       color: myspaceColors.usernameColor,
                       fontWeight: 'bold',
                       fontSize: '13px',
-                      textDecoration: 'none',
-                      fontFamily: 'Arial, Helvetica, sans-serif'
+                      textDecoration: 'none'
                     }}
                     onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
                     onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
@@ -320,10 +320,10 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
                     jessica
                   </a>
                   <span
+                    className="custom-font"
                     style={{
                       color: myspaceColors.timestampColor,
-                      fontSize: '11px',
-                      fontFamily: 'Arial, Helvetica, sans-serif'
+                      fontSize: '11px'
                     }}
                   >
                     {highlightText(entry.timestamp)}
@@ -332,12 +332,12 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
                 
                 {/* Main Comment Text */}
                 <div
+                  className="custom-font"
                   style={{
                     color: myspaceColors.textColor,
                     fontSize: '12px',
                     lineHeight: '1.3',
-                    marginBottom: '4px',
-                    fontFamily: 'Arial, Helvetica, sans-serif'
+                    marginBottom: '4px'
                   }}
                 >
                   {highlightText(entry.learning)}
@@ -345,12 +345,12 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
                 
                 {/* Focus Area - Smaller Italic, Indented */}
                 <div
+                  className="custom-font"
                   style={{
                     color: myspaceColors.italicColor,
                     fontSize: '11px',
                     fontStyle: 'italic',
-                    marginLeft: '2px',
-                    fontFamily: 'Arial, Helvetica, sans-serif'
+                    marginLeft: '2px'
                   }}
                 >
                   {highlightText(entry.focus)}

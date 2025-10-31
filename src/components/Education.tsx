@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDarkMode } from '../contexts/DarkModeContext';
 import SearchHighlight from './shared/SearchHighlight';
 import ExpandableItem from './shared/ExpandableItem';
 import MySpaceContainer from './shared/MySpaceContainer';
@@ -9,7 +10,18 @@ interface EducationProps {
 }
 
 const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = false }) => {
+  const { isDarkMode } = useDarkMode();
   const [openItem, setOpenItem] = useState<string | null>(null);
+
+  // Get header text color based on theme
+  const getHeaderColor = () => {
+    if (isMyspaceMode && isDarkMode) return '#a855f7'; // purple-500
+    if (isMyspaceMode && !isDarkMode) return '#ec4899'; // pink-500
+    if (isDarkMode) return '#f97316'; // orange-500
+    return '#FF9900'; // accent color for light mode
+  };
+
+  const headerColor = getHeaderColor();
   
   // Helper function to highlight search matches
   const highlightText = (text: string) => {
@@ -46,7 +58,12 @@ const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = fals
 
   return (
     <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} id="education">
-      <h2 className="font-bold text-black dark:text-white text-xs sm:text-sm mb-2 sm:mb-3">Jessica's Certifications & Education</h2>
+      <h2 
+        className="font-bold custom-font text-xs sm:text-sm mb-2 sm:mb-3"
+        style={{ color: headerColor }}
+      >
+        Jessica's Certifications & Education
+      </h2>
       <div className="mt-3">
         {filteredItems.map((item) => (
           <ExpandableItem
@@ -57,6 +74,7 @@ const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = fals
             onToggle={() => toggleItem(item.key)}
             highlightTitle={highlightText(item.title)}
             highlightDetails={item.details ? highlightText(item.details) : undefined}
+            isMyspaceMode={isMyspaceMode}
           />
         ))}
       </div>

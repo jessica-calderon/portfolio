@@ -10,7 +10,11 @@ import PortfolioUrl from './PortfolioUrl';
 import SkillsTable from './SkillsTable';
 import LinksTable from './LinksTable';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  isMyspaceMode?: boolean;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
   const [showResumeModal, setShowResumeModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
@@ -18,7 +22,7 @@ const Sidebar: React.FC = () => {
   const [showLegacyModal, setShowLegacyModal] = useState(false);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* Profile Picture and Basic Info */}
       <ProfileSection 
         onLegacyClick={() => setShowLegacyModal(true)}
@@ -35,14 +39,11 @@ const Sidebar: React.FC = () => {
       {/* Portfolio URL */}
       <PortfolioUrl />
 
-      {/* Jessica's Technical Skills and Links Container */}
-      <div className="myspace-details-container">
-        {/* Jessica's Technical Skills */}
-        <SkillsTable />
+      {/* Jessica's Technical Skills */}
+      <SkillsTable isMyspaceMode={isMyspaceMode} />
 
-        {/* Jessica's Links */}
-        <LinksTable onResumeClick={() => setShowResumeModal(true)} />
-      </div>
+      {/* Jessica's Links */}
+      <LinksTable onResumeClick={() => setShowResumeModal(true)} isMyspaceMode={isMyspaceMode} />
 
       {/* Resume Modal */}
       {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}

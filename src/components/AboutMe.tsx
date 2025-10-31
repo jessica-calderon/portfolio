@@ -128,21 +128,19 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
           color: headerColor
         }}>Built With</h4>
         
-        <p style={{ 
+        <p className="custom-font" style={{ 
           color: textColor,
           fontSize: '11px',
           lineHeight: '1.4',
-          fontFamily: 'Verdana, Arial, sans-serif',
           marginBottom: '8px'
         }}>
           {highlightText("This portfolio was crafted using modern web technologies and best practices. Built with React and TypeScript for type-safe development, styled with Tailwind CSS for responsive design, and deployed via GitHub Pages.")}
         </p>
         
-        <p style={{ 
+        <p className="custom-font" style={{ 
           color: textColor,
           fontSize: '11px',
           lineHeight: '1.4',
-          fontFamily: 'Verdana, Arial, sans-serif',
           marginBottom: '12px'
         }}>
           {highlightText("The development stack includes Vite for fast building and hot reloading, Node.js for the runtime environment, ESLint for code quality, and PostCSS for CSS processing. The entire project is optimized for performance and accessibility.")}
@@ -176,20 +174,18 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         </div>
 
         {/* Additional Info - Theme Compatible */}
-        <p style={{ 
+        <p className="custom-font" style={{ 
           color: isMyspaceMode && isDarkMode ? '#e9d5ff' : isMyspaceMode && !isDarkMode ? '#9f1239' : isDarkMode ? '#9ca3af' : '#666666',
           fontSize: '11px',
-          fontFamily: 'Verdana, Arial, sans-serif',
           marginBottom: '4px'
         }}>
           <strong style={{ 
             color: isMyspaceMode && isDarkMode ? '#faf5ff' : isMyspaceMode && !isDarkMode ? '#831843' : isDarkMode ? '#d1d5db' : '#000000' 
           }}>Development Tools:</strong> VS Code, Git, npm, GitHub Actions
         </p>
-        <p style={{ 
+        <p className="custom-font" style={{ 
           color: isMyspaceMode && isDarkMode ? '#e9d5ff' : isMyspaceMode && !isDarkMode ? '#9f1239' : isDarkMode ? '#9ca3af' : '#666666',
-          fontSize: '11px',
-          fontFamily: 'Verdana, Arial, sans-serif'
+          fontSize: '11px'
         }}>
           <strong style={{ 
             color: isMyspaceMode && isDarkMode ? '#faf5ff' : isMyspaceMode && !isDarkMode ? '#831843' : isDarkMode ? '#d1d5db' : '#000000' 

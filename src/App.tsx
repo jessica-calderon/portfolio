@@ -251,16 +251,16 @@ function AppContent() {
     </div>
 
     {/* Main Content */}
-    <div className="max-w-6xl mx-auto p-2 sm:p-4">
+    <div className="max-w-6xl mx-auto p-2 sm:p-2">
       {/* Desktop Layout: Sidebar + Main Content */}
-      <div className={`${forceDesktopView ? 'flex' : 'hidden md:flex'} flex-row gap-4`}>
+      <div className={`${forceDesktopView ? 'flex' : 'hidden md:flex'} flex-row gap-2`}>
         {/* Left Sidebar */}
         <div className="w-1/3">
-          <Sidebar />
+          <Sidebar isMyspaceMode={isMyspaceMode} />
         </div>
         
         {/* Right Main Content */}
-        <div className="w-2/3 space-y-4 section-spacing">
+        <div className="w-2/3 space-y-2 section-spacing">
           {/* Profile Banner */}
           <div className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
@@ -374,37 +374,124 @@ function AppContent() {
         
         {/* Technical Skills - order 7 */}
         <div className="mobile-order-7 overflow-x-auto">
-          <table className="myspace-details-box">
+          <table className="myspace-details-box border-blue-500 dark:border-blue-400">
             <thead>
               <tr>
-                <th colSpan={2}>Jessica's Technical Skills</th>
+                <th colSpan={2} className={`whitespace-nowrap custom-font ${isMyspaceMode ? '' : 'text-white'}`}>
+                  Jessica's Technical Skills
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Programming:</td>
-                <td>PHP, TypeScript, JavaScript, Python, React, Node.js</td>
-              </tr>
-              <tr>
-                <td>DevOps:</td>
-                <td>Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI</td>
-              </tr>
-              <tr>
-                <td>Databases:</td>
-                <td>PostgreSQL, MySQL, Redis, OpenSearch</td>
-              </tr>
-              <tr>
-                <td>Tools:</td>
-                <td>VS Code, GitLab CI, Fluent Bit, Apache Superset</td>
-              </tr>
-              <tr>
-                <td>Cloud:</td>
-                <td>AWS, ECS, S3, RDS, CloudWatch</td>
-              </tr>
-              <tr>
-                <td>Specialties:</td>
-                <td>Moodle Workplace, Data Integration, Iron Bank Containers</td>
-              </tr>
+              {(() => {
+                // Get label text color based on theme
+                const getLabelColor = () => {
+                  if (isMyspaceMode && isDarkMode) return '#bb86fc'; // purple-300
+                  if (isMyspaceMode && !isDarkMode) return '#4c1d95'; // purple-800
+                  if (isDarkMode) return '#93c5fd'; // blue-300
+                  return '#336699'; // default blue
+                };
+
+                // Get value text color based on theme
+                const getValueColor = () => {
+                  if (isMyspaceMode && isDarkMode) return '#e0e0e0'; // gray-200
+                  if (isMyspaceMode && !isDarkMode) return '#4c1d95'; // purple-900
+                  if (isDarkMode) return '#e5e7eb'; // gray-200
+                  return '#000000'; // black
+                };
+
+                const labelColor = getLabelColor();
+                const valueColor = getValueColor();
+
+                return (
+                  <>
+                    <tr>
+                      <td 
+                        className="whitespace-nowrap custom-font font-bold" 
+                        style={{ color: labelColor }}
+                      >
+                        Programming:
+                      </td>
+                      <td 
+                        className="custom-font" 
+                        style={{ color: valueColor }}
+                      >
+                        PHP, TypeScript, JavaScript, Python, React, Node.js
+                      </td>
+                    </tr>
+                    <tr>
+                      <td 
+                        className="whitespace-nowrap custom-font font-bold" 
+                        style={{ color: labelColor }}
+                      >
+                        DevOps:
+                      </td>
+                      <td 
+                        className="custom-font" 
+                        style={{ color: valueColor }}
+                      >
+                        Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI
+                      </td>
+                    </tr>
+                    <tr>
+                      <td 
+                        className="whitespace-nowrap custom-font font-bold" 
+                        style={{ color: labelColor }}
+                      >
+                        Databases:
+                      </td>
+                      <td 
+                        className="custom-font" 
+                        style={{ color: valueColor }}
+                      >
+                        PostgreSQL, MySQL, Redis, OpenSearch
+                      </td>
+                    </tr>
+                    <tr>
+                      <td 
+                        className="whitespace-nowrap custom-font font-bold" 
+                        style={{ color: labelColor }}
+                      >
+                        Tools:
+                      </td>
+                      <td 
+                        className="custom-font" 
+                        style={{ color: valueColor }}
+                      >
+                        VS Code, GitLab CI, Fluent Bit, Apache Superset
+                      </td>
+                    </tr>
+                    <tr>
+                      <td 
+                        className="whitespace-nowrap custom-font font-bold" 
+                        style={{ color: labelColor }}
+                      >
+                        Cloud:
+                      </td>
+                      <td 
+                        className="custom-font" 
+                        style={{ color: valueColor }}
+                      >
+                        AWS, ECS, S3, RDS, CloudWatch
+                      </td>
+                    </tr>
+                    <tr>
+                      <td 
+                        className="whitespace-nowrap custom-font font-bold" 
+                        style={{ color: labelColor }}
+                      >
+                        Specialties:
+                      </td>
+                      <td 
+                        className="custom-font" 
+                        style={{ color: valueColor }}
+                      >
+                        Moodle Workplace, Data Integration, Iron Bank Containers
+                      </td>
+                    </tr>
+                  </>
+                );
+              })()}
             </tbody>
           </table>
         </div>

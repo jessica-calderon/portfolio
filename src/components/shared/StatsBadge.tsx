@@ -42,9 +42,8 @@ const StatsBadge: React.FC<StatsBadgeProps> = ({ label, value, index }) => {
 
   return (
     <span 
-      className="inline-flex items-center gap-1 px-2 py-1 mr-1 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:-translate-y-0.5"
+      className="inline-flex items-center gap-1 px-2 py-1 mr-1 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 custom-font"
       style={{
-        fontFamily: 'Verdana, Arial, sans-serif',
         fontSize: '9px',
         background: colors.background,
         borderRadius: '8px',

@@ -2,7 +2,7 @@ import React from 'react';
 
 const PortfolioUrl: React.FC = () => {
   return (
-    <div className="bg-white dark:bg-gray-800 border border-black dark:border-gray-600 spacing-standard-sm">
+    <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard">
       <p className="text-xs text-black dark:text-white">Portfolio URL:</p>
       <a 
         href="https://jessica-calderon.github.io/portfolio/" 

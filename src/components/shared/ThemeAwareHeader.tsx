@@ -23,7 +23,7 @@ const ThemeAwareHeader: React.FC<ThemeAwareHeaderProps> = ({
   return (
     <div className={`${getHeaderBg()} px-2 py-1 -mx-2 -mt-2 mb-0 ${className}`} 
          style={{ borderBottom: '1px solid white' }}>
-      <h2 className="font-bold text-white text-xs sm:text-sm">{children}</h2>
+      <h2 className="font-bold text-white text-xs sm:text-sm custom-font">{children}</h2>
     </div>
   );
 };

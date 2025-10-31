@@ -33,6 +33,12 @@ body {
   font-family: var(--font-family) !important;
 }
 
+/* In MySpace mode, use nostalgic fonts for everything */
+.myspace-mode .custom-font {
+  /* Even custom-font uses nostalgic font in MySpace mode for consistency */
+  font-family: 'Comic Neue', 'Fredoka One', 'Comic Sans MS', 'Arial Black', cursive, sans-serif !important;
+}
+
 /* Animation Control */
 .animations-enabled * {
   transition: all 0.3s ease;

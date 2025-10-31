@@ -1,7 +1,11 @@
 import React from 'react';
 import MySpaceTable from './shared/MySpaceTable';
 
-const SkillsTable: React.FC = () => {
+interface SkillsTableProps {
+  isMyspaceMode?: boolean;
+}
+
+const SkillsTable: React.FC<SkillsTableProps> = ({ isMyspaceMode = false }) => {
   const skillsData = [
     { label: 'Programming', value: 'PHP, TypeScript, JavaScript, Python, React, Node.js' },
     { label: 'DevOps', value: 'Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI' },
@@ -16,7 +20,7 @@ const SkillsTable: React.FC = () => {
       title="Jessica's Technical Skills" 
       rows={skillsData}
       className=""
-      id="tech"
+      isMyspaceMode={isMyspaceMode}
     />
   );
 };
