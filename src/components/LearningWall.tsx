@@ -36,11 +36,6 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
     const g = (num >> 8) & 0xff;
     const b = num & 0xff;
     
-    // Convert to HSL for better desaturation
-    const max = Math.max(r, g, b) / 255;
-    const min = Math.min(r, g, b) / 255;
-    const l = (max + min) / 2;
-    
     // Create a muted brown-ish tone for dark mode (lower saturation, darker)
     // Mix with a dark brown base (#2d1f0f ~ rgb(45, 31, 15)) to create muted version
     const darkBaseR = 45;
@@ -60,6 +55,18 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
 
   // Generate comment box colors based on custom accent color
   const getCommentBgColor = () => {
+    // MySpace mode (pink/purple theme)
+    if (isMyspaceMode) {
+      if (isDarkMode) {
+        // Dark mode MySpace: muted purple tone
+        return '#6b3a7a'; // Muted purple for MySpace dark mode
+      } else {
+        // Light mode MySpace: light pink tone
+        return '#ffb3d9'; // Light pink-beige for MySpace light mode
+      }
+    }
+    
+    // Non-MySpace themes
     if (isDarkMode) {
       // For dark mode: default orange uses original muted tan, custom themes use muted version
       if (isDefaultOrange) {
@@ -81,6 +88,18 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
 
   // Generate divider color based on comment box color
   const getDividerColor = () => {
+    // MySpace mode (pink/purple theme)
+    if (isMyspaceMode) {
+      if (isDarkMode) {
+        // Dark mode MySpace: slightly lighter purple divider
+        return '#8b5a9c'; // Lighter purple divider for MySpace dark mode
+      } else {
+        // Light mode MySpace: darker pink divider
+        return '#ff9fcc'; // Darker pink divider for MySpace light mode
+      }
+    }
+    
+    // Non-MySpace themes
     if (isDarkMode) {
       if (isDefaultOrange) {
         return '#8b6b4a'; // Original divider color for default orange theme dark mode
