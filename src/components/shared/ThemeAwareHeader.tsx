@@ -17,7 +17,7 @@ const ThemeAwareHeader: React.FC<ThemeAwareHeaderProps> = ({
   const getHeaderBg = () => {
     if (isMyspaceMode && isDarkMode) return 'bg-purple-600';
     if (isMyspaceMode && !isDarkMode) return 'bg-pink-500';
-    return 'bg-orange-500 dark:bg-orange-600';
+    return 'bg-orange-500 dark:bg-gray-700';
   };
 
   return (

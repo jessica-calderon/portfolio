@@ -14,6 +14,22 @@ interface AboutMeProps {
 const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
   const { isDarkMode } = useDarkMode();
   
+  // Get header text color based on theme
+  const getHeaderColor = () => {
+    if (isMyspaceMode && isDarkMode) return '#a855f7'; // purple-500
+    if (isMyspaceMode && !isDarkMode) return '#ec4899'; // pink-500
+    if (isDarkMode) return '#f97316'; // orange-500
+    return '#FF9900'; // accent color for light mode
+  };
+
+  // Get body text color based on theme
+  const getTextColor = () => {
+    if (isMyspaceMode && isDarkMode) return '#faf5ff'; // purple-50 (very light purple)
+    if (isMyspaceMode && !isDarkMode) return '#831843'; // pink-900 (dark pink)
+    if (isDarkMode) return '#e5e7eb'; // gray-200
+    return '#000000'; // black
+  };
+
   // Check if this section should be visible based on search
   const shouldShow = () => {
     if (!searchQuery.trim()) return true;
@@ -25,6 +41,9 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
   const highlightText = (text: string) => {
     return <SearchHighlight text={text} searchQuery={searchQuery} />;
   };
+
+  const headerColor = getHeaderColor();
+  const textColor = getTextColor();
 
   // Tech stack data with icons
   const techStack = [
@@ -57,15 +76,16 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
       {/* Single clean bordered container - NO nested containers */}
       <div>
         {/* About Me Header - Theme adaptive */}
-        <h4 className="font-bold custom-accent custom-font" style={{ 
+        <h4 className="font-bold custom-font" style={{ 
           fontSize: '12px',
           marginTop: '10px',
-          marginBottom: '6px'
+          marginBottom: '6px',
+          color: headerColor
         }}>About Me</h4>
         
         {/* Professional Profile Text */}
         <p className="custom-font" style={{ 
-          color: isDarkMode ? '#e5e7eb' : '#000000',
+          color: textColor,
           fontSize: '11px',
           lineHeight: '1.4',
           marginBottom: '8px'
@@ -74,7 +94,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         </p>
         
         <p className="custom-font" style={{ 
-          color: isDarkMode ? '#e5e7eb' : '#000000',
+          color: textColor,
           fontSize: '11px',
           lineHeight: '1.4',
           marginBottom: '8px'
@@ -83,7 +103,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         </p>
         
         <p className="custom-font" style={{ 
-          color: isDarkMode ? '#e5e7eb' : '#000000',
+          color: textColor,
           fontSize: '11px',
           lineHeight: '1.4',
           marginBottom: '8px'
@@ -92,7 +112,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         </p>
         
         <p className="custom-font" style={{ 
-          color: isDarkMode ? '#e5e7eb' : '#000000',
+          color: textColor,
           fontSize: '11px',
           lineHeight: '1.4',
           marginBottom: '12px'
@@ -101,14 +121,15 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         </p>
 
         {/* Built With Header - Theme adaptive */}
-        <h4 className="font-bold custom-accent custom-font" style={{ 
+        <h4 className="font-bold custom-font" style={{ 
           fontSize: '12px',
           marginTop: '10px',
-          marginBottom: '6px'
+          marginBottom: '6px',
+          color: headerColor
         }}>Built With</h4>
         
         <p style={{ 
-          color: isDarkMode ? '#e5e7eb' : '#000000',
+          color: textColor,
           fontSize: '11px',
           lineHeight: '1.4',
           fontFamily: 'Verdana, Arial, sans-serif',
@@ -118,7 +139,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         </p>
         
         <p style={{ 
-          color: isDarkMode ? '#e5e7eb' : '#000000',
+          color: textColor,
           fontSize: '11px',
           lineHeight: '1.4',
           fontFamily: 'Verdana, Arial, sans-serif',
@@ -154,21 +175,25 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
           ))}
         </div>
 
-        {/* Additional Info - Dark Mode Compatible */}
+        {/* Additional Info - Theme Compatible */}
         <p style={{ 
-          color: isDarkMode ? '#9ca3af' : '#666666',
+          color: isMyspaceMode && isDarkMode ? '#e9d5ff' : isMyspaceMode && !isDarkMode ? '#9f1239' : isDarkMode ? '#9ca3af' : '#666666',
           fontSize: '11px',
           fontFamily: 'Verdana, Arial, sans-serif',
           marginBottom: '4px'
         }}>
-          <strong style={{ color: isDarkMode ? '#d1d5db' : '#000000' }}>Development Tools:</strong> VS Code, Git, npm, GitHub Actions
+          <strong style={{ 
+            color: isMyspaceMode && isDarkMode ? '#faf5ff' : isMyspaceMode && !isDarkMode ? '#831843' : isDarkMode ? '#d1d5db' : '#000000' 
+          }}>Development Tools:</strong> VS Code, Git, npm, GitHub Actions
         </p>
         <p style={{ 
-          color: isDarkMode ? '#9ca3af' : '#666666',
+          color: isMyspaceMode && isDarkMode ? '#e9d5ff' : isMyspaceMode && !isDarkMode ? '#9f1239' : isDarkMode ? '#9ca3af' : '#666666',
           fontSize: '11px',
           fontFamily: 'Verdana, Arial, sans-serif'
         }}>
-          <strong style={{ color: isDarkMode ? '#d1d5db' : '#000000' }}>Features:</strong> WCAG Compliant, Responsive Design, Optimized Assets
+          <strong style={{ 
+            color: isMyspaceMode && isDarkMode ? '#faf5ff' : isMyspaceMode && !isDarkMode ? '#831843' : isDarkMode ? '#d1d5db' : '#000000' 
+          }}>Features:</strong> WCAG Compliant, Responsive Design, Optimized Assets
         </p>
       </div>
     </MySpaceContainer>
