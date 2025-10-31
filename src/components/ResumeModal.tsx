@@ -46,8 +46,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
     >
       <div 
-        className="w-full max-w-4xl mx-4 bg-[#ece9d8] text-black rounded-md shadow-md border border-gray-400 overflow-hidden animate-modalAppear flex flex-col"
-        style={{ height: '90vh', maxHeight: '800px' }}
+        className="w-full max-w-4xl mx-4 my-4 bg-[#ece9d8] text-black rounded-md shadow-md border border-gray-400 overflow-hidden animate-modalAppear flex flex-col h-[calc(90vh-2rem)] max-h-[calc(90vh-2rem)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Windows XP-style title bar */}
