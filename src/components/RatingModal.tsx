@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface RatingModalProps {
   onClose: () => void;
 }
 
 const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
+  const { isDarkMode } = useDarkMode();
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [submitted, setSubmitted] = useState(false);
@@ -76,11 +78,11 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
         style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
       >
         <div 
-          className="w-full max-w-md mx-4 bg-[#ece9d8] text-black rounded-md shadow-md border border-gray-400 overflow-hidden animate-modalAppear"
+          className={`w-full max-w-md mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Windows XP-style title bar */}
-          <div className="bg-gradient-to-b from-[#245edb] to-[#1a4aa5] text-white font-bold px-4 py-2 flex items-center justify-between">
+          <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
             <span className="text-sm">Rating Submitted!</span>
             <button
               onClick={onClose}
@@ -90,7 +92,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
             </button>
           </div>
 
-          <div className="p-6 text-center">
+          <div className={`p-6 text-center ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
             <div className="text-6xl mb-4">🎉</div>
             <h3 className="text-lg font-bold mb-2" style={{ color: getRatingColor(rating) }}>
               {getRatingMessage(rating)}
@@ -100,13 +102,13 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
                 <span 
                   key={i} 
                   className="text-2xl"
-                  style={{ color: i < rating ? getRatingColor(rating) : '#ddd' }}
+                  style={{ color: i < rating ? getRatingColor(rating) : isDarkMode ? '#555' : '#ddd' }}
                 >
                   ⭐
                 </span>
               ))}
             </div>
-            <p className="text-sm text-gray-600">
+            <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Thanks for rating my portfolio! Your feedback means a lot! 💜
             </p>
           </div>
@@ -122,11 +124,11 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
     >
       <div 
-        className="w-full max-w-md mx-4 bg-[#ece9d8] text-black rounded-md shadow-md border border-gray-400 overflow-hidden animate-modalAppear"
+        className={`w-full max-w-md mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Windows XP-style title bar */}
-        <div className="bg-gradient-to-b from-[#245edb] to-[#1a4aa5] text-white font-bold px-4 py-2 flex items-center justify-between">
+        <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
           <span className="text-sm">Rate Jessica's Profile</span>
           <button
             onClick={onClose}
@@ -136,8 +138,8 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
           </button>
         </div>
 
-        <div className="p-6">
-          <h3 className="text-lg font-bold mb-4 text-center">How would you rate this portfolio?</h3>
+        <div className={`p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
+          <h3 className={`text-lg font-bold mb-4 text-center ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>How would you rate this portfolio?</h3>
           
           {/* Star Rating */}
           <div className="flex justify-center mb-6">
@@ -172,16 +174,20 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
 
           {/* Feedback Input */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Optional Feedback:</label>
+            <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Optional Feedback:</label>
             <textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
               placeholder="Tell me what you think! 💭"
-              className="w-full p-2 border border-gray-300 rounded text-sm resize-none"
+              className={`w-full p-2 border rounded text-sm resize-none ${
+                isDarkMode
+                  ? 'bg-gray-800 text-gray-100 border-gray-600 placeholder-gray-500'
+                  : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400'
+              }`}
               rows={3}
               maxLength={200}
             />
-            <div className="text-xs text-gray-500 text-right mt-1">
+            <div className={`text-xs text-right mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
               {feedback.length}/200 characters
             </div>
           </div>
@@ -202,7 +208,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
           </div>
 
           {/* Fun Stats */}
-          <div className="mt-4 text-center text-xs text-gray-600">
+          <div className={`mt-4 text-center text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             <p>💡 Your rating helps me improve!</p>
           </div>
         </div>

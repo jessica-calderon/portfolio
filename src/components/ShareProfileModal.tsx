@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface ShareProfileModalProps {
   onClose: () => void;
 }
 
 const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose }) => {
+  const { isDarkMode } = useDarkMode();
   const [copied, setCopied] = useState(false);
   const profileUrl = window.location.href;
 
@@ -70,11 +72,11 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose }) => {
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
     >
       <div 
-        className="w-full max-w-md mx-4 bg-[#ece9d8] text-black rounded-md shadow-md border border-gray-400 overflow-hidden animate-modalAppear"
+        className={`w-full max-w-md mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Windows XP-style title bar */}
-        <div className="bg-gradient-to-b from-[#245edb] to-[#1a4aa5] text-white font-bold px-4 py-2 flex items-center justify-between">
+        <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
           <span className="text-sm">Share Profile</span>
           <button
             onClick={onClose}
@@ -86,20 +88,28 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose }) => {
         </div>
 
         {/* Modal content */}
-        <div className="p-6 space-y-4">
+        <div className={`p-6 space-y-4 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
           <div>
-            <h3 className="text-sm font-bold text-gray-800 mb-2">Share this profile:</h3>
-            <p className="text-xs text-gray-600 break-all bg-gray-50 p-2 border border-gray-300 rounded">{profileUrl}</p>
+            <h3 className={`text-sm font-bold mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Share this profile:</h3>
+            <p className={`text-xs break-all p-2 border rounded ${
+              isDarkMode 
+                ? 'text-gray-300 bg-gray-800 border-gray-600' 
+                : 'text-gray-600 bg-gray-50 border-gray-300'
+            }`}>{profileUrl}</p>
           </div>
 
           <div>
-            <h3 className="text-sm font-bold text-gray-800 mb-3">Share on:</h3>
+            <h3 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Share on:</h3>
             <div className="grid grid-cols-2 gap-3">
               {shareOptions.map((option) => (
                 <button
                   key={option.name}
                   onClick={() => handleShare(option.url)}
-                  className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-3 rounded border border-blue-300 transition-colors flex items-center justify-center space-x-2 text-sm font-medium"
+                  className={`px-4 py-3 rounded border transition-colors flex items-center justify-center space-x-2 text-sm font-medium ${
+                    isDarkMode
+                      ? 'bg-blue-800 hover:bg-blue-700 text-blue-100 border-blue-600'
+                      : 'bg-blue-100 hover:bg-blue-200 text-blue-800 border-blue-300'
+                  }`}
                 >
                   <span className="text-lg">{option.icon}</span>
                   <span>{option.name}</span>
@@ -108,7 +118,7 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-gray-300">
+          <div className={`pt-3 border-t ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}>
             <button
               onClick={handleCopyUrl}
               className={`w-full px-4 py-3 rounded font-medium text-sm transition-colors ${

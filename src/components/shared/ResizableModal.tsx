@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { useResizableModal } from '../../hooks/useResizableModal';
+import { useDarkMode } from '../../contexts/DarkModeContext';
 
 interface ResizableModalProps {
   children: ReactNode;
@@ -10,7 +11,7 @@ interface ResizableModalProps {
   minWidth?: number;
   minHeight?: number;
   titleBarActions?: ReactNode;
-  darkMode?: boolean;
+  darkMode?: boolean; // Optional override, defaults to context value
 }
 
 const ResizableModal: React.FC<ResizableModalProps> = ({
@@ -22,8 +23,10 @@ const ResizableModal: React.FC<ResizableModalProps> = ({
   minWidth = 300,
   minHeight = 200,
   titleBarActions,
-  darkMode = false,
+  darkMode: darkModeOverride,
 }) => {
+  const { isDarkMode } = useDarkMode();
+  const darkMode = darkModeOverride !== undefined ? darkModeOverride : isDarkMode;
   const {
     position,
     size,
@@ -52,7 +55,7 @@ const ResizableModal: React.FC<ResizableModalProps> = ({
     >
       <div 
         ref={modalRef}
-        className={`${darkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border-2 border-gray-500 overflow-hidden animate-modalAppear flex flex-col relative`}
+        className={`${darkMode ? 'bg-gray-700 text-white border-gray-600' : 'bg-[#ece9d8] text-black border-gray-500'} rounded-md shadow-md border-2 overflow-hidden animate-modalAppear flex flex-col relative`}
         style={{ 
           position: 'fixed',
           left: `${position.x}px`,

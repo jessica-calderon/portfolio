@@ -6,7 +6,7 @@ interface CustomizeModalProps {
 }
 
 const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
-  const { customization, updateCustomization } = useDarkMode();
+  const { isDarkMode, customization, updateCustomization } = useDarkMode();
   const [selectedTheme, setSelectedTheme] = useState(customization.theme);
   const [selectedColor, setSelectedColor] = useState(customization.accentColor);
   const [selectedFont, setSelectedFont] = useState(customization.fontFamily);
@@ -91,11 +91,11 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
     >
       <div 
-        className="w-full max-w-lg mx-4 bg-[#ece9d8] text-black rounded-md shadow-md border border-gray-400 overflow-hidden animate-modalAppear"
+        className={`w-full max-w-lg mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Windows XP-style title bar */}
-        <div className="bg-gradient-to-b from-[#245edb] to-[#1a4aa5] text-white font-bold px-4 py-2 flex items-center justify-between">
+        <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
           <span className="text-sm">🎨 Customize Jessica's Profile</span>
           <button
             onClick={onClose}
@@ -105,12 +105,12 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
           </button>
         </div>
 
-        <div className="p-6">
-          <h3 className="text-lg font-bold mb-4 text-center">Make it your own! 🎨</h3>
+        <div className={`p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
+          <h3 className={`text-lg font-bold mb-4 text-center ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Make it your own! 🎨</h3>
           
           {/* Theme Selection */}
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2">Theme:</label>
+            <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Theme:</label>
             <div className="flex gap-2">
               <button
                 onClick={() => setSelectedTheme('light')}
@@ -137,7 +137,7 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
 
           {/* Color Selection */}
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2">Accent Color:</label>
+            <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Accent Color:</label>
             <div className="grid grid-cols-3 gap-2">
               {colorOptions.map((color) => (
                 <button
@@ -161,11 +161,15 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
 
           {/* Font Selection */}
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2">Font Style:</label>
+            <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Font Style:</label>
             <select
               value={selectedFont}
               onChange={(e) => setSelectedFont(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded text-sm"
+              className={`w-full p-2 border rounded text-sm ${
+                isDarkMode
+                  ? 'bg-gray-800 text-gray-100 border-gray-600'
+                  : 'bg-white text-gray-900 border-gray-300'
+              }`}
               style={{ fontFamily: selectedFont }}
             >
               {fontOptions.map((font) => (
@@ -178,7 +182,7 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
 
           {/* Animations Toggle */}
           <div className="mb-6">
-            <label className="flex items-center text-sm font-medium">
+            <label className={`flex items-center text-sm font-medium ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
               <input
                 type="checkbox"
                 checked={animationsEnabled}
@@ -190,8 +194,8 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
           </div>
 
           {/* Preview */}
-          <div className="mb-6 p-3 bg-gray-100 rounded">
-            <h4 className="text-sm font-medium mb-2">Preview:</h4>
+          <div className={`mb-6 p-3 rounded ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+            <h4 className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Preview:</h4>
             <div 
               className="p-2 rounded text-xs"
               style={{ 
@@ -229,7 +233,7 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
           </div>
 
           {/* Fun Note */}
-          <div className="mt-4 text-center text-xs text-gray-600">
+          <div className={`mt-4 text-center text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             <p>💡 Your customization will be saved for future visits!</p>
             <p className="mt-1">
               {selectedTheme === 'light' && selectedColor === '#FF9900' && selectedFont === 'Verdana' && animationsEnabled ? 

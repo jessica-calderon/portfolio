@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface ResumeModalProps {
   onClose: () => void;
 }
 
 const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
+  const { isDarkMode } = useDarkMode();
   const resumeDocId = '1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8';
   const resumeUrl = `https://docs.google.com/document/d/${resumeDocId}/preview`;
   const downloadUrl = `https://docs.google.com/document/d/${resumeDocId}/export?format=pdf`;
@@ -46,11 +48,11 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
     >
       <div 
-        className="w-full max-w-4xl mx-4 my-4 bg-[#ece9d8] text-black rounded-md shadow-md border border-gray-400 overflow-hidden animate-modalAppear flex flex-col h-[calc(90vh-2rem)] max-h-[calc(90vh-2rem)]"
+        className={`w-full max-w-4xl mx-4 my-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear flex flex-col h-[calc(90vh-2rem)] max-h-[calc(90vh-2rem)]`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Windows XP-style title bar */}
-        <div className="bg-gradient-to-b from-[#245edb] to-[#1a4aa5] text-white font-bold px-4 py-2 flex items-center justify-between">
+        <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
           <span className="text-sm">Jessica Calderon - Resume</span>
           <div className="flex items-center gap-2">
             <button
@@ -71,23 +73,27 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
         </div>
 
         {/* Modal content */}
-        <div className="flex-1 overflow-hidden p-4">
+        <div className={`flex-1 overflow-hidden p-4 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
           <iframe
             src={resumeUrl}
-            className="w-full h-full border border-gray-300"
+            className={`w-full h-full border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}
             title="Resume"
           />
         </div>
 
         {/* Footer with action buttons */}
-        <div className="bg-gray-100 border-t border-gray-300 px-4 py-3 flex items-center justify-between">
+        <div className={`${isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-gray-100 border-gray-300'} border-t px-4 py-3 flex items-center justify-between`}>
           <button
             onClick={handleViewOriginal}
-            className="text-blue-600 hover:text-blue-800 text-sm font-medium underline"
+            className={`text-sm font-medium underline transition-colors ${
+              isDarkMode 
+                ? 'text-blue-300 hover:text-blue-200' 
+                : 'text-blue-600 hover:text-blue-800'
+            }`}
           >
             Open in Google Docs
           </button>
-          <div className="text-xs text-gray-600">
+          <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             Last updated: {new Date().toLocaleDateString()}
           </div>
         </div>
