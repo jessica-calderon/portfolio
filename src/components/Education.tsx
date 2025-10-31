@@ -17,8 +17,8 @@ const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = fals
   const getHeaderColor = () => {
     if (isMyspaceMode && isDarkMode) return '#a855f7'; // purple-500
     if (isMyspaceMode && !isDarkMode) return '#ec4899'; // pink-500
-    if (isDarkMode) return '#f97316'; // orange-500
-    return '#FF9900'; // accent color for light mode
+    if (isDarkMode) return '#ffffff'; // white for dark mode default view
+    return '#000000'; // black for light mode default view
   };
 
   const headerColor = getHeaderColor();

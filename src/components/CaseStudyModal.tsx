@@ -6,6 +6,7 @@ interface CaseStudy {
   description: string;
   impact: string;
   techUsed: string[];
+  emoji: string;
 }
 
 interface CaseStudyModalProps {

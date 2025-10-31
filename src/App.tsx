@@ -28,7 +28,7 @@ function AppContent() {
   const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
   const [showLegacyModal, setShowLegacyModal] = useState<boolean>(false);
-  const { isDarkMode, customization } = useDarkMode();
+  const { isDarkMode } = useDarkMode();
 
   const [lastDeployed, setLastDeployed] = useState<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -403,16 +403,14 @@ function AppContent() {
         {/* Profile Picture - order 1 */}
         <div className="mobile-order-1">
           <div 
-            className="bg-white dark:bg-gray-800 border-2 spacing-standard"
-            style={{ borderColor: customization.accentColor }}
+            className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard"
           >
             <p className="text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
             <div className="flex items-start space-x-3">
               <img 
                 src={profilePic}
                 alt="Jessica Calderon" 
-                className="w-20 h-20 border-2 object-cover flex-shrink-0 cursor-pointer hover:opacity-75 transition-opacity"
-                style={{ borderColor: customization.accentColor }}
+                className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover flex-shrink-0 cursor-pointer hover:opacity-75 transition-opacity"
                 title="Click for a surprise! 🦖"
               />
               <div className="flex-1 min-w-0">
@@ -426,8 +424,7 @@ function AppContent() {
                   <span className="text-xs text-black dark:text-white">View My: </span>
                   <button 
                     onClick={() => setShowLegacyModal(true)} 
-                    className="text-xs hover:underline break-words"
-                    style={{ color: customization.accentColor }}
+                    className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words"
                   >
                     Legacy Profile
                   </button>
@@ -453,15 +450,13 @@ function AppContent() {
         {/* Contact Info - order 3 */}
         <div className="mobile-order-3" id="contact">
           <div 
-            className="bg-blue-100 dark:bg-blue-900 border-2 spacing-standard"
-            style={{ borderColor: customization.accentColor }}
+            className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 spacing-standard"
           >
             <h3 className="font-bold text-black dark:text-white text-sm mb-3">Contacting Jessica</h3>
             <div className="grid grid-cols-2 gap-2">
               <a 
                 href="mailto:calderonjessica13@yahoo.com" 
-                className="text-xs hover:underline flex items-center"
-                style={{ color: customization.accentColor }}
+                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
               >
                 <span className="mr-1">✉️</span> Send Message
               </a>
@@ -469,29 +464,25 @@ function AppContent() {
                 href="https://linkedin.com/in/Jessica-Calderon-00" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-xs hover:underline flex items-center"
-                style={{ color: customization.accentColor }}
+                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
               >
                 <span className="mr-1">👥</span> Connect
               </a>
               <button 
                 onClick={() => window.open('https://cal.com/jessica-calderon')} 
-                className="text-xs hover:underline flex items-center"
-                style={{ color: customization.accentColor }}
+                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
               >
                 <span className="mr-1">💬</span> Schedule Call
               </button>
               <button 
                 onClick={() => setShowResumeModal(true)} 
-                className="text-xs hover:underline flex items-center"
-                style={{ color: customization.accentColor }}
+                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
               >
                 <span className="mr-1">📄</span> View Resume
               </button>
               <button 
                 onClick={() => setShowShareModal(true)} 
-                className="text-xs hover:underline flex items-center"
-                style={{ color: customization.accentColor }}
+                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
               >
                 <span className="mr-1">↗️</span> Share Profile
               </button>
@@ -499,8 +490,7 @@ function AppContent() {
                 href="https://github.com/jessica-calderon" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-xs hover:underline flex items-center"
-                style={{ color: customization.accentColor }}
+                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
               >
                 <span className="mr-1">⭐</span> Add to Favorites
               </a>
@@ -704,7 +694,7 @@ function AppContent() {
     </div>
     
     {/* Footer */}
-    <div className={`text-white py-4 px-4 mt-8 ${isMyspaceMode 
+    <div className={`text-white py-4 px-4 mt-2 sm:mt-8 ${isMyspaceMode 
       ? 'bg-gradient-to-r from-pink-400 to-purple-400 dark:from-purple-600 dark:to-pink-600' 
       : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800'
     }`}>

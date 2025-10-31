@@ -10,6 +10,7 @@ interface CaseStudy {
   description: string;
   impact: string;
   techUsed: string[];
+  emoji: string;
 }
 
 interface CaseStudiesGridProps {
@@ -26,25 +27,29 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
       name: "Secure Analytics Integration",
       description: "Developed a data visualization bridge between a learning platform and a secure analytics environment.",
       impact: "Improved dashboard performance and compliance readiness.",
-      techUsed: ["Docker", "Superset", "AWS ECS", "PostgreSQL"]
+      techUsed: ["Docker", "Superset", "AWS ECS", "PostgreSQL"],
+      emoji: "📈"
     },
     { 
       name: "STIG-Compliant Container Pipeline",
       description: "Built and deployed secure application containers aligned with DoD STIG standards.",
       impact: "Reduced security remediation workload by 35%.",
-      techUsed: ["Iron Bank", "GitLab CI/CD", "AWS ECS"]
+      techUsed: ["Iron Bank", "GitLab CI/CD", "AWS ECS"],
+      emoji: "🔒"
     },
     { 
       name: "Centralized Log Ingestion",
       description: "Implemented a Fluent Bit → OpenSearch pipeline for system observability.",
       impact: "Enabled real-time error detection and analytics across multiple services.",
-      techUsed: ["Fluent Bit", "OpenSearch", "AWS CloudWatch"]
+      techUsed: ["Fluent Bit", "OpenSearch", "AWS CloudWatch"],
+      emoji: "📝"
     },
     { 
       name: "Secure Application Framework",
       description: "Containerized an open-source education platform for controlled deployment.",
       impact: "Streamlined configuration management and patch compliance.",
-      techUsed: ["Docker", "Redis", "PostgreSQL", "CI/CD"]
+      techUsed: ["Docker", "Redis", "PostgreSQL", "CI/CD"],
+      emoji: "📚"
     }
   ];
 
@@ -108,7 +113,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
                 }}
               >
                 <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-xl sm:text-2xl">📊</span>
+                  <span className="text-xl sm:text-2xl">{caseStudy.emoji}</span>
                 </div>
               </div>
               
