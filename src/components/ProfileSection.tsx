@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import profilePic from '../assets/8bitme.png';
 
 interface ProfileSectionProps {
@@ -6,6 +6,34 @@ interface ProfileSectionProps {
 }
 
 const ProfileSection: React.FC<ProfileSectionProps> = ({ onLegacyClick }) => {
+  const [lastDeployed, setLastDeployed] = useState<string>('');
+
+  useEffect(() => {
+    const formatTimeAgo = (deployTime: Date) => {
+      const now = new Date();
+      const diffInMs = now.getTime() - deployTime.getTime();
+      const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+      const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+      
+      if (diffInMinutes < 1) {
+        return 'just now';
+      } else if (diffInMinutes < 60) {
+        return `${diffInMinutes}m ago`;
+      } else if (diffInHours < 24) {
+        return `${diffInHours}h ago`;
+      } else if (diffInDays < 7) {
+        return `${diffInDays}d ago`;
+      } else {
+        return deployTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      }
+    };
+
+    // Use document.lastModified for build time, fallback to now if not available
+    const deployTime = document.lastModified ? new Date(document.lastModified) : new Date();
+    setLastDeployed(formatTimeAgo(deployTime));
+  }, []);
+
   return (
     <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard">
       <p className="text-sm sm:text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
@@ -20,7 +48,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onLegacyClick }) => {
           <p className="text-xs text-black dark:text-white">She/Her</p>
           <p className="text-xs text-black dark:text-white">San Antonio, TEXAS</p>
           <p className="text-xs text-black dark:text-white">United States</p>
-          <p className="text-xs text-black dark:text-white mt-2">Last Login: 2 minutes ago</p>
+          <p className="text-xs text-black dark:text-white mt-2">Last Deployed: {lastDeployed || '...'}</p>
           <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
           <div className="mt-2">
             <span className="text-xs text-black dark:text-white">View My: </span>

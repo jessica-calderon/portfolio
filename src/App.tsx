@@ -7,6 +7,7 @@ import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
 import ResumeModal from './components/ResumeModal';
 import ShareProfileModal from './components/ShareProfileModal';
+import LegacyProfileModal from './components/LegacyProfileModal';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import profilePic from './assets/8bitme.png';
 import './App.css';
@@ -18,7 +19,10 @@ function AppContent() {
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
   const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
+  const [showLegacyModal, setShowLegacyModal] = useState<boolean>(false);
   const { isDarkMode } = useDarkMode();
+
+  const [lastDeployed, setLastDeployed] = useState<string>('');
 
   // Check if user wants to force desktop view
   useEffect(() => {
@@ -26,6 +30,33 @@ function AppContent() {
     if (params.get('view') === 'desktop') {
       setForceDesktopView(true);
     }
+  }, []);
+
+  // Calculate last deployed time
+  useEffect(() => {
+    const formatTimeAgo = (deployTime: Date) => {
+      const now = new Date();
+      const diffInMs = now.getTime() - deployTime.getTime();
+      const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+      const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+      
+      if (diffInMinutes < 1) {
+        return 'just now';
+      } else if (diffInMinutes < 60) {
+        return `${diffInMinutes}m ago`;
+      } else if (diffInHours < 24) {
+        return `${diffInHours}h ago`;
+      } else if (diffInDays < 7) {
+        return `${diffInDays}d ago`;
+      } else {
+        return deployTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      }
+    };
+
+    // Use document.lastModified for build time, fallback to now if not available
+    const deployTime = document.lastModified ? new Date(document.lastModified) : new Date();
+    setLastDeployed(formatTimeAgo(deployTime));
   }, []);
 
   const handleModeChange = (isMyspace: boolean) => {
@@ -259,16 +290,20 @@ function AppContent() {
                 <p className="text-xs text-black dark:text-white">She/Her</p>
                 <p className="text-xs text-black dark:text-white">San Antonio, TEXAS</p>
                 <p className="text-xs text-black dark:text-white">United States</p>
-                <p className="text-xs text-black dark:text-white mt-2">Last Login: 2 minutes ago</p>
+                <p className="text-xs text-black dark:text-white mt-2">Last Deployed: {lastDeployed || '...'}</p>
                 <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
+                <div className="mt-2">
+                  <span className="text-xs text-black dark:text-white">View My: </span>
+                  <button onClick={() => setShowLegacyModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words">Legacy Profile</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
         
         {/* Professional Contact Banner - order 2 */}
-        <div className={`mobile-order-2 ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
-          <div className="bg-white dark:bg-gray-800 border-2 spacing-standard">
+        <div className="mobile-order-2">
+          <div className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
         </div>
@@ -433,6 +468,9 @@ function AppContent() {
     
     {/* Share Profile Modal */}
     {showShareModal && <ShareProfileModal onClose={() => setShowShareModal(false)} />}
+    
+    {/* Legacy Profile Modal */}
+    {showLegacyModal && <LegacyProfileModal onClose={() => setShowLegacyModal(false)} />}
     
     </div>
   );
