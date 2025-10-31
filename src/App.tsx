@@ -290,7 +290,7 @@ function AppContent() {
                 <p className="text-xs text-black dark:text-white">She/Her</p>
                 <p className="text-xs text-black dark:text-white">San Antonio, TEXAS</p>
                 <p className="text-xs text-black dark:text-white">United States</p>
-                <p className="text-xs text-black dark:text-white mt-2">Last Deployed: {lastDeployed || '...'}</p>
+                <p className="text-xs text-black dark:text-white mt-2">Last Updated: {lastDeployed || '...'}</p>
                 <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
                 <div className="mt-2">
                   <span className="text-xs text-black dark:text-white">View My: </span>
