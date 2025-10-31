@@ -3,6 +3,7 @@ import ResumeModal from './ResumeModal';
 import ShareProfileModal from './ShareProfileModal';
 import RatingModal from './RatingModal';
 import CustomizeModal from './CustomizeModal';
+import LegacyProfileModal from './LegacyProfileModal';
 import ProfileSection from './ProfileSection';
 import ContactSection from './ContactSection';
 import PortfolioUrl from './PortfolioUrl';
@@ -14,12 +15,13 @@ const Sidebar: React.FC = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [showCustomizeModal, setShowCustomizeModal] = useState(false);
+  const [showLegacyModal, setShowLegacyModal] = useState(false);
 
   return (
     <div className="space-y-4">
       {/* Profile Picture and Basic Info */}
       <ProfileSection 
-        onResumeClick={() => setShowResumeModal(true)}
+        onLegacyClick={() => setShowLegacyModal(true)}
       />
 
       {/* Contacting Jessica */}
@@ -54,6 +56,9 @@ const Sidebar: React.FC = () => {
       
       {/* Customize Modal */}
       {showCustomizeModal && <CustomizeModal onClose={() => setShowCustomizeModal(false)} />}
+      
+      {/* Legacy Profile Modal */}
+      {showLegacyModal && <LegacyProfileModal onClose={() => setShowLegacyModal(false)} />}
     </div>
   );
 };

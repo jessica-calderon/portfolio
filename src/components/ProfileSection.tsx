@@ -2,10 +2,10 @@ import React from 'react';
 import profilePic from '../assets/8bitme.png';
 
 interface ProfileSectionProps {
-  onResumeClick: () => void;
+  onLegacyClick: () => void;
 }
 
-const ProfileSection: React.FC<ProfileSectionProps> = ({ onResumeClick }) => {
+const ProfileSection: React.FC<ProfileSectionProps> = ({ onLegacyClick }) => {
   return (
     <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard">
       <p className="text-sm sm:text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
@@ -23,7 +23,8 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onResumeClick }) => {
           <p className="text-xs text-black dark:text-white mt-2">Last Login: 2 minutes ago</p>
           <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
           <div className="mt-2">
-            <button onClick={onResumeClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words">View My: Portfolio</button>
+            <span className="text-xs text-black dark:text-white">View My: </span>
+            <button onClick={onLegacyClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words">Legacy Profile</button>
           </div>
         </div>
       </div>
