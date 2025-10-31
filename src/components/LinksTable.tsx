@@ -8,19 +8,28 @@ interface LinksTableProps {
 }
 
 const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick, isMyspaceMode = false }) => {
-  const { isDarkMode } = useDarkMode();
+  const { isDarkMode, customization } = useDarkMode();
 
-  // Get link color based on theme
+  // Helper function to darken a color for hover
+  const darkenColor = (color: string, percent: number): string => {
+    const num = parseInt(color.replace('#', ''), 16);
+    const r = Math.max(0, ((num >> 16) & 0xff) - Math.round(255 * percent));
+    const g = Math.max(0, ((num >> 8) & 0xff) - Math.round(255 * percent));
+    const b = Math.max(0, (num & 0xff) - Math.round(255 * percent));
+    return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+  };
+
+  // Get link color - use default theme colors (not accent color)
   const getLinkColor = () => {
-    if (isMyspaceMode && isDarkMode) return '#bb86fc'; // purple-300 (uses CSS var in myspace mode)
+    if (isMyspaceMode && isDarkMode) return '#bb86fc'; // purple-300
     if (isMyspaceMode && !isDarkMode) return '#ec4899'; // pink-500
     if (isDarkMode) return '#60a5fa'; // blue-400
     return '#0033CC'; // default blue
   };
 
-  // Get link hover color based on theme
+  // Get link hover color - use default theme hover colors
   const getLinkHoverColor = () => {
-    if (isMyspaceMode && isDarkMode) return '#03dac6'; // teal-400 (uses CSS var in myspace mode)
+    if (isMyspaceMode && isDarkMode) return '#03dac6'; // teal-400
     if (isMyspaceMode && !isDarkMode) return '#831843'; // pink-900
     if (isDarkMode) return '#93c5fd'; // blue-300
     return '#000099'; // default dark blue

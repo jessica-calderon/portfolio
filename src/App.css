@@ -825,8 +825,13 @@ body {
 
 /* Remove table border when inside a bordered container */
 .border-2 .myspace-details-box,
-[class*="border-2"] .myspace-details-box {
-  border: none;
+[class*="border-2"] .myspace-details-box,
+.border-2 .overflow-x-auto .myspace-details-box,
+.border-2.myspace-mode .myspace-details-box,
+[class*="border-2"].myspace-mode .myspace-details-box,
+.border-2.myspace-mode .overflow-x-auto .myspace-details-box {
+  border: none !important;
+  border-width: 0 !important;
   background-color: transparent;
 }
 

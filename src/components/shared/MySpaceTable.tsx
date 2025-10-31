@@ -14,11 +14,11 @@ interface MySpaceTableProps {
 }
 
 const MySpaceTable: React.FC<MySpaceTableProps> = ({ title, rows, className = '', isMyspaceMode = false }) => {
-  const { isDarkMode } = useDarkMode();
+  const { isDarkMode, customization } = useDarkMode();
 
-  // Get label text color based on theme
+  // Get label text color - use default theme colors (not accent color)
   const getLabelColor = () => {
-    if (isMyspaceMode && isDarkMode) return '#bb86fc'; // purple-300 (uses CSS var in myspace mode)
+    if (isMyspaceMode && isDarkMode) return '#bb86fc'; // purple-300
     if (isMyspaceMode && !isDarkMode) return '#4c1d95'; // purple-800
     if (isDarkMode) return '#93c5fd'; // blue-300
     return '#336699'; // default blue
@@ -26,22 +26,36 @@ const MySpaceTable: React.FC<MySpaceTableProps> = ({ title, rows, className = ''
 
   // Get value text color based on theme
   const getValueColor = () => {
-    if (isMyspaceMode && isDarkMode) return '#e0e0e0'; // gray-200 (uses CSS var in myspace mode)
-    if (isMyspaceMode && !isDarkMode) return '#4c1d95'; // purple-900
     if (isDarkMode) return '#e5e7eb'; // gray-200
     return '#000000'; // black
+  };
+
+  // Get border color - match MySpaceContainer logic (darker border, not accent color)
+  const getBorderClasses = () => {
+    if (isMyspaceMode && !isDarkMode) return 'border-pink-500';
+    if (isMyspaceMode && isDarkMode) return 'border-purple-500';
+    return 'border-blue-500 dark:border-blue-400';
   };
 
   const labelColor = getLabelColor();
   const valueColor = getValueColor();
 
   return (
-    <div className={`bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 section-spacing p-2 ${className}`}>
+    <div 
+      className={`bg-white dark:bg-gray-800 border-2 section-spacing ${getBorderClasses()} ${className}`}
+      style={{ padding: '0.625rem' }}
+    >
       <div className="overflow-x-auto">
-        <table className="myspace-details-box border-0">
+        <table className="myspace-details-box border-0 w-full" style={{ border: 'none', borderWidth: 0 }}>
         <thead>
           <tr>
-            <th colSpan={2} className={`whitespace-nowrap custom-font ${isMyspaceMode ? '' : 'text-white'}`}>{title}</th>
+            <th 
+              colSpan={2} 
+              className="whitespace-nowrap custom-font text-white"
+              style={{ backgroundColor: customization.accentColor }}
+            >
+              {title}
+            </th>
           </tr>
         </thead>
         <tbody>

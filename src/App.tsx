@@ -28,7 +28,7 @@ function AppContent() {
   const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
   const [showLegacyModal, setShowLegacyModal] = useState<boolean>(false);
-  const { isDarkMode } = useDarkMode();
+  const { isDarkMode, customization } = useDarkMode();
 
   const [lastDeployed, setLastDeployed] = useState<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -382,7 +382,10 @@ function AppContent() {
         {/* Right Main Content */}
         <div className="w-2/3 space-y-2 section-spacing">
           {/* Profile Banner */}
-          <div className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
+          <div 
+            className="bg-white dark:bg-gray-800 border-2 spacing-standard"
+            style={{ borderColor: customization.accentColor }}
+          >
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
           <div id="about"><Education searchQuery={searchQuery} isMyspaceMode={isMyspaceMode} /></div>
@@ -396,13 +399,17 @@ function AppContent() {
       <div className={`flex flex-col section-spacing ${forceDesktopView ? 'hidden' : 'md:hidden'}`}>
         {/* Profile Picture - order 1 */}
         <div className="mobile-order-1">
-          <div className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard">
+          <div 
+            className="bg-white dark:bg-gray-800 border-2 spacing-standard"
+            style={{ borderColor: customization.accentColor }}
+          >
             <p className="text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
             <div className="flex items-start space-x-3">
               <img 
                 src={profilePic}
                 alt="Jessica Calderon" 
-                className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover flex-shrink-0 cursor-pointer hover:opacity-75 transition-opacity"
+                className="w-20 h-20 border-2 object-cover flex-shrink-0 cursor-pointer hover:opacity-75 transition-opacity"
+                style={{ borderColor: customization.accentColor }}
                 title="Click for a surprise! 🦖"
               />
               <div className="flex-1 min-w-0">
@@ -414,7 +421,13 @@ function AppContent() {
                 <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
                 <div className="mt-2">
                   <span className="text-xs text-black dark:text-white">View My: </span>
-                  <button onClick={() => setShowLegacyModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words">Legacy Profile</button>
+                  <button 
+                    onClick={() => setShowLegacyModal(true)} 
+                    className="text-xs hover:underline break-words"
+                    style={{ color: customization.accentColor }}
+                  >
+                    Legacy Profile
+                  </button>
                 </div>
               </div>
             </div>
@@ -423,32 +436,66 @@ function AppContent() {
         
         {/* Professional Contact Banner - order 2 */}
         <div className="mobile-order-2">
-          <div className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${isMyspaceMode ? 'border-pink-500 dark:border-pink-400' : 'border-blue-500 dark:border-blue-400'}`}>
+          <div 
+            className="bg-white dark:bg-gray-800 border-2 spacing-standard"
+            style={{ borderColor: customization.accentColor }}
+          >
             <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
           </div>
         </div>
         
         {/* Contact Info - order 3 */}
         <div className="mobile-order-3" id="contact">
-          <div className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 spacing-standard">
+          <div 
+            className="bg-blue-100 dark:bg-blue-900 border-2 spacing-standard"
+            style={{ borderColor: customization.accentColor }}
+          >
             <h3 className="font-bold text-black dark:text-white text-sm mb-3">Contacting Jessica</h3>
             <div className="grid grid-cols-2 gap-2">
-              <a href="mailto:calderonjessica13@yahoo.com" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <a 
+                href="mailto:calderonjessica13@yahoo.com" 
+                className="text-xs hover:underline flex items-center"
+                style={{ color: customization.accentColor }}
+              >
                 <span className="mr-1">✉️</span> Send Message
               </a>
-              <a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <a 
+                href="https://linkedin.com/in/Jessica-Calderon-00" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-xs hover:underline flex items-center"
+                style={{ color: customization.accentColor }}
+              >
                 <span className="mr-1">👥</span> Connect
               </a>
-              <button onClick={() => window.open('https://cal.com/jessica-calderon')} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <button 
+                onClick={() => window.open('https://cal.com/jessica-calderon')} 
+                className="text-xs hover:underline flex items-center"
+                style={{ color: customization.accentColor }}
+              >
                 <span className="mr-1">💬</span> Schedule Call
               </button>
-              <button onClick={() => setShowResumeModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <button 
+                onClick={() => setShowResumeModal(true)} 
+                className="text-xs hover:underline flex items-center"
+                style={{ color: customization.accentColor }}
+              >
                 <span className="mr-1">📄</span> View Resume
               </button>
-              <button onClick={() => setShowShareModal(true)} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <button 
+                onClick={() => setShowShareModal(true)} 
+                className="text-xs hover:underline flex items-center"
+                style={{ color: customization.accentColor }}
+              >
                 <span className="mr-1">↗️</span> Share Profile
               </button>
-              <a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center">
+              <a 
+                href="https://github.com/jessica-calderon" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-xs hover:underline flex items-center"
+                style={{ color: customization.accentColor }}
+              >
                 <span className="mr-1">⭐</span> Add to Favorites
               </a>
             </div>
@@ -460,9 +507,14 @@ function AppContent() {
           <AboutMe isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
         </div>
         
-        {/* Jessica's Links - order 5 */}
-        <div className="mobile-order-5 overflow-x-auto" id="tech">
-          <table className="myspace-details-box">
+        {/* Certifications & Education - order 5 */}
+        <div className="mobile-order-5">
+          <Education searchQuery={searchQuery} isMyspaceMode={isMyspaceMode} />
+        </div>
+        
+        {/* Jessica's Links - order 6 */}
+        <div className="mobile-order-6 overflow-x-auto" id="tech">
+          <table className={`myspace-details-box ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : isMyspaceMode && isDarkMode ? 'border-purple-500' : 'border-blue-500 dark:border-blue-400'}`}>
             <thead>
               <tr>
                 <th colSpan={2}>Jessica's Links</th>
@@ -485,16 +537,13 @@ function AppContent() {
           </table>
         </div>
         
-        {/* Certifications & Education - order 6 */}
-        <div className="mobile-order-6">
-          <Education searchQuery={searchQuery} isMyspaceMode={isMyspaceMode} />
-        </div>
-        
         {/* Projects section for mobile */}
         
         {/* Technical Skills - order 7 */}
         <div className="mobile-order-7 overflow-x-auto">
-          <table className="myspace-details-box border-blue-500 dark:border-blue-400">
+          <table 
+            className={`myspace-details-box ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : isMyspaceMode && isDarkMode ? 'border-purple-500' : 'border-blue-500 dark:border-blue-400'}`}
+          >
             <thead>
               <tr>
                 <th colSpan={2} className={`whitespace-nowrap custom-font ${isMyspaceMode ? '' : 'text-white'}`}>

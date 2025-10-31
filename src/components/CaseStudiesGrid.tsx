@@ -3,6 +3,7 @@ import CaseStudyModal from './CaseStudyModal';
 import SearchHighlight from './shared/SearchHighlight';
 import MySpaceContainer from './shared/MySpaceContainer';
 import ThemeAwareHeader from './shared/ThemeAwareHeader';
+import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface CaseStudy {
   name: string;
@@ -18,6 +19,7 @@ interface CaseStudiesGridProps {
 
 const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, searchQuery }) => {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
+  const { customization } = useDarkMode();
 
   const caseStudies: CaseStudy[] = [
     { 
@@ -73,7 +75,12 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
         </ThemeAwareHeader>
         <p className="text-xs mb-3 text-black dark:text-gray-300 custom-font">
           Jessica has{' '}
-          <span className="text-blue-600 dark:text-blue-400 custom-font">{caseStudies.length}</span>
+          <span 
+            className="custom-font"
+            style={{ color: customization.accentColor }}
+          >
+            {caseStudies.length}
+          </span>
           {' '}Featured Case Studies.
           {searchQuery && filteredStudies.length < caseStudies.length && (
             <span className="ml-2 text-pink-600 dark:text-pink-400 custom-font">

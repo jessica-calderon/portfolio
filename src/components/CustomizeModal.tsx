@@ -12,6 +12,14 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
   const [selectedFont, setSelectedFont] = useState(customization.fontFamily);
   const [animationsEnabled, setAnimationsEnabled] = useState(customization.animationsEnabled);
 
+  // Sync local state when customization changes (e.g., from reset)
+  useEffect(() => {
+    setSelectedTheme(customization.theme);
+    setSelectedColor(customization.accentColor);
+    setSelectedFont(customization.fontFamily);
+    setAnimationsEnabled(customization.animationsEnabled);
+  }, [customization]);
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -49,21 +57,34 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
   };
 
   const handleResetToDefault = () => {
-    if (confirm('🔄 Are you sure you want to reset to default MySpace settings? This will restore the original orange theme and Verdana font.')) {
-      setSelectedTheme('light');
-      setSelectedColor('#FF9900');
-      setSelectedFont('Verdana');
-      setAnimationsEnabled(true);
-      
-      updateCustomization({
-        theme: 'light',
+    // Get the current active theme (not the selected one, but the actual active theme)
+    const currentTheme: 'light' | 'dark' = isDarkMode ? 'dark' : 'light';
+    const themeText = isDarkMode ? 'dark mode' : 'light mode';
+    
+    if (confirm(`🔄 Are you sure you want to reset to default ${themeText} settings? This will restore the original orange theme and Verdana font.`)) {
+      // Force a complete update by passing all properties explicitly
+      // This ensures React detects the change even if some values are the same
+      const defaultSettings = {
+        theme: currentTheme as 'light' | 'dark',
         accentColor: '#FF9900',
         fontFamily: 'Verdana',
         animationsEnabled: true
-      });
+      };
       
-      alert('🔄 Reset to default! Your profile is back to the classic MySpace look!');
-      onClose();
+      // Update customization context - this will trigger re-renders in all components
+      updateCustomization(defaultSettings);
+      
+      // Update local state to reflect the reset
+      setSelectedTheme(currentTheme);
+      setSelectedColor(defaultSettings.accentColor);
+      setSelectedFont(defaultSettings.fontFamily);
+      setAnimationsEnabled(defaultSettings.animationsEnabled);
+      
+      // Force a small delay to ensure state has propagated
+      requestAnimationFrame(() => {
+        alert(`🔄 Reset to default! Your profile is back to the classic MySpace ${themeText} look!`);
+        onClose();
+      });
     }
   };
 

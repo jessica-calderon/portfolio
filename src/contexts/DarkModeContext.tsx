@@ -71,6 +71,7 @@ export const DarkModeProvider: React.FC<DarkModeProviderProps> = ({ children }) 
 
   useEffect(() => {
     // Apply customization settings to CSS variables
+    // Always set these explicitly to ensure they update
     const root = document.documentElement;
     root.style.setProperty('--accent-color', customization.accentColor);
     root.style.setProperty('--font-family', customization.fontFamily);
@@ -91,7 +92,22 @@ export const DarkModeProvider: React.FC<DarkModeProviderProps> = ({ children }) 
   };
 
   const updateCustomization = (settings: Partial<CustomizationSettings>) => {
-    setCustomization(prev => ({ ...prev, ...settings }));
+    // Always create a completely new object to ensure React detects the change
+    setCustomization(prev => {
+      const updated: CustomizationSettings = {
+        theme: settings.theme !== undefined ? settings.theme : prev.theme,
+        accentColor: settings.accentColor !== undefined ? settings.accentColor : prev.accentColor,
+        fontFamily: settings.fontFamily !== undefined ? settings.fontFamily : prev.fontFamily,
+        animationsEnabled: settings.animationsEnabled !== undefined ? settings.animationsEnabled : prev.animationsEnabled
+      };
+      // Always return a new object reference, even if values are the same
+      return {
+        theme: updated.theme,
+        accentColor: updated.accentColor,
+        fontFamily: updated.fontFamily,
+        animationsEnabled: updated.animationsEnabled
+      };
+    });
     
     // Update dark mode if theme changed
     if (settings.theme && settings.theme !== (isDarkMode ? 'dark' : 'light')) {
@@ -99,13 +115,16 @@ export const DarkModeProvider: React.FC<DarkModeProviderProps> = ({ children }) 
     }
   };
 
+  // Create a stable context value object that updates when customization changes
+  const contextValue = React.useMemo(() => ({
+    isDarkMode, 
+    toggleDarkMode, 
+    customization, 
+    updateCustomization 
+  }), [isDarkMode, customization]);
+
   return (
-    <DarkModeContext.Provider value={{ 
-      isDarkMode, 
-      toggleDarkMode, 
-      customization, 
-      updateCustomization 
-    }}>
+    <DarkModeContext.Provider value={contextValue}>
       {children}
     </DarkModeContext.Provider>
   );

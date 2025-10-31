@@ -12,14 +12,11 @@ interface AboutMeProps {
 }
 
 const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
-  const { isDarkMode } = useDarkMode();
+  const { isDarkMode, customization } = useDarkMode();
   
-  // Get header text color based on theme
+  // Get header text color - use customization accent color
   const getHeaderColor = () => {
-    if (isMyspaceMode && isDarkMode) return '#a855f7'; // purple-500
-    if (isMyspaceMode && !isDarkMode) return '#ec4899'; // pink-500
-    if (isDarkMode) return '#f97316'; // orange-500
-    return '#FF9900'; // accent color for light mode
+    return customization.accentColor;
   };
 
   // Get body text color based on theme
