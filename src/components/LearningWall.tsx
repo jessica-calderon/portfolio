@@ -3,6 +3,7 @@ import { useDarkMode } from '../contexts/DarkModeContext';
 import SearchHighlight from './shared/SearchHighlight';
 import MySpaceContainer from './shared/MySpaceContainer';
 import ThemeAwareHeader from './shared/ThemeAwareHeader';
+import profilePic from '../assets/8bitme.png';
 
 interface LearningEntry {
   id: number;
@@ -17,7 +18,94 @@ interface LearningWallProps {
 }
 
 const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery }) => {
-  const { isDarkMode } = useDarkMode();
+  const { isDarkMode, customization } = useDarkMode();
+
+  // Helper function to lighten a color for light mode comment boxes
+  const lightenColor = (color: string, percent: number): string => {
+    const num = parseInt(color.replace('#', ''), 16);
+    const r = Math.min(255, ((num >> 16) & 0xff) + Math.round(255 * percent));
+    const g = Math.min(255, ((num >> 8) & 0xff) + Math.round(255 * percent));
+    const b = Math.min(255, (num & 0xff) + Math.round(255 * percent));
+    return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+  };
+
+  // Helper function to create a muted, desaturated color for dark mode
+  const createMutedDarkColor = (color: string): string => {
+    const num = parseInt(color.replace('#', ''), 16);
+    const r = (num >> 16) & 0xff;
+    const g = (num >> 8) & 0xff;
+    const b = num & 0xff;
+    
+    // Convert to HSL for better desaturation
+    const max = Math.max(r, g, b) / 255;
+    const min = Math.min(r, g, b) / 255;
+    const l = (max + min) / 2;
+    
+    // Create a muted brown-ish tone for dark mode (lower saturation, darker)
+    // Mix with a dark brown base (#2d1f0f ~ rgb(45, 31, 15)) to create muted version
+    const darkBaseR = 45;
+    const darkBaseG = 31;
+    const darkBaseB = 15;
+    
+    // Blend with 70% dark base, 30% accent (heavily desaturated)
+    const newR = Math.round(darkBaseR * 0.7 + r * 0.3 * 0.3);
+    const newG = Math.round(darkBaseG * 0.7 + g * 0.3 * 0.3);
+    const newB = Math.round(darkBaseB * 0.7 + b * 0.3 * 0.3);
+    
+    return `#${((newR << 16) | (newG << 8) | newB).toString(16).padStart(6, '0')}`;
+  };
+
+  // Check if using default MySpace orange theme
+  const isDefaultOrange = customization.accentColor === '#FF9900';
+
+  // Generate comment box colors based on custom accent color
+  const getCommentBgColor = () => {
+    if (isDarkMode) {
+      // For dark mode: default orange uses original muted tan, custom themes use muted version
+      if (isDefaultOrange) {
+        return '#704A2E'; // Original muted tan for default MySpace theme
+      } else {
+        // For custom themes, create a muted, desaturated dark color
+        return createMutedDarkColor(customization.accentColor);
+      }
+    } else {
+      // For light mode: default orange stays orange-beige, custom themes use accent color
+      if (isDefaultOrange) {
+        return '#ffcc80'; // Original orange-beige for default MySpace theme
+      } else {
+        // For custom themes, use a lighter version of the accent
+        return lightenColor(customization.accentColor, 0.4);
+      }
+    }
+  };
+
+  // Generate divider color based on comment box color
+  const getDividerColor = () => {
+    if (isDarkMode) {
+      if (isDefaultOrange) {
+        return '#8b6b4a'; // Original divider color for default orange theme dark mode
+      } else {
+        // Create a slightly lighter muted color for divider
+        const baseColor = createMutedDarkColor(customization.accentColor);
+        const num = parseInt(baseColor.replace('#', ''), 16);
+        const r = Math.min(255, ((num >> 16) & 0xff) + 20);
+        const g = Math.min(255, ((num >> 8) & 0xff) + 15);
+        const b = Math.min(255, (num & 0xff) + 10);
+        return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+      }
+    } else {
+      if (isDefaultOrange) {
+        return '#e6b873'; // Original divider color for default orange theme
+      } else {
+        const baseColor = getCommentBgColor();
+        const num = parseInt(baseColor.replace('#', ''), 16);
+        const r = Math.max(0, ((num >> 16) & 0xff) - 30);
+        const g = Math.max(0, ((num >> 8) & 0xff) - 30);
+        const b = Math.max(0, (num & 0xff) - 30);
+        return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+      }
+    }
+  };
   
   // Filter entries based on search query
   const shouldShow = (entry: LearningEntry): boolean => {
@@ -72,135 +160,199 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
   
   if (filteredEntries.length === 0 && searchQuery) return null;
 
+  // MySpace styling colors - comment section colors
+  const myspaceColors = {
+    commentSectionBg: isDarkMode ? '#0f1b2b' : '#d8e5f2',
+    commentBg: getCommentBgColor(),
+    dividerColor: getDividerColor(),
+    usernameColor: isDarkMode ? '#99ccff' : '#003399',
+    textColor: isDarkMode ? '#e0e0e0' : '#000000',
+    timestampColor: isDarkMode ? '#b0b0b0' : '#666666',
+    italicColor: isDarkMode ? '#c0c0c0' : '#555555',
+    linkColor: isDarkMode ? '#99ccff' : '#003399'
+  };
+
   return (
-    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} className="p-3 sm:p-4">
+    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery}>
       <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
         What I'm Learning
       </ThemeAwareHeader>
-      <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">
-        <a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">View/Edit All Comments</a>
-        {searchQuery && filteredEntries.length < entries.length && (
-          <span className="ml-2 text-pink-600 dark:text-pink-400">
-            ({filteredEntries.length} match{filteredEntries.length !== 1 ? 'es' : ''})
-          </span>
-        )}
-      </p>
+
+      {/* Thin gray line beneath header */}
+      <div
+        style={{
+          height: '1px',
+          backgroundColor: isDarkMode ? '#4b5563' : '#ccc',
+          margin: '0 -1rem',
+          marginTop: 0
+        }}
+      />
+
+      {/* Comment Links - Directly below header */}
+      <div
+        style={{
+          padding: '8px 0',
+          color: myspaceColors.textColor,
+          fontSize: '12px',
+          fontFamily: 'Arial, Helvetica, sans-serif'
+        }}
+      >
+        Displaying {filteredEntries.length} of {entries.length} entries ( 
+        <a
+          href="https://github.com/jessica-calderon"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: myspaceColors.linkColor,
+            textDecoration: 'none',
+            fontFamily: 'Arial, Helvetica, sans-serif'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+          onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+        >
+          View on GitHub
+        </a>
+        {' | '}
+        <a
+          href="https://linkedin.com/in/Jessica-Calderon-00"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: myspaceColors.linkColor,
+            textDecoration: 'none',
+            fontFamily: 'Arial, Helvetica, sans-serif'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+          onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+        >
+          Connect
+        </a>
+        {' )'}
+      </div>
       
-      {/* Comments Container */}
-      <div>
-        {filteredEntries.map((entry, index) => {
-          const entryIndex = entries.findIndex(e => e.id === entry.id);
-          const isEven = entryIndex % 2 === 0;
-          const borderColor = isEven 
-            ? (isDarkMode ? '#5a5a5a' : '#d0d0d0') 
-            : (isDarkMode ? '#4a4a4a' : '#e5e5e5');
-          
-          const bgColor = isEven 
-            ? (isDarkMode ? 'rgba(30, 20, 45, 0.6)' : 'rgba(255, 255, 255, 0.95)')
-            : (isDarkMode ? 'rgba(25, 15, 40, 0.6)' : 'rgba(250, 250, 252, 0.95)');
-          
-          return (
-            <React.Fragment key={entry.id}>
-              {index > 0 && entryIndex > 0 && (
-                <div 
-                  className="my-0"
-                  style={{ 
-                    height: '1px',
-                    backgroundColor: isDarkMode ? '#444' : '#ddd',
-                    borderTop: 'none'
-                  }}
-                />
-              )}
+      {/* Comments Container - Continuous vertical stack */}
+      <div 
+        style={{ 
+          backgroundColor: myspaceColors.commentSectionBg,
+          marginTop: '8px',
+          padding: 0,
+          fontFamily: 'Arial, Helvetica, sans-serif',
+          fontSize: '12px'
+        }}
+      >
+        {filteredEntries.map((entry, index) => (
+          <React.Fragment key={entry.id}>
+            {/* Comment Box */}
+            <div
+              style={{
+                backgroundColor: myspaceColors.commentBg,
+                padding: '8px',
+                display: 'flex',
+                alignItems: 'flex-start',
+                fontFamily: 'Arial, Helvetica, sans-serif'
+              }}
+            >
+              {/* Profile Image - Square, Left Aligned, Top */}
               <div
-                className="flex flex-col sm:flex-row gap-3 p-3 transition-all duration-200"
                 style={{
-                  backgroundColor: bgColor,
-                  border: `1px solid ${borderColor}`,
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-                  cursor: 'pointer',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = isDarkMode ? '#7a7a7a' : '#c0c0c0';
-                  e.currentTarget.style.backgroundColor = isDarkMode ? 'rgba(35, 25, 50, 0.8)' : 'rgba(248, 248, 250, 0.98)';
-                  e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.15)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = borderColor;
-                  e.currentTarget.style.backgroundColor = bgColor;
-                  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)';
+                  flexShrink: 0,
+                  width: '70px',
+                  height: '70px',
+                  marginRight: '9px'
                 }}
               >
-                {/* Avatar - Left - Square Frame */}
-                <div 
-                  className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 mx-auto sm:mx-0"
+                <img
+                  src={profilePic}
+                  alt="Profile"
                   style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'block',
+                    objectFit: 'cover'
+                  }}
+                />
+              </div>
+              
+              {/* Comment Content - Right of Image */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                {/* Username and Timestamp - Same Line */}
+                <div 
+                  style={{ 
+                    marginBottom: '4px',
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: isDarkMode ? '#2a2a2a' : '#f0f0f0',
-                    border: '3px solid white',
-                    borderRadius: '3px',
-                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.2)',
+                    justifyContent: 'space-between',
+                    alignItems: 'baseline'
                   }}
                 >
-                  <div style={{ fontSize: '1.8rem' }}>🧠</div>
-                </div>
-                
-                {/* Comment Bubble - Right */}
-                <div className="flex-1" style={{ fontFamily: 'Verdana, Arial, sans-serif' }}>
-                  {/* Date/Time */}
-                  <div 
-                    className="text-xs mb-2"
-                    style={{ 
-                      color: isDarkMode ? '#999' : '#666',
-                      fontFamily: 'Verdana, Arial, sans-serif',
-                      fontSize: '11px'
+                  <a
+                    href="https://github.com/jessica-calderon"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      color: myspaceColors.usernameColor,
+                      fontWeight: 'bold',
+                      fontSize: '13px',
+                      textDecoration: 'none',
+                      fontFamily: 'Arial, Helvetica, sans-serif'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                    onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                  >
+                    jessica
+                  </a>
+                  <span
+                    style={{
+                      color: myspaceColors.timestampColor,
+                      fontSize: '11px',
+                      fontFamily: 'Arial, Helvetica, sans-serif'
                     }}
                   >
                     {highlightText(entry.timestamp)}
-                  </div>
-                  
-                  {/* Learning Text in Bubble */}
-                  <div
-                    className="mb-2 p-2"
-                    style={{
-                      backgroundColor: isDarkMode ? 'rgba(40, 30, 60, 0.5)' : 'rgba(245, 245, 250, 0.9)',
-                      border: `1px solid ${isDarkMode ? '#555' : '#ddd'}`,
-                      borderRadius: '4px',
-                      minHeight: '40px'
-                    }}
-                  >
-                    <p 
-                      className="text-sm leading-relaxed"
-                      style={{ 
-                        color: isDarkMode ? '#e0e0e0' : '#333',
-                        fontFamily: 'Verdana, Arial, sans-serif',
-                        fontSize: '13px',
-                        margin: 0
-                      }}
-                    >
-                      {highlightText(entry.learning)}
-                    </p>
-                  </div>
-                  
-                  {/* Focus Area - Smaller Italic */}
-                  <p 
-                    className="text-xs italic"
-                    style={{ 
-                      color: isDarkMode ? '#aaa' : '#888',
-                      marginTop: '2px',
-                      fontFamily: 'Verdana, Arial, sans-serif',
-                      fontSize: '10px',
-                      fontStyle: 'italic'
-                    }}
-                  >
-                    {highlightText(entry.focus)}
-                  </p>
+                  </span>
+                </div>
+                
+                {/* Main Comment Text */}
+                <div
+                  style={{
+                    color: myspaceColors.textColor,
+                    fontSize: '12px',
+                    lineHeight: '1.3',
+                    marginBottom: '4px',
+                    fontFamily: 'Arial, Helvetica, sans-serif'
+                  }}
+                >
+                  {highlightText(entry.learning)}
+                </div>
+                
+                {/* Focus Area - Smaller Italic, Indented */}
+                <div
+                  style={{
+                    color: myspaceColors.italicColor,
+                    fontSize: '11px',
+                    fontStyle: 'italic',
+                    marginLeft: '2px',
+                    fontFamily: 'Arial, Helvetica, sans-serif'
+                  }}
+                >
+                  {highlightText(entry.focus)}
                 </div>
               </div>
-            </React.Fragment>
-          );
-        })}
+            </div>
+            
+            {/* Divider Line - Between comments */}
+            {index < filteredEntries.length - 1 && (
+              <div
+                style={{
+                  height: '1px',
+                  backgroundColor: myspaceColors.dividerColor,
+                  width: '100%',
+                  margin: 0,
+                  padding: 0
+                }}
+              />
+            )}
+          </React.Fragment>
+        ))}
       </div>
     </MySpaceContainer>
   );
