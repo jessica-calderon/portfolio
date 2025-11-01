@@ -96,7 +96,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
           lineHeight: '1.4',
           marginBottom: '8px'
         }}>
-          {highlightText("Core competencies include Moodle Workplace customization, Apache Superset data visualization, and full-stack development using React, TypeScript, and Python. Experienced in building Iron Bank-compliant containers and implementing CI/CD pipelines with GitLab CI for enterprise deployments.")}
+          {highlightText("Core competencies include Moodle Workplace customization, Apache Superset data visualization, and full-stack development using React, TypeScript, and Python. I'm especially passionate about front-end development—crafting beautiful, responsive, and accessible interfaces that elevate the user experience. Experienced in building Iron Bank-compliant containers and implementing CI/CD pipelines with GitLab CI for enterprise deployments.")}
         </p>
         
         <p className="custom-font" style={{ 
@@ -105,7 +105,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
           lineHeight: '1.4',
           marginBottom: '8px'
         }}>
-          {highlightText("Strong background in data integration, PostgreSQL/MySQL database optimization, and AWS ECS orchestration. Passionate about creating secure, maintainable solutions that meet strict compliance requirements while delivering exceptional user experiences.")}
+          {highlightText("Strong background in data integration, PostgreSQL/MySQL database optimization, and AWS ECS orchestration. Dedicated to creating secure, maintainable solutions that meet strict compliance requirements while delivering exceptional usability and performance.")}
         </p>
         
         <p className="custom-font" style={{ 
@@ -114,7 +114,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
           lineHeight: '1.4',
           marginBottom: '12px'
         }}>
-          {highlightText("Currently available for new opportunities in senior engineering roles, particularly those involving cloud architecture, data analytics, and secure application development. Open to remote and hybrid positions.")}
+          {highlightText("Currently open to new opportunities in senior engineering and front-end-focused roles involving cloud architecture, data analytics, or secure application development. Available for remote or hybrid positions.")}
         </p>
 
         {/* Built With Header - Theme adaptive */}
