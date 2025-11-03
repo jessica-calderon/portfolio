@@ -227,16 +227,6 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
         What I'm Learning
       </ThemeAwareHeader>
 
-      {/* Thin gray line beneath header */}
-      <div
-        style={{
-          height: '1px',
-          backgroundColor: isDarkMode ? '#4b5563' : '#ccc',
-          margin: '0 -1rem',
-          marginTop: 0
-        }}
-      />
-
       {/* Comment Links - Directly below header */}
       <div
         className="custom-font"
@@ -246,7 +236,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           fontSize: '12px'
         }}
       >
-        Displaying {filteredEntries.length} of {entries.length} entries ( 
+        Displaying <span className="font-bold text-gray-800 dark:text-gray-100">{filteredEntries.length}</span> of <span className="font-bold text-gray-800 dark:text-gray-100">{entries.length}</span> entries ( 
         <a
           href="https://github.com/jessica-calderon"
           target="_blank"

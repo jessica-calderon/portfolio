@@ -7,6 +7,7 @@ interface CaseStudy {
   impact: string;
   techUsed: string[];
   emoji: string;
+  websiteUrl?: string;
 }
 
 interface CaseStudyModalProps {
@@ -46,8 +47,9 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) =
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
     >
       <div 
-        className={`w-full max-w-2xl mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear`}
+        className={`w-full max-w-5xl mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear`}
         onClick={(e) => e.stopPropagation()}
+        style={{ maxHeight: '90vh' }}
       >
         {/* Windows XP-style title bar */}
         <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
@@ -62,7 +64,7 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) =
         </div>
 
         {/* Modal content */}
-        <div className={`p-6 space-y-4 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
+        <div className={`p-6 space-y-4 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'} overflow-y-auto`} style={{ maxHeight: 'calc(90vh - 120px)' }}>
           <div>
             <h3 className={`text-sm font-bold mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Description:</h3>
             <p className={`text-sm leading-relaxed ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{caseStudy.description}</p>
@@ -90,7 +92,38 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) =
               ))}
             </div>
           </div>
+
+          {/* Website Preview iframe */}
+          {caseStudy.websiteUrl && (
+            <div className="mt-4">
+              <h3 className={`text-sm font-bold mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Website Preview:</h3>
+              <div className="border-2 border-gray-400 dark:border-gray-600 rounded overflow-hidden bg-white">
+                <iframe
+                  src={caseStudy.websiteUrl}
+                  className="w-full"
+                  style={{ height: '500px' }}
+                  title={`${caseStudy.name} Preview`}
+                  loading="lazy"
+                  sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation-by-user-activation"
+                />
+              </div>
+            </div>
+          )}
         </div>
+
+        {/* Modal footer with Visit Website link */}
+        {caseStudy.websiteUrl && (
+          <div className={`px-6 py-4 border-t ${isDarkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300 bg-[#ece9d8]'} flex justify-end`}>
+            <a
+              href={caseStudy.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              Visit Website
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

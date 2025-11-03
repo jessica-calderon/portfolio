@@ -12,11 +12,14 @@ interface AboutMeProps {
 }
 
 const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
-  const { isDarkMode, customization } = useDarkMode();
+  const { isDarkMode } = useDarkMode();
   
-  // Get header text color - use customization accent color
+  // Get header text color based on theme
   const getHeaderColor = () => {
-    return customization.accentColor;
+    if (isMyspaceMode && isDarkMode) return '#faf5ff'; // purple-50 (very light purple)
+    if (isMyspaceMode && !isDarkMode) return '#831843'; // pink-900 (dark pink)
+    if (isDarkMode) return '#e5e7eb'; // gray-200
+    return '#FF9900'; // MySpace orange for default light mode
   };
 
   // Get body text color based on theme
@@ -74,7 +77,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
       <div>
         {/* About Me Header - Theme adaptive */}
         <h4 className="font-bold custom-font" style={{ 
-          fontSize: '12px',
+          fontSize: '13px',
           marginTop: '10px',
           marginBottom: '6px',
           color: headerColor
@@ -119,7 +122,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
 
         {/* Built With Header - Theme adaptive */}
         <h4 className="font-bold custom-font" style={{ 
-          fontSize: '12px',
+          fontSize: '13px',
           marginTop: '10px',
           marginBottom: '6px',
           color: headerColor

@@ -3,7 +3,6 @@ import CaseStudyModal from './CaseStudyModal';
 import SearchHighlight from './shared/SearchHighlight';
 import MySpaceContainer from './shared/MySpaceContainer';
 import ThemeAwareHeader from './shared/ThemeAwareHeader';
-import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface CaseStudy {
   name: string;
@@ -11,6 +10,7 @@ interface CaseStudy {
   impact: string;
   techUsed: string[];
   emoji: string;
+  websiteUrl?: string;
 }
 
 interface CaseStudiesGridProps {
@@ -20,7 +20,6 @@ interface CaseStudiesGridProps {
 
 const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, searchQuery }) => {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
-  const { customization } = useDarkMode();
 
   const caseStudies: CaseStudy[] = [
     { 
@@ -50,6 +49,21 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
       impact: "Streamlined configuration management and patch compliance.",
       techUsed: ["Docker", "Redis", "PostgreSQL", "CI/CD"],
       emoji: "📚"
+    },
+    {
+      name: "All Shades of Texas Website",
+      description: "Designed and developed a responsive website for a local window treatment business in San Antonio.",
+      impact: "Delivered a clean, accessible front-end experience optimized for mobile and local search visibility.",
+      techUsed: ["HTML5", "CSS3", "JavaScript", "PHP"],
+      emoji: "🪟",
+      websiteUrl: "https://allshadesoftexas.net/"
+    },
+    {
+      name: "MySpace-Inspired Portfolio",
+      description: "Built a modern React portfolio inspired by the original MySpace profile layout, featuring custom themes, modals, and retro UI elements. This is the portfolio you are currently viewing.",
+      impact: "Highlights front-end creativity and technical depth with a nostalgic, interactive user experience.",
+      techUsed: ["React", "TypeScript", "Tailwind", "Framer Motion"],
+      emoji: "💻"
     }
   ];
 
@@ -80,10 +94,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
         </ThemeAwareHeader>
         <p className="text-xs mb-3 text-black dark:text-gray-300 custom-font">
           Jessica has{' '}
-          <span 
-            className="custom-font"
-            style={{ color: customization.accentColor }}
-          >
+          <span className="custom-font font-bold text-gray-800 dark:text-gray-100">
             {caseStudies.length}
           </span>
           {' '}Featured Case Studies.
