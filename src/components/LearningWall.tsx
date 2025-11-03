@@ -145,33 +145,63 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
   const entries: LearningEntry[] = [
     {
       id: 1,
-      timestamp: "4/26/2025 9:50 PM",
-      learning: "Learned how to use Ghostscript to compress large Superset PDF exports efficiently.",
-      focus: "optimizing memory & file size in data pipelines."
+      timestamp: "11/03/2025 12:42 PM",
+      learning: "Refined MySpace-style portfolio with improved dark and light mode handling and mobile layout consistency.",
+      focus: "React theming, component alignment, and responsive design."
     },
     {
       id: 2,
-      timestamp: "4/18/2025 7:32 PM",
-      learning: "Experimenting with Fusion 360 parametric modeling for 3D printed tray designs.",
-      focus: "tolerances, snap fits, and design-for-print workflow."
+      timestamp: "11/01/2025 7:15 PM",
+      learning: "Created automated load test plans to measure containerized web app performance under concurrent export conditions.",
+      focus: "scalability, performance benchmarking, and test automation."
     },
     {
       id: 3,
-      timestamp: "4/10/2025 6:21 PM",
-      learning: "Revisiting async/await patterns in TypeScript for cleaner Superset plugin code.",
-      focus: "simplifying fetch logic and error handling."
+      timestamp: "10/22/2025 5:48 PM",
+      learning: "Enhanced container logging pipelines for centralized monitoring and structured data visualization.",
+      focus: "log aggregation, observability, and analytics dashboards."
     },
     {
       id: 4,
-      timestamp: "3/30/2025 11:04 PM",
-      learning: "Refining Superset Docker builds with Iron Bank Ubuntu STIG images.",
-      focus: "security hardening & reproducible builds."
+      timestamp: "10/04/2025 4:37 PM",
+      learning: "Automated administrative setup during container build using entrypoint scripting and environment variables.",
+      focus: "container automation and secure configuration management."
     },
     {
       id: 5,
-      timestamp: "3/15/2025 2:58 PM",
-      learning: "Learning to visualize real-time logs in OpenSearch from Fluent Bit pipelines.",
-      focus: "pattern parsing & ECS dashboard design."
+      timestamp: "09/02/2025 8:20 PM",
+      learning: "Experimented with Fusion 360 parametric modeling for multi-compartment tray designs and custom organizers.",
+      focus: "CAD design, constraints, and 3D print optimization."
+    },
+    {
+      id: 6,
+      timestamp: "08/05/2025 6:52 PM",
+      learning: "Rebuilt containerized applications using hardened base images for compliance and reproducibility.",
+      focus: "secure image builds and DevSecOps best practices."
+    },
+    {
+      id: 7,
+      timestamp: "07/22/2025 9:11 AM",
+      learning: "Aligned observability configuration across multiple environments to improve consistency and traceability.",
+      focus: "configuration management and cloud monitoring."
+    },
+    {
+      id: 8,
+      timestamp: "04/26/2025 9:50 PM",
+      learning: "Explored file compression techniques to reduce export sizes while maintaining clarity and quality.",
+      focus: "data optimization and efficient file handling."
+    },
+    {
+      id: 9,
+      timestamp: "03/31/2025 8:30 PM",
+      learning: "Developed modular export logic to support large dataset handling across multiple formats.",
+      focus: "asynchronous data processing and UX feedback loops."
+    },
+    {
+      id: 10,
+      timestamp: "03/10/2025 5:12 PM",
+      learning: "Configured session handling and tuned database settings to improve web app responsiveness.",
+      focus: "backend performance optimization and reliability."
     }
   ];
 

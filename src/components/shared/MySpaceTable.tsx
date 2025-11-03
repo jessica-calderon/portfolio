@@ -37,12 +37,12 @@ const MySpaceTable: React.FC<MySpaceTableProps> = ({ title, rows, className = ''
     return 'border-blue-500 dark:border-blue-400';
   };
 
-  // Get header background color - match theme colors (like borders)
+  // Get header background color - classic MySpace blue, but allow theme override
   const getHeaderBgColor = () => {
     if (isMyspaceMode && !isDarkMode) return '#ec4899'; // pink-500
     if (isMyspaceMode && isDarkMode) return '#9333ea'; // purple-600
-    if (isDarkMode) return '#374151'; // gray-700
-    return '#3b82f6'; // blue-500
+    // Classic MySpace blue for standard mode
+    return '#3366cc'; // classic MySpace blue
   };
 
   const labelColor = getLabelColor();
@@ -50,11 +50,10 @@ const MySpaceTable: React.FC<MySpaceTableProps> = ({ title, rows, className = ''
 
   return (
     <div 
-      className={`bg-white dark:bg-gray-800 border-2 section-spacing ${getBorderClasses()} ${className}`}
-      style={{ padding: '0.625rem' }}
+      className={`section-spacing myspace-table-container border-2 ${getBorderClasses()} ${className}`}
     >
       <div className="overflow-x-auto">
-        <table className="myspace-details-box border-0 w-full" style={{ border: 'none', borderWidth: 0 }}>
+        <table className="myspace-details-box w-full">
         <thead>
           <tr>
             <th 

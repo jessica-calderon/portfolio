@@ -8,11 +8,13 @@ interface SkillsTableProps {
 const SkillsTable: React.FC<SkillsTableProps> = ({ isMyspaceMode = false }) => {
   const skillsData = [
     { label: 'Programming', value: 'PHP, TypeScript, JavaScript, Python, React, Node.js' },
-    { label: 'DevOps', value: 'Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI' },
+    { label: 'Frontend', value: 'React, TypeScript, Tailwind, HTML5, CSS3, Responsive UI Design' },
+    { label: 'DevOps', value: 'Docker, AWS ECS/Fargate, CI/CD (GitLab CI), STIG Compliance, Container Security' },
     { label: 'Databases', value: 'PostgreSQL, MySQL, Redis, OpenSearch' },
-    { label: 'Tools', value: 'VS Code, GitLab CI, Fluent Bit, Apache Superset' },
-    { label: 'Cloud', value: 'AWS, ECS, S3, RDS, CloudWatch' },
-    { label: 'Specialties', value: 'Moodle Workplace, Data Integration, Iron Bank Containers' }
+    { label: 'Cloud & Infra', value: 'AWS (ECS, S3, RDS, CloudWatch, IAM), CloudFormation, Linux (Ubuntu, Debian, UBI STIG)' },
+    { label: 'Tools', value: 'VS Code, GitLab CI, JMeter, Fluent Bit, Fusion 360, Apache Superset' },
+    { label: 'Analytics & Data', value: 'Data Integration, Log Pipelines, Dashboard Design, Visualization' },
+    { label: 'Specialties', value: 'Moodle Workplace Development, Iron Bank Containerization, Secure Application Design' }
   ];
 
   return (

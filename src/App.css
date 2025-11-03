@@ -807,20 +807,33 @@ body {
   margin: 0;
 }
 
+/* MySpace Table Container - White frame effect */
+.myspace-table-container {
+  background-color: white;
+  padding: 4px; /* white border padding around the inner table */
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+/* Dark mode for container */
+.dark .myspace-table-container {
+  background-color: #1a1a1a;
+}
+
 /* MySpace Details Box Styling - Authentic 2000s MySpace look */
 .myspace-details-box {
   width: 100%;
-  border: 2px solid #4a90e2;
   border-collapse: separate;
-  border-spacing: 2px;
-  background-color: #FFFFFF;
+  border-spacing: 0;
+  background-color: #d8e5f2;
+  border: 1px solid #a9bcd8;
+  border-radius: 2px;
   margin-top: 0;
   margin-bottom: 0;
   font-family: var(--font-family, Verdana, Arial, sans-serif);
   font-size: 12px;
   line-height: 1.5;
-  box-shadow: none;
-  border-radius: 0;
+  overflow: hidden;
 }
 
 /* Remove table border when inside a bordered container */
@@ -836,35 +849,50 @@ body {
 }
 
 .myspace-details-box th {
-  background-color: #6699CC;
-  color: #FFFFFF;
-  padding: 4px 8px;
+  background-color: #3366cc;
+  color: white;
+  padding: 5px 8px;
   text-align: left;
   font-weight: bold;
   font-size: 12px;
   border: none;
+  border-bottom: 1px solid white;
   margin: 0;
 }
 
 .myspace-details-box td {
-  padding: 4px 6px;
-  border: none;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #a9bcd8;
+  background-color: #d8e5f2;
   vertical-align: top;
   margin: 0;
 }
 
+.myspace-details-box tbody tr:first-child td {
+  border-top: none;
+}
+
+.myspace-details-box tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Inner separation between label and value columns */
+.myspace-details-box td + td {
+  border-left: 1px solid white;
+}
+
 .myspace-details-box td:first-child {
-  background-color: #E5F0FA;
-  color: #336699;
   font-weight: bold;
+  color: #2a4b7c;
   width: 35%;
-  padding: 4px 6px;
+  padding: 4px 8px;
 }
 
 .myspace-details-box td:last-child {
-  background-color: #FFFFFF;
   color: #000000;
-  padding: 4px 6px;
+  padding: 4px 8px;
 }
 
 /* MySpace Details Box Links */
@@ -896,22 +924,39 @@ body {
 
 /* Dark mode support for MySpace Details Box */
 .dark .myspace-details-box {
-  background-color: #1a1a1a;
-  border-color: #60a5fa;
+  background-color: #2a3a4a;
+  border-color: #4a5a6a;
 }
 
 .dark .myspace-details-box th {
-  background-color: #4a90e2;
-  color: #FFFFFF;
+  background-color: #3366cc;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .myspace-details-box td {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #4a5a6a;
+  background-color: #2a3a4a;
+}
+
+.dark .myspace-details-box tbody tr:first-child td {
+  border-top: none;
+}
+
+.dark .myspace-details-box tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dark .myspace-details-box td + td {
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dark .myspace-details-box td:first-child {
-  background-color: #1e3a5f;
   color: #93c5fd;
 }
 
 .dark .myspace-details-box td:last-child {
-  background-color: #1a1a1a;
   color: #e5e7eb;
 }
 
