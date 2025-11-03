@@ -30,6 +30,13 @@ function AppContent() {
   const [showLegacyModal, setShowLegacyModal] = useState<boolean>(false);
   const { isDarkMode } = useDarkMode();
 
+  // Helper function to get border classes - consistent with MySpaceTable and MySpaceContainer
+  const getBorderClasses = () => {
+    if (isMyspaceMode && !isDarkMode) return 'border-pink-500';
+    if (isMyspaceMode && isDarkMode) return 'border-purple-500';
+    return 'border-blue-500 dark:border-blue-400';
+  };
+
   const [lastDeployed, setLastDeployed] = useState<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -607,48 +614,49 @@ function AppContent() {
         </div>
         
         {/* Jessica's Links - order 6 */}
-        <div className="mobile-order-6 overflow-x-auto" id="tech">
-          <table className={`myspace-details-box ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : isMyspaceMode && isDarkMode ? 'border-purple-500' : 'border-blue-500 dark:border-blue-400'}`}>
-            <thead>
-              <tr>
-                <th 
-                  colSpan={2}
-                  className={isMyspaceMode ? '' : 'text-white'}
-                  style={{
-                    backgroundColor: isMyspaceMode && !isDarkMode ? '#ec4899' : // pink-500
-                                    isMyspaceMode && isDarkMode ? '#9333ea' : // purple-600
-                                    isDarkMode ? '#374151' : // gray-700
-                                    '#3b82f6' // blue-500
-                  }}
-                >
-                  Jessica's Links
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>GitHub:</td>
-                <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer">github.com/jessica-calderon</a></td>
-              </tr>
-              <tr>
-                <td>LinkedIn:</td>
-                <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer">linkedin.com/in/Jessica-Calderon-00</a></td>
-              </tr>
-              <tr>
-                <td>Portfolio:</td>
-                <td><a href="https://jessica-calderon.github.io/portfolio/" target="_blank" rel="noopener noreferrer">github.io/portfolio</a></td>
-              </tr>
-            </tbody>
-          </table>
+        <div className={`mobile-order-6 section-spacing myspace-table-container border-2 ${getBorderClasses()}`} id="tech">
+          <div className="overflow-x-auto">
+            <table className="myspace-details-box w-full">
+              <thead>
+                <tr>
+                  <th 
+                    colSpan={2}
+                    className={isMyspaceMode ? '' : 'text-white'}
+                    style={{
+                      backgroundColor: isMyspaceMode && !isDarkMode ? '#ec4899' : // pink-500
+                                      isMyspaceMode && isDarkMode ? '#9333ea' : // purple-600
+                                      isDarkMode ? '#374151' : // gray-700
+                                      '#3b82f6' // blue-500
+                    }}
+                  >
+                    Jessica's Links
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>GitHub:</td>
+                  <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer">github.com/jessica-calderon</a></td>
+                </tr>
+                <tr>
+                  <td>LinkedIn:</td>
+                  <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer">linkedin.com/in/Jessica-Calderon-00</a></td>
+                </tr>
+                <tr>
+                  <td>Portfolio:</td>
+                  <td><a href="https://jessica-calderon.github.io/portfolio/" target="_blank" rel="noopener noreferrer">github.io/portfolio</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         
         {/* Projects section for mobile */}
         
         {/* Technical Skills - order 7 */}
-        <div className="mobile-order-7 overflow-x-auto">
-          <table 
-            className={`myspace-details-box ${isMyspaceMode && !isDarkMode ? 'border-pink-500' : isMyspaceMode && isDarkMode ? 'border-purple-500' : 'border-blue-500 dark:border-blue-400'}`}
-          >
+        <div className={`mobile-order-7 section-spacing myspace-table-container border-2 ${getBorderClasses()}`}>
+          <div className="overflow-x-auto">
+            <table className="myspace-details-box w-full">
             <thead>
               <tr>
                 <th 
@@ -777,6 +785,7 @@ function AppContent() {
               })()}
             </tbody>
           </table>
+          </div>
         </div>
         
         {/* Case Studies - order 8 */}
