@@ -161,12 +161,110 @@ function AppContent() {
       return;
     }
     
-    // Use requestAnimationFrame for better mobile compatibility
+    // Calculate navbar height dynamically
+    const getNavbarHeight = () => {
+      // Find the header and navigation elements using data attributes
+      const header = document.querySelector('[data-navbar="header"]');
+      const navContainer = document.querySelector('[data-navbar="navigation"]');
+      
+      let totalHeight = 0;
+      if (header) {
+        const headerRect = header.getBoundingClientRect();
+        totalHeight += headerRect.height;
+      }
+      if (navContainer) {
+        const navRect = navContainer.getBoundingClientRect();
+        totalHeight += navRect.height;
+      }
+      
+      // Add some padding for better spacing
+      return totalHeight + 20; // 20px extra padding
+    };
+    
+    // Function to find visible element (not in hidden container)
+    const findVisibleElement = (id: string): HTMLElement | null => {
+      // Get all elements with this ID (there shouldn't be duplicates, but handle it)
+      const elements = document.querySelectorAll(`#${id}`);
+      
+      // Find the first visible element
+      for (const element of Array.from(elements)) {
+        const el = element as HTMLElement;
+        
+        // Check if element is actually visible using getBoundingClientRect
+        // This is more reliable than checking classes, especially with responsive classes like "hidden md:flex"
+        const rect = el.getBoundingClientRect();
+        const style = window.getComputedStyle(el);
+        
+        // Element must have actual dimensions and not be display:none
+        if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+          continue;
+        }
+        
+        // Element must have visible dimensions
+        if (rect.width === 0 && rect.height === 0) {
+          continue;
+        }
+        
+        // Element must be in the viewport or document (not hidden by parent)
+        // Check if any parent has display:none or visibility:hidden
+        let parent = el.parentElement;
+        let isHiddenByParent = false;
+        while (parent && parent !== document.body && parent !== document.documentElement) {
+          const parentStyle = window.getComputedStyle(parent);
+          if (parentStyle.display === 'none' || parentStyle.visibility === 'hidden') {
+            isHiddenByParent = true;
+            break;
+          }
+          parent = parent.parentElement;
+        }
+        
+        if (!isHiddenByParent) {
+          return el;
+        }
+      }
+      
+      return null;
+    };
+    
+    // Use requestAnimationFrame for better timing, with a small delay to ensure DOM is ready
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const element = document.getElementById(item.scrollToId);
+        const element = findVisibleElement(item.scrollToId);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Get the element's position relative to the document
+          // Use offsetTop as fallback if getBoundingClientRect seems off
+          const rect = element.getBoundingClientRect();
+          const elementTop = rect.top + window.pageYOffset;
+          
+          // Fallback: if getBoundingClientRect returns 0, try offsetTop
+          let scrollTarget = elementTop;
+          if (elementTop === 0 && element.offsetTop > 0) {
+            scrollTarget = element.offsetTop;
+          }
+          
+          const navbarHeight = getNavbarHeight();
+          
+          // Calculate the target scroll position
+          const targetScroll = scrollTarget - navbarHeight;
+          
+          window.scrollTo({
+            top: Math.max(0, targetScroll), // Ensure we don't scroll to negative values
+            behavior: 'smooth'
+          });
+        } else {
+          // Fallback: try to find element without visibility check (desktop might have different structure)
+          const fallbackElement = document.getElementById(item.scrollToId);
+          if (fallbackElement) {
+            const rect = fallbackElement.getBoundingClientRect();
+            const elementTop = rect.top + window.pageYOffset;
+            const navbarHeight = getNavbarHeight();
+            const targetScroll = elementTop - navbarHeight;
+            
+            window.scrollTo({
+              top: Math.max(0, targetScroll),
+              behavior: 'smooth'
+            });
+          }
         }
       });
     });
@@ -178,7 +276,7 @@ function AppContent() {
     <div className={`text-white py-2 sm:py-3 px-2 sm:px-4 ${isMyspaceMode 
       ? 'bg-gradient-to-r from-pink-500 to-purple-500 dark:from-purple-700 dark:to-pink-700' 
       : 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-slate-800 dark:to-slate-900'
-    }`}>
+    }`} data-navbar="header">
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
         <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold">MyPortfolio</h1>
@@ -339,7 +437,7 @@ function AppContent() {
     <div className={`text-white py-2 px-4 ${isMyspaceMode 
       ? 'bg-gradient-to-r from-pink-400 to-purple-400 dark:from-purple-600 dark:to-pink-600' 
       : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800'
-    }`}>
+    }`} data-navbar="navigation">
       <div className="max-w-6xl mx-auto">
         <nav className="flex flex-wrap items-center justify-center sm:justify-start space-x-4 sm:space-x-6 text-sm">
           {navigationItems.map((item, index) => (

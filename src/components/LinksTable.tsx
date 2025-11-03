@@ -104,11 +104,13 @@ const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick, isMyspaceMode = 
   ];
 
   return (
-    <MySpaceTable 
-      title="Jessica's Links" 
-      rows={linksData}
-      isMyspaceMode={isMyspaceMode}
-    />
+    <div id="tech">
+      <MySpaceTable 
+        title="Jessica's Links" 
+        rows={linksData}
+        isMyspaceMode={isMyspaceMode}
+      />
+    </div>
   );
 };
 
