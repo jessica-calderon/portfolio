@@ -64,6 +64,14 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
       impact: "Highlights front-end creativity and technical depth with a nostalgic, interactive user experience.",
       techUsed: ["React", "TypeScript", "Tailwind", "Framer Motion"],
       emoji: "💻"
+    },
+    {
+      name: "Legacy Portfolio",
+      description: "Created the original version of my developer portfolio using Bootstrap, HTML, CSS, and JavaScript.",
+      impact: "Served as an early showcase of projects and web development fundamentals before transitioning to a modern React stack.",
+      techUsed: ["Bootstrap", "HTML", "CSS", "JavaScript"],
+      emoji: "🧩",
+      websiteUrl: "https://jessica-calderon.github.io/portfolio-legacy/"
     }
   ];
 

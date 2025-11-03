@@ -91,6 +91,16 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) =
                 </span>
               ))}
             </div>
+            {caseStudy.name === "Legacy Portfolio" && (
+              <a
+                href="https://jessica-calderon.github.io/portfolio-legacy/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 dark:text-blue-400 hover:underline mt-2 inline-block"
+              >
+                Visit Legacy Portfolio
+              </a>
+            )}
           </div>
 
           {/* Website Preview iframe */}
