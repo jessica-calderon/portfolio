@@ -80,3 +80,52 @@ body {
 .animate-modalAppear {
   animation: modalAppear 0.3s ease-out;
 }
+
+/* Accessibility Features */
+
+/* High Contrast Mode */
+.high-contrast {
+  filter: contrast(1.2);
+}
+
+.high-contrast * {
+  border-color: currentColor !important;
+}
+
+.high-contrast button,
+.high-contrast a,
+.high-contrast input,
+.high-contrast select,
+.high-contrast textarea {
+  border: 2px solid currentColor !important;
+}
+
+/* Enhanced Focus Indicators */
+.enhanced-focus *:focus {
+  outline: 3px solid #0066cc !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.3) !important;
+}
+
+.enhanced-focus button:focus,
+.enhanced-focus a:focus,
+.enhanced-focus input:focus,
+.enhanced-focus select:focus,
+.enhanced-focus textarea:focus {
+  outline: 4px solid #0066cc !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px rgba(0, 102, 204, 0.4) !important;
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

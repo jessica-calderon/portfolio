@@ -5,6 +5,7 @@ import Education from './components/Education';
 import CaseStudiesGrid from './components/CaseStudiesGrid';
 import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
+import AccessibilityButton from './components/AccessibilityButton';
 import ResumeModal from './components/ResumeModal';
 import ShareProfileModal from './components/ShareProfileModal';
 import LegacyProfileModal from './components/LegacyProfileModal';
@@ -853,6 +854,9 @@ function AppContent() {
     
     {/* Jump to Top Button */}
     <JumpToTop isMyspaceMode={isMyspaceMode} />
+    
+    {/* Accessibility Button */}
+    <AccessibilityButton />
     
     </div>
   );
