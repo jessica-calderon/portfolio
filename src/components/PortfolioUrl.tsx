@@ -9,6 +9,7 @@ const PortfolioUrl: React.FC = () => {
         target="_blank" 
         rel="noopener noreferrer" 
         className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-all"
+        aria-label="View portfolio website (opens in new tab)"
       >
         https://jessica-calderon.github.io/portfolio/
       </a>

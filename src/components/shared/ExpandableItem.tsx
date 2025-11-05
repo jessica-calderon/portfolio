@@ -60,6 +60,16 @@ const ExpandableItem: React.FC<ExpandableItemProps> = ({
       <div 
         className="flex justify-between items-center cursor-pointer py-1 hover:bg-gray-50 dark:hover:bg-gray-700/50"
         onClick={handleToggle}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onToggle();
+          }
+        }}
+        aria-label={`${title} - ${isOpen ? 'Collapse' : 'Expand'} details`}
+        aria-expanded={isOpen}
       >
         <button 
           className="cursor-pointer custom-font break-words pr-2 bg-transparent border-none p-0 text-left underline"
@@ -67,6 +77,8 @@ const ExpandableItem: React.FC<ExpandableItemProps> = ({
           style={{ color: linkColor, fontSize: '12px' }}
           onMouseEnter={(e) => e.currentTarget.style.color = linkHoverColor}
           onMouseLeave={(e) => e.currentTarget.style.color = linkColor}
+          aria-label={`${title} - ${isOpen ? 'Collapse' : 'Expand'} details`}
+          aria-expanded={isOpen}
         >
           {highlightTitle || title}
         </button>
@@ -75,6 +87,7 @@ const ExpandableItem: React.FC<ExpandableItemProps> = ({
           style={{ color: linkColor, fontSize: '12px' }}
           onMouseEnter={(e) => e.currentTarget.style.color = linkHoverColor}
           onMouseLeave={(e) => e.currentTarget.style.color = linkColor}
+          aria-hidden="true"
         >
           (view more)
         </span>

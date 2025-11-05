@@ -337,7 +337,13 @@ function AppContent() {
                 ? 'bg-white/90 dark:bg-pink-900/30 border-pink-300 dark:border-pink-500 focus:ring-pink-400 focus:border-pink-400 placeholder:text-pink-300 dark:placeholder:text-pink-400' 
                 : 'bg-white/90 dark:bg-gray-800/90 border-gray-300 dark:border-gray-600 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-400 dark:placeholder:text-gray-500'
               } text-gray-900 dark:text-gray-100 border rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 shadow-sm hover:shadow-md`}
+              aria-label="Search profile content"
+              aria-describedby="search-description"
+              aria-autocomplete="list"
+              aria-expanded={showSuggestions && suggestions.length > 0}
+              aria-controls="search-suggestions"
             />
+            <span id="search-description" className="sr-only">Search for case studies, education, skills, and other profile content</span>
             
             {/* Clear Button (inside input) */}
             {searchQuery && (
@@ -352,8 +358,9 @@ function AppContent() {
                     : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
                 title="Clear search (Esc)"
+                aria-label="Clear search"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
@@ -361,11 +368,16 @@ function AppContent() {
             
             {/* Suggestions Dropdown */}
             {suggestions.length > 0 && showSuggestions && (
-              <div className={`absolute top-full mt-1.5 w-full z-50 rounded-lg shadow-xl border backdrop-blur-sm search-suggestions-container ${
-                isMyspaceMode 
-                  ? 'bg-pink-50/95 dark:bg-purple-900/90 border-pink-300 dark:border-purple-500' 
-                  : 'bg-white/95 dark:bg-gray-800/95 border-gray-300 dark:border-gray-600'
-              }`}>
+              <div 
+                id="search-suggestions"
+                role="listbox"
+                aria-label="Search suggestions"
+                className={`absolute top-full mt-1.5 w-full z-50 rounded-lg shadow-xl border backdrop-blur-sm search-suggestions-container ${
+                  isMyspaceMode 
+                    ? 'bg-pink-50/95 dark:bg-purple-900/90 border-pink-300 dark:border-purple-500' 
+                    : 'bg-white/95 dark:bg-gray-800/95 border-gray-300 dark:border-gray-600'
+                }`}
+              >
                 <div className="max-h-64 overflow-y-auto rounded-lg">
                   <div className={`px-2 py-1.5 text-xs font-semibold ${
                     isMyspaceMode 
@@ -377,6 +389,7 @@ function AppContent() {
                   {suggestions.map((suggestion, index) => (
                     <div 
                       key={index}
+                      role="option"
                       tabIndex={0}
                       onClick={() => {
                         setSearchQuery(suggestion.title);
@@ -393,6 +406,7 @@ function AppContent() {
                           ? 'hover:bg-pink-100 dark:hover:bg-purple-800/50 border-pink-200 dark:border-pink-700/50 active:bg-pink-200 dark:active:bg-purple-700 focus:ring-pink-400' 
                           : 'hover:bg-blue-50 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-700 active:bg-blue-100 dark:active:bg-gray-600 focus:ring-blue-400'
                       }`}
+                      aria-label={`${suggestion.category}: ${suggestion.title}`}
                     >
                       <div className="flex items-center gap-2">
                         <span className={`text-xs ${
@@ -419,8 +433,9 @@ function AppContent() {
           <a 
             href="mailto:calderonjessica13@yahoo.com" 
             className="hidden md:flex items-center gap-1 text-sm hover:text-pink-200 dark:hover:text-pink-300 transition-colors duration-200 whitespace-nowrap"
+            aria-label="Get help via email"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Help
@@ -431,8 +446,10 @@ function AppContent() {
             onClick={toggleLayoutMode}
             title="Switch between Default and Custom MySpace layouts"
             className="layout-toggle flex items-center justify-center px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 shadow-md hover:shadow-lg"
+            aria-label={`Switch to ${layoutMode === 'custom' ? 'default' : 'custom'} layout`}
+            aria-pressed={layoutMode === 'custom'}
           >
-            <span className="mr-1">🪄</span>
+            <span className="mr-1" aria-hidden="true">🪄</span>
             <span className="hidden sm:inline">{layoutMode === 'custom' ? 'Default Layout' : 'Custom Layout'}</span>
             <span className="sm:hidden">{layoutMode === 'custom' ? 'Default' : 'Custom'}</span>
           </button>
@@ -447,13 +464,14 @@ function AppContent() {
       : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800'
     }`} data-navbar="navigation">
       <div className="max-w-6xl mx-auto">
-        <nav className="flex flex-wrap items-center justify-center sm:justify-start space-x-4 sm:space-x-6 text-sm">
+        <nav role="navigation" aria-label="Main navigation" className="flex flex-wrap items-center justify-center sm:justify-start space-x-4 sm:space-x-6 text-sm">
           {navigationItems.map((item, index) => (
             <a 
               key={index} 
               href={item.href} 
               onClick={(e) => handleNavClick(e, item)}
               className={`transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} cursor-pointer`}
+              aria-label={item.label === 'Home' ? 'Navigate to top of page' : `Navigate to ${item.label} section`}
             >
               {item.label}
             </a>
@@ -462,15 +480,17 @@ function AppContent() {
           <a 
             href="?view=desktop" 
             className={`${forceDesktopView ? 'hidden' : ''} md:hidden transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} flex items-center gap-1`}
+            aria-label="Switch to desktop view"
           >
-            <span>🖥️</span> Desktop View
+            <span aria-hidden="true">🖥️</span> Desktop View
           </a>
           {/* View Mobile Version Link - Only visible when desktop is forced */}
           <a 
             href="?" 
             className={`${forceDesktopView ? '' : 'hidden'} transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} flex items-center gap-1`}
+            aria-label="Switch to mobile view"
           >
-            <span>📱</span> Mobile View
+            <span aria-hidden="true">📱</span> Mobile View
           </a>
         </nav>
       </div>
@@ -515,9 +535,19 @@ function AppContent() {
             <div className="flex items-start space-x-3">
               <img 
                 src={profilePic}
-                alt="Jessica Calderon" 
+                alt="Jessica Calderon professional profile picture" 
                 className="w-20 h-20 border-2 border-blue-500 dark:border-blue-400 object-cover flex-shrink-0 cursor-pointer hover:opacity-75 transition-opacity"
                 title="Click for a surprise! 🦖"
+                role="button"
+                tabIndex={0}
+                onClick={() => setShowLegacyModal(true)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setShowLegacyModal(true);
+                  }
+                }}
+                aria-label="View legacy profile (click for a surprise)"
               />
               <div className="flex-1 min-w-0">
                 <p className="text-xs text-black dark:text-white">"Currently coding... "</p>
@@ -531,6 +561,7 @@ function AppContent() {
                   <button 
                     onClick={() => setShowLegacyModal(true)} 
                     className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words"
+                    aria-label="View legacy profile"
                   >
                     Legacy Profile
                   </button>
@@ -563,42 +594,48 @@ function AppContent() {
               <a 
                 href="mailto:calderonjessica13@yahoo.com" 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                aria-label="Send email message to Jessica Calderon"
               >
-                <span className="mr-1">✉️</span> Send Message
+                <span className="mr-1" aria-hidden="true">✉️</span> Send Message
               </a>
               <a 
                 href="https://linkedin.com/in/Jessica-Calderon-00" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                aria-label="Connect on LinkedIn (opens in new tab)"
               >
-                <span className="mr-1">👥</span> Connect
+                <span className="mr-1" aria-hidden="true">👥</span> Connect
               </a>
               <button 
                 onClick={() => window.open('https://cal.com/jessica-calderon')} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                aria-label="Schedule a call via Cal.com"
               >
-                <span className="mr-1">💬</span> Schedule Call
+                <span className="mr-1" aria-hidden="true">💬</span> Schedule Call
               </button>
               <button 
                 onClick={() => setShowResumeModal(true)} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                aria-label="View resume"
               >
-                <span className="mr-1">📄</span> View Resume
+                <span className="mr-1" aria-hidden="true">📄</span> View Resume
               </button>
               <button 
                 onClick={() => setShowShareModal(true)} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                aria-label="Share profile"
               >
-                <span className="mr-1">↗️</span> Share Profile
+                <span className="mr-1" aria-hidden="true">↗️</span> Share Profile
               </button>
               <a 
                 href="https://github.com/jessica-calderon" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+                aria-label="View GitHub profile (opens in new tab)"
               >
-                <span className="mr-1">⭐</span> Add to Favorites
+                <span className="mr-1" aria-hidden="true">⭐</span> Add to Favorites
               </a>
             </div>
           </div>
@@ -637,15 +674,15 @@ function AppContent() {
               <tbody>
                 <tr>
                   <td>GitHub:</td>
-                  <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer">github.com/jessica-calderon</a></td>
+                  <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile (opens in new tab)">github.com/jessica-calderon</a></td>
                 </tr>
                 <tr>
                   <td>LinkedIn:</td>
-                  <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer">linkedin.com/in/Jessica-Calderon-00</a></td>
+                  <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" aria-label="View LinkedIn profile (opens in new tab)">linkedin.com/in/Jessica-Calderon-00</a></td>
                 </tr>
                 <tr>
                   <td>Portfolio:</td>
-                  <td><a href="https://jessica-calderon.github.io/portfolio/" target="_blank" rel="noopener noreferrer">github.io/portfolio</a></td>
+                  <td><a href="https://jessica-calderon.github.io/portfolio/" target="_blank" rel="noopener noreferrer" aria-label="View portfolio website (opens in new tab)">github.io/portfolio</a></td>
                 </tr>
               </tbody>
             </table>
@@ -817,6 +854,7 @@ function AppContent() {
                 href={item.href} 
                 onClick={(e) => handleNavClick(e, item)}
                 className={`transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} cursor-pointer`}
+                aria-label={item.label === 'Home' ? 'Navigate to top of page' : `Navigate to ${item.label} section`}
               >
                 {item.label}
               </a>
@@ -832,6 +870,7 @@ function AppContent() {
               target="_blank" 
               rel="noopener noreferrer"
               className={`underline transition-colors duration-200 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'}`}
+              aria-label="View Jessica Calderon's GitHub profile (opens in new tab)"
             >
               Jessica Calderon
             </a>

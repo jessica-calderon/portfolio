@@ -11,6 +11,7 @@ interface CaseStudy {
   techUsed: string[];
   emoji: string;
   websiteUrl?: string;
+  githubUrl?: string;
 }
 
 interface CaseStudiesGridProps {
@@ -63,7 +64,8 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
       description: "Built a modern React portfolio inspired by the original MySpace profile layout, featuring custom themes, modals, and retro UI elements. This is the portfolio you are currently viewing.",
       impact: "Highlights front-end creativity and technical depth with a nostalgic, interactive user experience.",
       techUsed: ["React", "TypeScript", "Tailwind", "Framer Motion"],
-      emoji: "💻"
+      emoji: "💻",
+      githubUrl: "https://github.com/jessica-calderon/portfolio"
     },
     {
       name: "Legacy Portfolio",
@@ -71,7 +73,8 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
       impact: "Served as an early showcase of projects and web development fundamentals before transitioning to a modern React stack.",
       techUsed: ["Bootstrap", "HTML", "CSS", "JavaScript"],
       emoji: "🧩",
-      websiteUrl: "https://jessica-calderon.github.io/portfolio-legacy/"
+      websiteUrl: "https://jessica-calderon.github.io/portfolio-legacy/",
+      githubUrl: "https://github.com/jessica-calderon/portfolio-legacy"
     }
   ];
 
@@ -123,6 +126,15 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
                 searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''
               }`}
               onClick={() => setSelectedCaseStudy(caseStudy)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setSelectedCaseStudy(caseStudy);
+                }
+              }}
+              aria-label={`View case study: ${caseStudy.name}`}
             >
               {/* Square image placeholder - MySpace style */}
               <div 

@@ -50,6 +50,7 @@ const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick, isMyspaceMode = 
           style={{ color: linkColor }}
           onMouseEnter={(e) => e.currentTarget.style.color = linkHoverColor}
           onMouseLeave={(e) => e.currentTarget.style.color = linkColor}
+          aria-label="View GitHub profile (opens in new tab)"
         >
           github.com/jessica-calderon
         </a>
@@ -66,6 +67,7 @@ const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick, isMyspaceMode = 
           style={{ color: linkColor }}
           onMouseEnter={(e) => e.currentTarget.style.color = linkHoverColor}
           onMouseLeave={(e) => e.currentTarget.style.color = linkColor}
+          aria-label="View LinkedIn profile (opens in new tab)"
         >
           linkedin.com/in/Jessica-Calderon-00
         </a>
@@ -82,6 +84,7 @@ const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick, isMyspaceMode = 
           style={{ color: linkColor }}
           onMouseEnter={(e) => e.currentTarget.style.color = linkHoverColor}
           onMouseLeave={(e) => e.currentTarget.style.color = linkColor}
+          aria-label="View portfolio website (opens in new tab)"
         >
           github.io/portfolio
         </a>
@@ -96,6 +99,7 @@ const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick, isMyspaceMode = 
           style={{ color: linkColor }}
           onMouseEnter={(e) => e.currentTarget.style.color = linkHoverColor}
           onMouseLeave={(e) => e.currentTarget.style.color = linkColor}
+          aria-label="View resume"
         >
           View Resume
         </button>

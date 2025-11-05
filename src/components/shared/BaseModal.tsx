@@ -51,6 +51,9 @@ const BaseModal: React.FC<BaseModalProps> = ({
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
       onClick={handleBackdropClick}
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
     >
       <div 
         className={`w-full ${maxWidth} mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear flex flex-col ${
@@ -62,15 +65,15 @@ const BaseModal: React.FC<BaseModalProps> = ({
         <div 
           className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between select-none`}
         >
-          <span className="text-sm">{title}</span>
+          <span id="modal-title" className="text-sm">{title}</span>
           <div className="flex items-center gap-2">
             {titleBarActions}
             <button
               onClick={onClose}
               className="bg-red-600 hover:bg-red-700 text-white w-6 h-6 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors"
-              aria-label="Close"
+              aria-label={`Close ${title} modal`}
             >
-              ✕
+              <span aria-hidden="true">✕</span>
             </button>
           </div>
         </div>

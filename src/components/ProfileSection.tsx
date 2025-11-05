@@ -40,7 +40,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onLegacyClick }) => {
       <div className="flex items-start space-x-2 sm:space-x-3">
         <img 
           src={profilePic} 
-          alt="Jessica Calderon" 
+          alt="Jessica Calderon professional profile picture" 
           className="w-16 h-16 sm:w-20 sm:h-20 border-2 border-blue-500 dark:border-blue-400 object-cover myspace-light-img-border flex-shrink-0"
         />
         <div className="flex-1 min-w-0">
@@ -52,7 +52,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onLegacyClick }) => {
           <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
           <div className="mt-2">
             <span className="text-xs text-black dark:text-white">View My: </span>
-            <button onClick={onLegacyClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words">Legacy Profile</button>
+            <button onClick={onLegacyClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words" aria-label="View legacy profile">Legacy Profile</button>
           </div>
         </div>
       </div>

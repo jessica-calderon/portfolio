@@ -13,7 +13,7 @@ const TechBadge: React.FC<TechBadgeProps> = ({ name, icon, searchQuery, highligh
 
   return (
     <div 
-      className="group inline-flex items-center gap-1.5 px-3 py-1.5 cursor-pointer transform transition-all duration-300 hover:scale-110 hover:-translate-y-1 custom-font"
+      className="group inline-flex items-center gap-1.5 px-3 py-1.5 custom-font"
       style={{ 
         fontSize: '10px',
         borderRadius: '12px',
@@ -26,9 +26,11 @@ const TechBadge: React.FC<TechBadgeProps> = ({ name, icon, searchQuery, highligh
         border: isDarkMode 
           ? '1px solid #4b5563'
           : '1px solid #d0d0d0',
-        color: isDarkMode ? '#e5e7eb' : '#000000'
+        color: isDarkMode ? '#e5e7eb' : '#000000',
+        transform: 'scale(1) translateY(0)',
+        transition: 'all 0.3s ease'
       }}
-      title={`Click to learn more about ${name}`}
+      title={name}
       onMouseEnter={(e) => {
         if (isDarkMode) {
           e.currentTarget.style.background = 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)';
@@ -39,6 +41,7 @@ const TechBadge: React.FC<TechBadgeProps> = ({ name, icon, searchQuery, highligh
           e.currentTarget.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
           e.currentTarget.style.borderColor = '#2196f3';
         }
+        e.currentTarget.style.transform = 'scale(1.1) translateY(-4px)';
       }}
       onMouseLeave={(e) => {
         if (isDarkMode) {
@@ -50,16 +53,7 @@ const TechBadge: React.FC<TechBadgeProps> = ({ name, icon, searchQuery, highligh
           e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
           e.currentTarget.style.borderColor = '#d0d0d0';
         }
-      }}
-      onClick={() => {
-        // Add a fun click effect
-        const element = document.querySelector(`[title*="${name}"]`) as HTMLElement;
-        if (element) {
-          element.style.transform = 'scale(1.2) rotate(5deg)';
-          setTimeout(() => {
-            element.style.transform = 'scale(1) rotate(0deg)';
-          }, 200);
-        }
+        e.currentTarget.style.transform = 'scale(1) translateY(0)';
       }}
     >
       <span 

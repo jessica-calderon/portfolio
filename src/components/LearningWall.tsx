@@ -248,6 +248,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           }}
           onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
           onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+          aria-label="View learning entries on GitHub (opens in new tab)"
         >
           View on GitHub
         </a>
@@ -263,6 +264,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           }}
           onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
           onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+          aria-label="Connect on LinkedIn (opens in new tab)"
         >
           Connect
         </a>
@@ -302,7 +304,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
               >
                 <img
                   src={profilePic}
-                  alt="Profile"
+                  alt="Jessica Calderon profile picture"
                   style={{
                     width: '100%',
                     height: '100%',
@@ -336,6 +338,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
                     }}
                     onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
                     onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                    aria-label="View Jessica's GitHub profile (opens in new tab)"
                   >
                     jessica
                   </a>

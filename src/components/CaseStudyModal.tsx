@@ -8,6 +8,7 @@ interface CaseStudy {
   techUsed: string[];
   emoji: string;
   websiteUrl?: string;
+  githubUrl?: string;
 }
 
 interface CaseStudyModalProps {
@@ -45,6 +46,9 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) =
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
       onClick={handleBackdropClick}
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="case-study-modal-title"
     >
       <div 
         className={`w-full max-w-5xl mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear`}
@@ -53,13 +57,13 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) =
       >
         {/* Windows XP-style title bar */}
         <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
-          <span className="text-sm">{caseStudy.name}</span>
+          <span id="case-study-modal-title" className="text-sm">{caseStudy.name}</span>
           <button
             onClick={onClose}
             className="bg-red-600 hover:bg-red-700 text-white w-6 h-6 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors"
-            aria-label="Close"
+            aria-label={`Close ${caseStudy.name} case study modal`}
           >
-            ✕
+            <span aria-hidden="true">✕</span>
           </button>
         </div>
 
@@ -91,16 +95,6 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) =
                 </span>
               ))}
             </div>
-            {caseStudy.name === "Legacy Portfolio" && (
-              <a
-                href="https://jessica-calderon.github.io/portfolio-legacy/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:underline mt-2 inline-block"
-              >
-                Visit Legacy Portfolio
-              </a>
-            )}
           </div>
 
           {/* Website Preview iframe */}
@@ -121,17 +115,31 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) =
           )}
         </div>
 
-        {/* Modal footer with Visit Website link */}
-        {caseStudy.websiteUrl && (
-          <div className={`px-6 py-4 border-t ${isDarkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300 bg-[#ece9d8]'} flex justify-end`}>
-            <a
-              href={caseStudy.websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              Visit Website
-            </a>
+        {/* Modal footer with Visit Website and GitHub links */}
+        {(caseStudy.websiteUrl || caseStudy.githubUrl) && (
+          <div className={`px-6 py-4 border-t ${isDarkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300 bg-[#ece9d8]'} flex justify-end gap-4`}>
+            {caseStudy.githubUrl && (
+              <a
+                href={caseStudy.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+                aria-label={`View ${caseStudy.name} on GitHub (opens in new tab)`}
+              >
+                View on GitHub
+              </a>
+            )}
+            {caseStudy.websiteUrl && (
+              <a
+                href={caseStudy.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+                aria-label={`Visit ${caseStudy.name} website (opens in new tab)`}
+              >
+                Visit Website
+              </a>
+            )}
           </div>
         )}
       </div>
