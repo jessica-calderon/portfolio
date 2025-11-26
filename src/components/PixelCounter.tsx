@@ -57,9 +57,23 @@ const PixelCounter: React.FC<PixelCounterProps> = ({ isMyspaceMode }) => {
     ? `text-[#00ff66] transition-all duration-300`
     : `text-gray-800 dark:text-gray-200 transition-all duration-300`;
 
+  const spinnerClasses = isMyspaceMode
+    ? `border-[#00ff66] border-t-transparent`
+    : `border-gray-800 dark:border-gray-200 border-t-transparent`;
+
   return (
-    <p className={`text-xs ${textClasses}`}>
-      {isLoading ? '...' : error ? `Total Visitors: 00000` : `Total Visitors: ${visitorCount}`}
+    <p className={`text-xs ${textClasses} flex items-center gap-1.5`}>
+      {isLoading ? (
+        <>
+          <span>Total Visitors: </span>
+          <span className={`inline-block w-3 h-3 border-2 border-solid rounded-full animate-spin ${spinnerClasses}`}></span>
+          <span>Loading</span>
+        </>
+      ) : error ? (
+        `Total Visitors: 00000`
+      ) : (
+        `Total Visitors: ${visitorCount}`
+      )}
     </p>
   );
 };
