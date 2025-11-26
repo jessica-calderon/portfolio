@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useDarkMode } from '../contexts/DarkModeContext';
 
 interface PixelCounterProps {
   isMyspaceMode: boolean;
 }
 
 const PixelCounter: React.FC<PixelCounterProps> = ({ isMyspaceMode }) => {
-  const { isDarkMode } = useDarkMode();
   const [visitorCount, setVisitorCount] = useState<string>('...');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
@@ -17,10 +15,11 @@ const PixelCounter: React.FC<PixelCounterProps> = ({ isMyspaceMode }) => {
         setIsLoading(true);
         setError(false);
         
-        // Fetch the SVG badge from hits.sh - exact URL with trailing slash
-        const res = await fetch(
-          "https://hits.sh/jessica-calderon.github.io/portfolio/.svg?style=flat-square"
-        );
+        // Use AllOrigins proxy to avoid CORS issues
+        const target = "https://hits.sh/jessica-calderon.github.io/portfolio/.svg?style=flat-square";
+        const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(target);
+        
+        const res = await fetch(proxyUrl);
 
         if (!res.ok) {
           throw new Error('Failed to fetch visitor count');
@@ -28,7 +27,7 @@ const PixelCounter: React.FC<PixelCounterProps> = ({ isMyspaceMode }) => {
 
         const text = await res.text();
         
-        // Extract number using regex: />(\d+)</
+        // Extract number using regex: >(\d+)<
         const match = text.match(/>(\d+)</);
         
         if (match && match[1]) {

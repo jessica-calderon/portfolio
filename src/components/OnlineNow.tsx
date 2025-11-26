@@ -14,15 +14,29 @@ const OnlineNow: React.FC<OnlineNowProps> = ({ isMyspaceMode }) => {
   useEffect(() => {
     let isMounted = true;
 
+    // AllOrigins proxy helper function
+    const proxy = (url: string) =>
+      "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+
     const incrementActive = async () => {
       try {
-        // Increment active count on load
-        await fetch('https://api.countapi.xyz/hit/jessica-portfolio-online/active', {
-          method: 'GET',
-          mode: 'cors',
-        });
+        // Increment active count on load using AllOrigins proxy
+        await fetch(proxy("https://api.countapi.xyz/hit/jessica-portfolio-online/active"));
       } catch (err) {
         console.error('Error incrementing active count:', err);
+      }
+    };
+
+    const decrementActive = async () => {
+      try {
+        // Decrement active count using AllOrigins proxy
+        await fetch(
+          proxy(
+            "https://api.countapi.xyz/hit/jessica-portfolio-online/active?amount=-1"
+          )
+        );
+      } catch (err) {
+        // Ignore errors on decrement
       }
     };
 
@@ -31,20 +45,19 @@ const OnlineNow: React.FC<OnlineNowProps> = ({ isMyspaceMode }) => {
         setIsLoading(true);
         setError(false);
 
-        // Fetch current count
-        const response = await fetch('https://api.countapi.xyz/get/jessica-portfolio-online/active', {
-          method: 'GET',
-          mode: 'cors',
-        });
+        // Fetch current count using AllOrigins proxy
+        const res = await fetch(
+          proxy("https://api.countapi.xyz/get/jessica-portfolio-online/active")
+        );
 
-        if (!response.ok) {
+        if (!res.ok) {
           throw new Error('Failed to fetch online count');
         }
 
-        const data = await response.json();
+        const json = await res.json();
         
-        if (isMounted && data.value !== undefined) {
-          setOnlineCount(data.value);
+        if (isMounted && json.value !== undefined) {
+          setOnlineCount(json.value || 0);
         }
       } catch (err) {
         console.error('Error fetching online count:', err);
@@ -67,11 +80,13 @@ const OnlineNow: React.FC<OnlineNowProps> = ({ isMyspaceMode }) => {
     const handleBeforeUnload = async () => {
       try {
         // Use sendBeacon for more reliable unload handling
-        await fetch('https://api.countapi.xyz/hit/jessica-portfolio-online/active?amount=-1', {
-          method: 'GET',
-          mode: 'cors',
-          keepalive: true,
-        });
+        await fetch(
+          proxy("https://api.countapi.xyz/hit/jessica-portfolio-online/active?amount=-1"),
+          {
+            method: 'GET',
+            keepalive: true,
+          }
+        );
       } catch (err) {
         // Ignore errors on unload
       }
@@ -84,11 +99,13 @@ const OnlineNow: React.FC<OnlineNowProps> = ({ isMyspaceMode }) => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
       
       // Decrement on cleanup (component unmount)
-      fetch('https://api.countapi.xyz/hit/jessica-portfolio-online/active?amount=-1', {
-        method: 'GET',
-        mode: 'cors',
-        keepalive: true,
-      }).catch(() => {
+      fetch(
+        proxy("https://api.countapi.xyz/hit/jessica-portfolio-online/active?amount=-1"),
+        {
+          method: 'GET',
+          keepalive: true,
+        }
+      ).catch(() => {
         // Ignore errors on cleanup
       });
     };
