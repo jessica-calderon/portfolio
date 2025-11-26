@@ -13,7 +13,7 @@ import JumpToTop from './components/JumpToTop';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import profilePic from './assets/8bitme.png';
 import PixelCounter from './components/PixelCounter';
-import OnlineNow from './components/OnlineNow';
+// import OnlineNow from './components/OnlineNow';
 import './App.css';
 
 function AppContent() {
@@ -530,7 +530,7 @@ function AppContent() {
                 {/* Visitor Counter and Online Now */}
                 <div className="mt-2 space-y-1.5">
                   <PixelCounter isMyspaceMode={isMyspaceMode} />
-                  <OnlineNow isMyspaceMode={isMyspaceMode} />
+                  {/* <OnlineNow isMyspaceMode={isMyspaceMode} /> */}
                 </div>
                 
                 <p className="text-xs text-black dark:text-white mt-2">Last Updated: {lastDeployed || '...'}</p>

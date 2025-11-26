@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import profilePic from '../assets/8bitme.png';
 import PixelCounter from './PixelCounter';
-import OnlineNow from './OnlineNow';
+// import OnlineNow from './OnlineNow';
 
 interface ProfileSectionProps {
   onLegacyClick: () => void;
@@ -55,7 +55,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onLegacyClick, isMyspac
           {/* Visitor Counter and Online Now */}
           <div className="mt-2 space-y-1.5">
             <PixelCounter isMyspaceMode={isMyspaceMode} />
-            <OnlineNow isMyspaceMode={isMyspaceMode} />
+            {/* <OnlineNow isMyspaceMode={isMyspaceMode} /> */}
           </div>
           
           <p className="text-xs text-black dark:text-white mt-2">Last Updated: {lastDeployed || '...'}</p>
