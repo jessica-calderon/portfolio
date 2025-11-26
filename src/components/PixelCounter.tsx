@@ -17,32 +17,27 @@ const PixelCounter: React.FC<PixelCounterProps> = ({ isMyspaceMode }) => {
         setIsLoading(true);
         setError(false);
         
-        // Fetch the SVG badge from hits.sh
-        const response = await fetch('https://hits.sh/jessica-calderon.github.io.svg?style=flat-square', {
-          method: 'GET',
-          mode: 'cors',
-        });
+        // Fetch the SVG badge from hits.sh - exact URL with trailing slash
+        const res = await fetch(
+          "https://hits.sh/jessica-calderon.github.io/portfolio/.svg?style=flat-square"
+        );
 
-        if (!response.ok) {
+        if (!res.ok) {
           throw new Error('Failed to fetch visitor count');
         }
 
-        const svgText = await response.text();
+        const text = await res.text();
         
-        // Extract number using regex - looking for numbers in the SVG
-        // The SVG typically contains text elements with numbers like "123" or "123 hits"
-        // Try to find the largest number (likely the hit count)
-        const numberMatches = svgText.match(/\d+/g);
+        // Extract number using regex: />(\d+)</
+        const match = text.match(/>(\d+)</);
         
-        if (numberMatches && numberMatches.length > 0) {
-          // Get the largest number (usually the hit count)
-          const numbers = numberMatches.map(n => parseInt(n, 10));
-          const count = Math.max(...numbers);
-          // Pad to 5 digits
+        if (match && match[1]) {
+          const count = parseInt(match[1], 10);
+          // Pad to 5 digits (e.g., 00001)
           const paddedCount = count.toString().padStart(5, '0');
           setVisitorCount(paddedCount);
         } else {
-          throw new Error('Could not extract visitor count');
+          throw new Error('Could not extract visitor count from SVG');
         }
       } catch (err) {
         console.error('Error fetching visitor count:', err);
@@ -56,8 +51,12 @@ const PixelCounter: React.FC<PixelCounterProps> = ({ isMyspaceMode }) => {
     fetchVisitorCount();
   }, []);
 
-  // Theme-aware styling - always match panel text style
-  const textClasses = `text-black dark:text-white transition-all duration-300`;
+  // Theme-aware styling
+  // MySpace Mode: neon green text, black bg
+  // Professional Mode: gray bg, subtle border, light/dark text
+  const textClasses = isMyspaceMode
+    ? `text-[#00ff66] transition-all duration-300`
+    : `text-gray-800 dark:text-gray-200 transition-all duration-300`;
 
   return (
     <p className={`text-xs ${textClasses}`}>
