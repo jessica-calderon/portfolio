@@ -382,3 +382,6 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
 
 export default AccessibilityMenu;
 
+
+
+

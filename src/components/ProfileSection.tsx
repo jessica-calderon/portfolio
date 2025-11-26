@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import profilePic from '../assets/8bitme.png';
+import PixelCounter from './PixelCounter';
+import OnlineNow from './OnlineNow';
 
 interface ProfileSectionProps {
   onLegacyClick: () => void;
+  isMyspaceMode?: boolean;
 }
 
-const ProfileSection: React.FC<ProfileSectionProps> = ({ onLegacyClick }) => {
+const ProfileSection: React.FC<ProfileSectionProps> = ({ onLegacyClick, isMyspaceMode = false }) => {
   const [lastDeployed, setLastDeployed] = useState<string>('');
 
   useEffect(() => {
@@ -48,8 +51,16 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onLegacyClick }) => {
           <p className="text-xs text-black dark:text-white">She/Her</p>
           <p className="text-xs text-black dark:text-white">San Antonio, TEXAS</p>
           <p className="text-xs text-black dark:text-white">United States</p>
+          
+          {/* Visitor Counter and Online Now */}
+          <div className="mt-2 space-y-1.5">
+            <PixelCounter isMyspaceMode={isMyspaceMode} />
+            <OnlineNow isMyspaceMode={isMyspaceMode} />
+          </div>
+          
           <p className="text-xs text-black dark:text-white mt-2">Last Updated: {lastDeployed || '...'}</p>
           <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
+          
           <div className="mt-2">
             <span className="text-xs text-black dark:text-white">View My: </span>
             <button onClick={onLegacyClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words" aria-label="View legacy profile">Legacy Profile</button>

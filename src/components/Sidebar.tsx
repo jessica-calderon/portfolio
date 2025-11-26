@@ -26,6 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
       {/* Profile Picture and Basic Info */}
       <ProfileSection 
         onLegacyClick={() => setShowLegacyModal(true)}
+        isMyspaceMode={isMyspaceMode}
       />
 
       {/* Contacting Jessica */}

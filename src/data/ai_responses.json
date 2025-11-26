@@ -1,0 +1,58 @@
+{
+  "responses": [
+    {
+      "keywords": ["jessica", "calderon", "who", "about", "introduce", "her"],
+      "response": "Jessica Calderon is a skilled Full Stack Developer with an MBA in Technology Management. She's passionate about building secure, scalable applications and has experience with DoD contracting, STIG compliance, and cloud infrastructure. She holds a DoD Secret Clearance and is CompTIA Security+ certified. Currently, she's available for new opportunities and loves working on innovative tech projects! 🚀"
+    },
+    {
+      "keywords": ["tech", "technology", "stack", "build", "portfolio", "technologies", "used", "tools"],
+      "response": "Jessica built this portfolio using React, TypeScript, Vite, and Tailwind CSS. The tech stack includes modern frontend technologies with a retro MySpace-inspired design. The portfolio is deployed on GitHub Pages and showcases her skills in full-stack development, DevOps, and cloud technologies. She's also experienced with Docker, AWS ECS, GitLab CI/CD, PostgreSQL, and various other tools and frameworks! 💻"
+    },
+    {
+      "keywords": ["stig", "compliant", "container", "pipeline", "case study", "project"],
+      "response": "The STIG-Compliant Container Pipeline is one of Jessica's impressive case studies! It involves building a secure containerization pipeline using Iron Bank containers, GitLab CI/CD, and AWS ECS. This project focused on meeting DoD security requirements (STIG compliance) while maintaining efficient DevOps practices. It demonstrates her expertise in security, containerization, and cloud infrastructure. You can find more details in the Case Studies section of her portfolio! 🔒"
+    },
+    {
+      "keywords": ["passionate", "passion", "interest", "love", "enjoy", "excited"],
+      "response": "Jessica is passionate about building secure, scalable applications and working with modern technologies. She loves full-stack development, cloud infrastructure, and DevOps practices. She's particularly interested in AI, data visualization, and creating innovative solutions that solve real-world problems. Her portfolio showcases her continuous learning journey and commitment to staying current with technology trends! ✨"
+    },
+    {
+      "keywords": ["ai", "artificial intelligence", "machine learning", "experience", "ai experience"],
+      "response": "Jessica has experience working with AI technologies and is excited about the potential of AI in software development. She's built features like this AI chat interface and is interested in exploring how AI can enhance user experiences and automate complex tasks. Her portfolio demonstrates her ability to integrate AI capabilities into web applications! 🤖"
+    },
+    {
+      "keywords": ["skills", "technical", "programming", "languages", "expertise"],
+      "response": "Jessica's technical skills include:\n- Programming: PHP, TypeScript, JavaScript, Python, React, Node.js\n- DevOps: Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI\n- Databases: PostgreSQL, MySQL, Redis, OpenSearch\n- Tools: VS Code, GitLab CI, Fluent Bit, Apache Superset\n- Cloud: AWS, ECS, S3, RDS, CloudWatch\n- Specialties: Moodle Workplace, Data Integration, Iron Bank Containers\n\nShe's continuously learning and expanding her skill set! 🛠️"
+    },
+    {
+      "keywords": ["education", "degree", "mba", "certification", "certified", "bootcamp"],
+      "response": "Jessica has an impressive educational background:\n- MBA in Technology Management from Texas A&M (Magna Cum Laude)\n- Full Stack Boot Camp from University of Texas San Antonio\n- CompTIA Security+ Certification (DoD Active)\n- DoD Secret Clearance\n\nHer combination of business knowledge and technical skills makes her a well-rounded developer! 🎓"
+    },
+    {
+      "keywords": ["case studies", "projects", "work", "portfolio", "applications"],
+      "response": "Jessica has worked on several impressive case studies:\n1. Secure Analytics Integration - Docker, Superset, AWS, PostgreSQL\n2. STIG-Compliant Container Pipeline - Iron Bank, GitLab CI/CD, AWS ECS\n3. Centralized Log Ingestion - Fluent Bit, OpenSearch, CloudWatch\n4. Secure Application Framework - Docker, Redis, PostgreSQL, Moodle\n\nEach project demonstrates her expertise in security, cloud infrastructure, and modern development practices! Check out the Case Studies section for more details! 📊"
+    },
+    {
+      "keywords": ["contact", "email", "linkedin", "github", "reach", "connect", "hire"],
+      "response": "You can connect with Jessica through:\n- Email: calderonjessica13@yahoo.com\n- LinkedIn: linkedin.com/in/Jessica-Calderon-00\n- GitHub: github.com/jessica-calderon\n- Portfolio: jessica-calderon.github.io/portfolio/\n- Schedule a call: cal.com/jessica-calderon\n\nShe's available for new opportunities and would love to connect! 🎯"
+    },
+    {
+      "keywords": ["experience", "work", "background", "professional", "career"],
+      "response": "Jessica has professional experience in DoD contracting, where she's worked on secure applications requiring STIG compliance and security clearances. She has hands-on experience with cloud infrastructure, containerization, CI/CD pipelines, and full-stack development. Her portfolio showcases her ability to work with modern technologies while maintaining security and compliance standards. She's currently available for new opportunities! 💼"
+    },
+    {
+      "keywords": ["hello", "hi", "hey", "greetings", "greet"],
+      "response": "Hey there! 👋 I'm Jessica's AI Friend! I'm here to help you learn about Jessica Calderon, her portfolio, skills, case studies, and more. Feel free to ask me anything - I know all about her work and experience! What would you like to know? 😊"
+    },
+    {
+      "keywords": ["help", "what can you do", "capabilities", "questions"],
+      "response": "I can help you learn about:\n- Who Jessica Calderon is\n- Her technical skills and expertise\n- Her case studies and projects\n- Her education and certifications\n- How to contact her\n- Her tech stack and tools\n- And much more!\n\nJust ask me a question and I'll do my best to help! Try asking things like 'Who is Jessica?' or 'Tell me about her case studies' or 'What tech did she use?' 🎯"
+    },
+    {
+      "keywords": ["default", "fallback"],
+      "response": "That's a great question! While I know a lot about Jessica and her portfolio, I might not have the perfect answer for everything. Try asking about:\n- Her background and experience\n- Her technical skills\n- Her case studies\n- Her education\n- How to contact her\n- The tech stack she used\n\nOr just say 'hi' to get started! 😊"
+    }
+  ]
+}
+
+
