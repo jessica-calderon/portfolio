@@ -144,6 +144,12 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
   
   const entries: LearningEntry[] = [
     {
+      id: 0,
+      timestamp: "11/25/2025 6:30 PM",
+      learning: "Implemented theme-aware visitor counter and live online indicator components with reactive styling for MySpace and Professional modes.",
+      focus: "React hooks, API integration, theme-aware components, and real-time user tracking."
+    },
+    {
       id: 1,
       timestamp: "11/03/2025 12:42 PM",
       learning: "Refined MySpace-style portfolio with improved dark and light mode handling and mobile layout consistency.",

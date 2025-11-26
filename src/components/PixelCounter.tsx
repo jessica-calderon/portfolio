@@ -56,10 +56,8 @@ const PixelCounter: React.FC<PixelCounterProps> = ({ isMyspaceMode }) => {
     fetchVisitorCount();
   }, []);
 
-  // Theme-aware styling - match panel text style
-  const textClasses = isMyspaceMode
-    ? `text-[#00ff66] transition-all duration-300`
-    : `text-black dark:text-white transition-all duration-300`;
+  // Theme-aware styling - always match panel text style
+  const textClasses = `text-black dark:text-white transition-all duration-300`;
 
   return (
     <p className={`text-xs ${textClasses}`}>
