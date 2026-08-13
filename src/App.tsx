@@ -538,10 +538,6 @@ function AppContent() {
                     Profile Views: {formatProfileViews(profileViews)}
                   </p>
                 )}
-                <p className="text-xs text-black dark:text-white">
-                  <span aria-hidden="true">♫ </span>
-                  Profile Song: Jessica.exe — deploy_final_v7_REAL_final
-                </p>
                 <div className="mt-2">
                   <span className="text-xs text-black dark:text-white">View My: </span>
                   <button 
