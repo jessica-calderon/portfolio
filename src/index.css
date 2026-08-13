@@ -94,6 +94,153 @@ body {
   }
 }
 
+/*
+ * Windows XP Accessibility Options dialog — theme-isolated.
+ * Portfolio light/dark/custom themes must NOT recolor this shell.
+ * Global accessibility prefs (font size, dyslexia font, focus, motion) may still apply.
+ */
+.xp-a11y-dialog {
+  --xp-title-top: #3b7cda;
+  --xp-title-mid: #245edb;
+  --xp-title-bottom: #1a4aa5;
+  --xp-title-text: #ffffff;
+  --xp-body: #ece9d8;
+  --xp-text: #000000;
+  --xp-muted: #555555;
+  --xp-border: #0054e3;
+  --xp-inset: #ffffff;
+  --xp-control: #ece9d8;
+  --xp-control-face: #f3f1e7;
+  --xp-control-hover: #ddd9c8;
+  --xp-control-border: #003c74;
+  --xp-primary: #245edb;
+  --xp-primary-hover: #1a4aa5;
+  --xp-primary-border: #003c74;
+  --xp-close: #c75050;
+  --xp-close-hover: #e06060;
+  --xp-close-border: #9b2d2d;
+  --xp-switch-off: #c0c0c0;
+  --xp-switch-on: #245edb;
+  --xp-shadow: 2px 2px 8px rgba(0, 0, 0, 0.45);
+  color: var(--xp-text);
+  font-family: Tahoma, 'Segoe UI', sans-serif;
+}
+
+/* Accessibility typography may restyle the XP dialog; portfolio themes must not */
+html.dyslexia-friendly .xp-a11y-dialog {
+  font-family: 'OpenDyslexic', 'Comic Sans MS', Arial, Tahoma, sans-serif;
+}
+
+.xp-a11y-dialog .xp-shell {
+  background: var(--xp-body);
+  color: var(--xp-text);
+  border: 2px solid var(--xp-border);
+  border-radius: 6px 6px 3px 3px;
+  box-shadow: var(--xp-shadow);
+}
+
+.xp-a11y-dialog .xp-titlebar {
+  background: linear-gradient(
+    to bottom,
+    var(--xp-title-top) 0%,
+    var(--xp-title-mid) 45%,
+    var(--xp-title-bottom) 100%
+  );
+  color: var(--xp-title-text);
+  border-bottom: 1px solid #003c74;
+}
+
+.xp-a11y-dialog .xp-titlebar-text {
+  color: var(--xp-title-text);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.35);
+}
+
+.xp-a11y-dialog .xp-close {
+  background: linear-gradient(to bottom, #e78989 0%, var(--xp-close) 50%, #a83838 100%);
+  color: #ffffff;
+  border: 1px solid var(--xp-close-border);
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.xp-a11y-dialog .xp-close:hover {
+  background: linear-gradient(to bottom, #f0a0a0 0%, var(--xp-close-hover) 50%, #b84444 100%);
+}
+
+.xp-a11y-dialog .xp-body,
+.xp-a11y-dialog .xp-footer {
+  background: var(--xp-body);
+  color: var(--xp-text);
+}
+
+.xp-a11y-dialog .xp-footer {
+  border-top: 1px solid #aca899;
+}
+
+.xp-a11y-dialog .xp-text {
+  color: var(--xp-text);
+}
+
+.xp-a11y-dialog .xp-muted {
+  color: var(--xp-muted);
+}
+
+.xp-a11y-dialog .xp-btn {
+  background: linear-gradient(to bottom, #ffffff 0%, var(--xp-control-face) 55%, var(--xp-control) 100%);
+  color: var(--xp-text);
+  border: 1px solid var(--xp-control-border);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.xp-a11y-dialog .xp-btn:hover {
+  background: linear-gradient(to bottom, #ffffff 0%, var(--xp-control-hover) 100%);
+}
+
+.xp-a11y-dialog .xp-btn-primary {
+  background: linear-gradient(to bottom, #5b91e6 0%, var(--xp-primary) 55%, var(--xp-primary-hover) 100%);
+  color: #ffffff;
+  border: 1px solid var(--xp-primary-border);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.xp-a11y-dialog .xp-btn-primary:hover {
+  background: linear-gradient(to bottom, #6ea0ef 0%, #2f6fe0 55%, #163f96 100%);
+}
+
+.xp-a11y-dialog .xp-slider {
+  accent-color: var(--xp-primary);
+  background: #d4d0c8;
+  border-radius: 999px;
+}
+
+.xp-a11y-dialog .xp-switch {
+  background: var(--xp-switch-off);
+  border: 1px solid #808080;
+}
+
+.xp-a11y-dialog .xp-switch[aria-checked='true'] {
+  background: var(--xp-switch-on);
+  border-color: var(--xp-primary-border);
+}
+
+.xp-a11y-dialog .xp-switch-thumb {
+  background: #ffffff;
+  border: 1px solid #808080;
+}
+
+.xp-a11y-dialog .xp-kbd {
+  background: var(--xp-control-face);
+  color: var(--xp-text);
+  border: 1px solid #808080;
+  border-radius: 2px;
+  box-shadow: inset 0 -1px 0 #aca899;
+}
+
+.xp-a11y-dialog .xp-divider {
+  border-color: #aca899;
+}
+
 /* Accessibility Features */
 
 /* High Contrast Mode */

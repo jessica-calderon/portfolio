@@ -73,20 +73,6 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
     }
   }, [settings]);
 
-  // Handle ESC key to close
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose]);
-
   // Announce changes to screen readers
   const announceToScreenReader = (message: string) => {
     const announcement = document.createElement('div');
@@ -160,6 +146,30 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
 
   if (!isOpen) return null;
 
+  const renderSwitch = (
+    id: string,
+    checked: boolean,
+    onToggle: () => void,
+    ariaLabel: string
+  ) => (
+    <button
+      type="button"
+      id={id}
+      onClick={onToggle}
+      className="xp-switch relative inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-[#245edb] focus:ring-offset-2 focus:ring-offset-[#ece9d8]"
+      role="switch"
+      aria-checked={checked}
+      aria-label={ariaLabel}
+    >
+      <span
+        className={`xp-switch-thumb inline-block h-5 w-5 transform rounded-full shadow transition-transform motion-reduce:transition-none ${
+          checked ? 'translate-x-5' : 'translate-x-0'
+        }`}
+        aria-hidden="true"
+      />
+    </button>
+  );
+
   return (
     <BaseModal
       id="accessibility-options-dialog"
@@ -167,12 +177,13 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
       onClose={onClose}
       maxWidth="max-w-md"
       manageFocus
+      visualVariant="xp"
       footer={
-        <div className="flex items-center justify-end gap-3">
+        <div className="flex items-center justify-end gap-3 w-full">
           <button
             type="button"
             onClick={resetAllSettings}
-            className="min-h-[44px] px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:ring-offset-2"
+            className="xp-btn min-h-[44px] px-4 py-2 text-sm font-medium transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-[#245edb] focus:ring-offset-2 focus:ring-offset-[#ece9d8]"
             aria-label="Reset all accessibility settings to defaults"
           >
             Reset Defaults
@@ -183,7 +194,7 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
               announceToScreenReader('Accessibility settings saved');
               onClose();
             }}
-            className="min-h-[44px] px-6 py-2 text-sm font-medium text-white bg-[#245edb] hover:bg-[#1a4aa5] dark:bg-[#1a3a85] dark:hover:bg-[#0f2a65] rounded transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:ring-offset-2"
+            className="xp-btn-primary min-h-[44px] px-6 py-2 text-sm font-medium transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-[#245edb] focus:ring-offset-2 focus:ring-offset-[#ece9d8]"
             aria-label="Done, close Accessibility Options"
           >
             Done
@@ -192,7 +203,7 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
       }
     >
       <div className="space-y-6">
-        <p className="text-xs text-gray-600 dark:text-gray-400">
+        <p className="xp-muted text-xs">
           Optional display preferences for this site. These settings are stored in your browser and do not imply ADA or WCAG compliance.
         </p>
 
@@ -200,7 +211,7 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
         <div>
           <label
             htmlFor="font-size"
-            className="block text-sm font-semibold mb-2 text-gray-900 dark:text-gray-100"
+            className="xp-text block text-sm font-semibold mb-2"
           >
             Increase Text Size: {settings.fontSize}%
           </label>
@@ -208,10 +219,10 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
             <button
               type="button"
               onClick={() => updateFontSize(-5)}
-              className="min-h-[44px] min-w-[44px] px-4 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:ring-offset-2"
+              className="xp-btn min-h-[44px] min-w-[44px] px-4 py-2 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-[#245edb] focus:ring-offset-2 focus:ring-offset-[#ece9d8]"
               aria-label="Decrease font size"
             >
-              <span className="text-lg font-bold text-gray-900 dark:text-gray-100" aria-hidden="true">A−</span>
+              <span className="xp-text text-lg font-bold" aria-hidden="true">A−</span>
             </button>
             <div className="flex-1 min-w-[8rem]">
               <input
@@ -226,7 +237,7 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
                   setSettings(prev => ({ ...prev, fontSize: newSize }));
                   announceToScreenReader(`Font size set to ${newSize}%`);
                 }}
-                className="w-full h-3 bg-gray-200 dark:bg-gray-600 rounded-lg appearance-none cursor-pointer accent-gray-600 dark:accent-gray-400"
+                className="xp-slider w-full h-3 appearance-none cursor-pointer"
                 aria-valuemin={75}
                 aria-valuemax={150}
                 aria-valuenow={settings.fontSize}
@@ -236,15 +247,15 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
             <button
               type="button"
               onClick={() => updateFontSize(5)}
-              className="min-h-[44px] min-w-[44px] px-4 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:ring-offset-2"
+              className="xp-btn min-h-[44px] min-w-[44px] px-4 py-2 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-[#245edb] focus:ring-offset-2 focus:ring-offset-[#ece9d8]"
               aria-label="Increase font size"
             >
-              <span className="text-lg font-bold text-gray-900 dark:text-gray-100" aria-hidden="true">A+</span>
+              <span className="xp-text text-lg font-bold" aria-hidden="true">A+</span>
             </button>
             <button
               type="button"
               onClick={resetFontSize}
-              className="min-h-[44px] px-3 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 rounded transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:ring-offset-2 text-sm text-gray-900 dark:text-gray-100"
+              className="xp-btn min-h-[44px] px-3 py-2 text-sm transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-[#245edb] focus:ring-offset-2 focus:ring-offset-[#ece9d8]"
               aria-label="Reset font size to default"
             >
               Reset
@@ -254,147 +265,74 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
 
         {/* Toggle Options */}
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <div className="flex-1">
               <label
                 htmlFor="high-contrast"
-                className="text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer"
+                className="xp-text text-sm font-semibold cursor-pointer"
               >
                 High Contrast Mode
               </label>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              <p className="xp-muted text-xs mt-1">
                 Increases contrast for better visibility
               </p>
             </div>
-            <button
-              type="button"
-              id="high-contrast"
-              onClick={toggleHighContrast}
-              className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:ring-offset-2 ${
-                settings.highContrast
-                  ? 'bg-gray-600 dark:bg-gray-400'
-                  : 'bg-gray-300 dark:bg-gray-600'
-              }`}
-              role="switch"
-              aria-checked={settings.highContrast}
-              aria-label="High contrast mode"
-            >
-              <span
-                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform motion-reduce:transition-none ${
-                  settings.highContrast ? 'translate-x-5' : 'translate-x-0'
-                }`}
-                aria-hidden="true"
-              />
-            </button>
+            {renderSwitch('high-contrast', settings.highContrast, toggleHighContrast, 'High contrast mode')}
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <div className="flex-1">
               <label
                 htmlFor="dyslexia-friendly"
-                className="text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer"
+                className="xp-text text-sm font-semibold cursor-pointer"
               >
                 Dyslexia-Friendly Font
               </label>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              <p className="xp-muted text-xs mt-1">
                 Uses OpenDyslexic font for better readability
               </p>
             </div>
-            <button
-              type="button"
-              id="dyslexia-friendly"
-              onClick={toggleDyslexiaFriendly}
-              className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:ring-offset-2 ${
-                settings.dyslexiaFriendly
-                  ? 'bg-gray-600 dark:bg-gray-400'
-                  : 'bg-gray-300 dark:bg-gray-600'
-              }`}
-              role="switch"
-              aria-checked={settings.dyslexiaFriendly}
-              aria-label="Dyslexia-friendly font"
-            >
-              <span
-                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform motion-reduce:transition-none ${
-                  settings.dyslexiaFriendly ? 'translate-x-5' : 'translate-x-0'
-                }`}
-                aria-hidden="true"
-              />
-            </button>
+            {renderSwitch('dyslexia-friendly', settings.dyslexiaFriendly, toggleDyslexiaFriendly, 'Dyslexia-friendly font')}
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <div className="flex-1">
               <label
                 htmlFor="reduced-motion"
-                className="text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer"
+                className="xp-text text-sm font-semibold cursor-pointer"
               >
                 Reduced Motion
               </label>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              <p className="xp-muted text-xs mt-1">
                 Reduces animations and transitions
               </p>
             </div>
-            <button
-              type="button"
-              id="reduced-motion"
-              onClick={toggleReducedMotion}
-              className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:ring-offset-2 ${
-                settings.reducedMotion
-                  ? 'bg-gray-600 dark:bg-gray-400'
-                  : 'bg-gray-300 dark:bg-gray-600'
-              }`}
-              role="switch"
-              aria-checked={settings.reducedMotion}
-              aria-label="Reduced motion"
-            >
-              <span
-                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform motion-reduce:transition-none ${
-                  settings.reducedMotion ? 'translate-x-5' : 'translate-x-0'
-                }`}
-                aria-hidden="true"
-              />
-            </button>
+            {renderSwitch('reduced-motion', settings.reducedMotion, toggleReducedMotion, 'Reduced motion')}
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-3">
             <div className="flex-1">
               <label
                 htmlFor="enhanced-focus"
-                className="text-sm font-semibold text-gray-900 dark:text-gray-100 cursor-pointer"
+                className="xp-text text-sm font-semibold cursor-pointer"
               >
                 Enhanced Focus Indicators
               </label>
-              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+              <p className="xp-muted text-xs mt-1">
                 Makes focus indicators more visible
               </p>
             </div>
-            <button
-              type="button"
-              id="enhanced-focus"
-              onClick={toggleEnhancedFocus}
-              className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 focus:ring-offset-2 ${
-                settings.enhancedFocus
-                  ? 'bg-gray-600 dark:bg-gray-400'
-                  : 'bg-gray-300 dark:bg-gray-600'
-              }`}
-              role="switch"
-              aria-checked={settings.enhancedFocus}
-              aria-label="Enhanced focus indicators"
-            >
-              <span
-                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform motion-reduce:transition-none ${
-                  settings.enhancedFocus ? 'translate-x-5' : 'translate-x-0'
-                }`}
-                aria-hidden="true"
-              />
-            </button>
+            {renderSwitch('enhanced-focus', settings.enhancedFocus, toggleEnhancedFocus, 'Enhanced focus indicators')}
           </div>
         </div>
 
         {/* Keyboard Shortcuts Info */}
-        <div className="pt-4 border-t border-gray-300 dark:border-gray-600">
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
-            <strong>Keyboard Shortcut:</strong> Press <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600">Alt</kbd> + <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600">A</kbd> to open this menu. Press <kbd className="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600">Esc</kbd> to close.
+        <div className="xp-divider pt-4 border-t">
+          <p className="xp-muted text-xs mb-2">
+            <strong className="xp-text">Keyboard Shortcut:</strong> Press{' '}
+            <kbd className="xp-kbd px-1.5 py-0.5">Alt</kbd> +{' '}
+            <kbd className="xp-kbd px-1.5 py-0.5">A</kbd> to open this menu. Press{' '}
+            <kbd className="xp-kbd px-1.5 py-0.5">Esc</kbd> to close.
           </p>
         </div>
       </div>
@@ -403,4 +341,3 @@ const AccessibilityMenu: React.FC<AccessibilityMenuProps> = ({ isOpen, onClose }
 };
 
 export default AccessibilityMenu;
-

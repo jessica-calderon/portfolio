@@ -11,11 +11,16 @@ interface BaseModalProps {
   id?: string;
   /** When true, moves focus into the dialog on mount and traps Tab within it */
   manageFocus?: boolean;
+  /**
+   * 'themed' follows portfolio dark/light mode.
+   * 'xp' uses a fixed Windows XP system-dialog appearance (theme-isolated).
+   */
+  visualVariant?: 'themed' | 'xp';
 }
 
 /**
- * BaseModal - A reusable modal component with dark mode support
- * Handles common modal functionality: backdrop, escape key, scroll lock, dark mode styling
+ * BaseModal - reusable modal shell.
+ * Supports portfolio-themed dialogs or a fixed Windows XP system-dialog look.
  */
 const BaseModal: React.FC<BaseModalProps> = ({
   children,
@@ -26,9 +31,11 @@ const BaseModal: React.FC<BaseModalProps> = ({
   footer,
   id,
   manageFocus = false,
+  visualVariant = 'themed',
 }) => {
   const { isDarkMode } = useDarkMode();
   const dialogRef = useRef<HTMLDivElement>(null);
+  const isXp = visualVariant === 'xp';
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -94,11 +101,39 @@ const BaseModal: React.FC<BaseModalProps> = ({
     }
   };
 
+  const shellClass = isXp
+    ? `xp-shell w-full ${maxWidth} mx-4 max-h-[min(90vh,100%)] overflow-hidden animate-modalAppear motion-reduce:animate-none flex flex-col`
+    : `w-full ${maxWidth} mx-4 max-h-[min(90vh,100%)] ${
+        isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'
+      } rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear motion-reduce:animate-none flex flex-col`;
+
+  const titleBarClass = isXp
+    ? 'xp-titlebar font-bold px-4 py-2 flex items-center justify-between select-none'
+    : `${
+        isDarkMode
+          ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]'
+          : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'
+      } text-white font-bold px-4 py-2 flex items-center justify-between select-none`;
+
+  const bodyClass = isXp
+    ? 'xp-body flex-1 overflow-auto p-6'
+    : `flex-1 overflow-auto p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`;
+
+  const footerClass = isXp
+    ? 'xp-footer px-4 py-3 flex items-center justify-between'
+    : `border-t border-gray-300 dark:border-gray-600 px-4 py-3 flex items-center justify-between ${
+        isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
+      }`;
+
+  const closeClass = isXp
+    ? 'xp-close min-w-[28px] min-h-[28px] w-7 h-7 flex items-center justify-center text-xs font-bold transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]'
+    : 'bg-red-600 hover:bg-red-700 text-white min-w-[28px] min-h-[28px] w-7 h-7 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]';
+
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] animate-fadeIn motion-reduce:animate-none"
+      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] animate-fadeIn motion-reduce:animate-none${isXp ? ' xp-a11y-dialog' : ''}`}
       onClick={handleBackdropClick}
-      style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
+      style={isXp ? undefined : { fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
@@ -107,22 +142,17 @@ const BaseModal: React.FC<BaseModalProps> = ({
       tabIndex={-1}
     >
       <div 
-        className={`w-full ${maxWidth} mx-4 max-h-[min(90vh,100%)] ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear motion-reduce:animate-none flex flex-col ${
-          footer ? '' : 'max-h-[calc(90vh-2rem)]'
-        }`}
+        className={shellClass}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Windows XP-style title bar - adapts to dark mode */}
-        <div 
-          className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between select-none`}
-        >
-          <span id="modal-title" className="text-sm">{title}</span>
+        <div className={titleBarClass}>
+          <span id="modal-title" className={`text-sm${isXp ? ' xp-titlebar-text' : ''}`}>{title}</span>
           <div className="flex items-center gap-2">
             {titleBarActions}
             <button
               type="button"
               onClick={onClose}
-              className="bg-red-600 hover:bg-red-700 text-white min-w-[28px] min-h-[28px] w-7 h-7 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]"
+              className={closeClass}
               aria-label={`Close ${title}`}
             >
               <span aria-hidden="true">✕</span>
@@ -130,14 +160,12 @@ const BaseModal: React.FC<BaseModalProps> = ({
           </div>
         </div>
 
-        {/* Modal content */}
-        <div className={`flex-1 overflow-auto p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
+        <div className={bodyClass}>
           {children}
         </div>
 
-        {/* Optional footer */}
         {footer && (
-          <div className={`border-t border-gray-300 dark:border-gray-600 px-4 py-3 flex items-center justify-between ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+          <div className={footerClass}>
             {footer}
           </div>
         )}
@@ -147,4 +175,3 @@ const BaseModal: React.FC<BaseModalProps> = ({
 };
 
 export default BaseModal;
-
