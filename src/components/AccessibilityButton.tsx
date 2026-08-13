@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AccessibilityMenu from './AccessibilityMenu';
 
 const AccessibilityButton: React.FC = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   // Keyboard shortcut: Alt + A to open accessibility menu
   useEffect(() => {
@@ -17,27 +18,40 @@ const AccessibilityButton: React.FC = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  const handleClose = () => {
+    setShowMenu(false);
+    // Return focus to the Accessibility button after the menu unmounts
+    requestAnimationFrame(() => {
+      buttonRef.current?.focus();
+    });
+  };
+
   return (
     <>
-      {/* Floating Accessibility Button - Responsive Positioning */}
       <button
-        onClick={() => setShowMenu(!showMenu)}
-        className="fixed z-50 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 text-white shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-500 focus:ring-offset-2
-        w-10 h-10 sm:w-12 sm:h-12
-        top-24 right-4
-        md:top-28 md:right-4
-        lg:top-4 lg:right-4"
+        ref={buttonRef}
+        type="button"
+        id="accessibility-options-button"
+        onClick={() => setShowMenu((open) => !open)}
+        className="flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 text-white shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent
+        w-12 h-12 sm:w-14 sm:h-14
+        transition-all duration-200 motion-reduce:transition-none motion-reduce:transform-none
+        hover:scale-105 active:scale-95 motion-reduce:hover:scale-100 motion-reduce:active:scale-100"
         aria-label="Accessibility Options"
+        aria-expanded={showMenu}
+        aria-haspopup="dialog"
+        aria-controls="accessibility-options-dialog"
         title="Accessibility Options (Alt+A)"
       >
         {/* Universal Access Icon - Standard ISO Symbol */}
         <svg
-          className="w-5 h-5 sm:w-6 sm:h-6"
+          className="w-6 h-6 sm:w-7 sm:h-7"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
+          focusable="false"
         >
           {/* Outer circle */}
           <circle cx="12" cy="12" r="10" strokeWidth={2} />
@@ -51,14 +65,11 @@ const AccessibilityButton: React.FC = () => {
             d="M12 10.5c-2.2 0-4 1.3-4 3v3h8v-3c0-1.7-1.8-3-4-3z"
           />
         </svg>
-        <span className="sr-only">Open accessibility options</span>
       </button>
 
-      {/* Accessibility Menu */}
-      <AccessibilityMenu isOpen={showMenu} onClose={() => setShowMenu(false)} />
+      <AccessibilityMenu isOpen={showMenu} onClose={handleClose} />
     </>
   );
 };
 
 export default AccessibilityButton;
-

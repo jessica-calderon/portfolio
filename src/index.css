@@ -81,6 +81,19 @@ body {
   animation: modalAppear 0.3s ease-out;
 }
 
+/* Floating utility cluster (Accessibility + Scroll to Top) */
+.floating-utility-controls {
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  right: max(1rem, env(safe-area-inset-right, 0px));
+}
+
+@media (min-width: 640px) {
+  .floating-utility-controls {
+    bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+    right: max(1.5rem, env(safe-area-inset-right, 0px));
+  }
+}
+
 /* Accessibility Features */
 
 /* High Contrast Mode */

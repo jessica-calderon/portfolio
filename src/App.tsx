@@ -5,11 +5,10 @@ import Education from './components/Education';
 import CaseStudiesGrid from './components/CaseStudiesGrid';
 import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
-import AccessibilityButton from './components/AccessibilityButton';
 import ResumeModal from './components/ResumeModal';
 import ShareProfileModal from './components/ShareProfileModal';
 import LegacyProfileModal from './components/LegacyProfileModal';
-import JumpToTop from './components/JumpToTop';
+import FloatingUtilityControls from './components/FloatingUtilityControls';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import profilePic from './assets/8bitme.png';
 import './App.css';
@@ -920,11 +919,8 @@ function AppContent() {
     {/* Legacy Profile Modal */}
     {showLegacyModal && <LegacyProfileModal onClose={() => setShowLegacyModal(false)} />}
     
-    {/* Jump to Top Button */}
-    <JumpToTop isMyspaceMode={isMyspaceMode} />
-    
-    {/* Accessibility Button */}
-    <AccessibilityButton />
+    {/* Bottom-right utility cluster: Accessibility + Scroll to Top */}
+    <FloatingUtilityControls isMyspaceMode={isMyspaceMode} />
     
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode } from 'react';
+import React, { useEffect, useRef, ReactNode } from 'react';
 import { useDarkMode } from '../../contexts/DarkModeContext';
 
 interface BaseModalProps {
@@ -8,6 +8,9 @@ interface BaseModalProps {
   titleBarActions?: ReactNode;
   maxWidth?: string;
   footer?: ReactNode;
+  id?: string;
+  /** When true, moves focus into the dialog on mount and traps Tab within it */
+  manageFocus?: boolean;
 }
 
 /**
@@ -21,8 +24,11 @@ const BaseModal: React.FC<BaseModalProps> = ({
   titleBarActions,
   maxWidth = 'max-w-2xl',
   footer,
+  id,
+  manageFocus = false,
 }) => {
   const { isDarkMode } = useDarkMode();
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -40,6 +46,48 @@ const BaseModal: React.FC<BaseModalProps> = ({
     };
   }, [onClose]);
 
+  // Optional focus management: initial focus + basic Tab trap
+  useEffect(() => {
+    if (!manageFocus) return;
+
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const getFocusable = () =>
+      Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute('disabled') && el.offsetParent !== null);
+
+    const focusable = getFocusable();
+    if (focusable.length > 0) {
+      focusable[0].focus();
+    } else {
+      dialog.focus();
+    }
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const items = getFocusable();
+      if (items.length === 0) return;
+
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    dialog.addEventListener('keydown', handleTab);
+    return () => dialog.removeEventListener('keydown', handleTab);
+  }, [manageFocus]);
+
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -48,15 +96,18 @@ const BaseModal: React.FC<BaseModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
+      id={id}
+      ref={dialogRef}
+      tabIndex={-1}
     >
       <div 
-        className={`w-full ${maxWidth} mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear flex flex-col ${
+        className={`w-full ${maxWidth} mx-4 max-h-[min(90vh,100%)] ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear motion-reduce:animate-none flex flex-col ${
           footer ? '' : 'max-h-[calc(90vh-2rem)]'
         }`}
         onClick={(e) => e.stopPropagation()}
@@ -69,9 +120,10 @@ const BaseModal: React.FC<BaseModalProps> = ({
           <div className="flex items-center gap-2">
             {titleBarActions}
             <button
+              type="button"
               onClick={onClose}
-              className="bg-red-600 hover:bg-red-700 text-white w-6 h-6 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors"
-              aria-label={`Close ${title} modal`}
+              className="bg-red-600 hover:bg-red-700 text-white min-w-[28px] min-h-[28px] w-7 h-7 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]"
+              aria-label={`Close ${title}`}
             >
               <span aria-hidden="true">✕</span>
             </button>
