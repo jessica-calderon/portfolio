@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import profilePic from '../assets/8bitme.png';
 import AboutMe from './AboutMe';
 import Education from './Education';
@@ -10,6 +10,7 @@ import { useProfileTheme } from '../contexts/ProfileThemeContext';
 import { useLastLoginLabel } from '../hooks/useLastLoginLabel';
 import { formatProfileViews, useProfileViews } from '../hooks/useProfileViews';
 import { tryNativeShare } from './ShareProfileModal';
+import { readFavorited } from './AddFavoriteDialog';
 import { PROFILE_URL } from '../constants/urls';
 import {
   CURRENTLY_FOCUS,
@@ -52,6 +53,17 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
   const { openBuilder } = useProfileTheme();
   const lastLogin = useLastLoginLabel();
   const profileViews = useProfileViews();
+  const [favorited, setFavorited] = useState(readFavorited);
+
+  useEffect(() => {
+    const sync = () => setFavorited(readFavorited());
+    window.addEventListener('jc-favorites-changed', sync);
+    window.addEventListener('storage', sync);
+    return () => {
+      window.removeEventListener('jc-favorites-changed', sync);
+      window.removeEventListener('storage', sync);
+    };
+  }, []);
 
   const handleShareClick = async () => {
     const url = typeof window !== 'undefined' ? window.location.href : PROFILE_URL;
@@ -154,60 +166,119 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
 
       <div className="jdiv-side-block jdiv-side-contact" id="contact">
         <div className="jdiv-side-head">Contacting Jessica</div>
-        <ul className="jdiv-link-list">
-          <li>
-            <button type="button" onClick={() => open('aim')} aria-haspopup="dialog">
-              ✉ Send Message
-            </button>
-          </li>
-          <li>
-            <button type="button" onClick={() => open('resume')} aria-haspopup="dialog">
-              📄 View Resume
-            </button>
-          </li>
-          <li>
-            <a
-              href="https://github.com/jessica-calderon"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://linkedin.com/in/Jessica-Calderon-00"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://cal.com/jessica-calderon"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Schedule Call
-            </a>
-          </li>
-          <li>
-            <button type="button" onClick={handleShareClick} aria-haspopup="dialog">
-              Share Profile
-            </button>
-          </li>
-          <li>
-            <button type="button" onClick={() => open('favorites')} aria-haspopup="dialog">
-              Add to Favorites
-            </button>
-          </li>
-          <li>
-            <button type="button" onClick={() => openBuilder('jessicas-custom')}>
-              🎨 Customize Profile
-            </button>
-          </li>
-        </ul>
+        <div className="jdiv-contact-grid">
+          <button
+            type="button"
+            className="jdiv-contact-action"
+            onClick={() => open('aim')}
+            aria-label="Send message to Jessica Calderon"
+            aria-haspopup="dialog"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              ✉
+            </span>
+            <span className="jdiv-contact-label">Send Message</span>
+          </button>
+          <a
+            href="https://linkedin.com/in/Jessica-Calderon-00"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="jdiv-contact-action"
+            aria-label="Connect on LinkedIn (opens in new tab)"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              👥
+            </span>
+            <span className="jdiv-contact-label">Connect</span>
+          </a>
+          <button
+            type="button"
+            className="jdiv-contact-action"
+            onClick={() => open('resume')}
+            aria-label="View resume"
+            aria-haspopup="dialog"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              📄
+            </span>
+            <span className="jdiv-contact-label">View Resume</span>
+          </button>
+          <a
+            href="https://cal.com/jessica-calderon"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="jdiv-contact-action"
+            aria-label="Schedule a call via Cal.com (opens in new tab)"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              📅
+            </span>
+            <span className="jdiv-contact-label">Schedule Call</span>
+          </a>
+          <a
+            href="https://github.com/jessica-calderon"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="jdiv-contact-action"
+            aria-label="View GitHub profile (opens in new tab)"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              ↗
+            </span>
+            <span className="jdiv-contact-label">GitHub</span>
+          </a>
+          <a
+            href="https://linkedin.com/in/Jessica-Calderon-00"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="jdiv-contact-action"
+            aria-label="View LinkedIn profile (opens in new tab)"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              ↗
+            </span>
+            <span className="jdiv-contact-label">LinkedIn</span>
+          </a>
+          <button
+            type="button"
+            className="jdiv-contact-action"
+            onClick={handleShareClick}
+            aria-label="Share profile"
+            aria-haspopup="dialog"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              ↗
+            </span>
+            <span className="jdiv-contact-label">Share Profile</span>
+          </button>
+          <button
+            type="button"
+            className="jdiv-contact-action"
+            onClick={() => open('favorites')}
+            aria-label={favorited ? 'Manage MyPortfolio favorite' : 'Add to Favorites'}
+            aria-haspopup="dialog"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              ⭐
+            </span>
+            <span className="jdiv-contact-label">
+              {favorited ? 'Favorited' : 'Add to Favorites'}
+            </span>
+          </button>
+        </div>
+        <div className="jdiv-contact-meta">
+          <button
+            type="button"
+            className="jdiv-contact-action jdiv-contact-action--meta"
+            onClick={() => openBuilder('jessicas-custom')}
+            aria-label="Build your own layout"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              🎨
+            </span>
+            <span className="jdiv-contact-label">Customize Profile</span>
+          </button>
+        </div>
       </div>
 
       <div className="jdiv-side-block jdiv-side-stack" id="tech">

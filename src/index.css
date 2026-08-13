@@ -1615,6 +1615,95 @@ html.reduced-motion .profile-cursor-trail-dot {
   background: rgba(255, 255, 255, 0.45);
 }
 
+/* Compact MySpace-style contact panel (utility remnant) */
+.jdiv-side-contact {
+  padding-bottom: 0.2rem;
+}
+
+.jdiv-side-contact .jdiv-side-head {
+  margin-bottom: 0.2rem;
+}
+
+.jdiv-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.05rem 0.35rem;
+  padding: 0.15rem 0.2rem 0.1rem;
+}
+
+.jdiv-contact-action {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+  min-width: 0;
+  min-height: 32px;
+  padding: 0.15rem 0.1rem;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: #db2777;
+  font: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.jdiv-contact-action:hover,
+.jdiv-contact-action:focus-visible {
+  color: #9d174d;
+  outline: 2px solid #ec4899;
+  outline-offset: 1px;
+}
+
+.jessica-div-layout--dark .jdiv-contact-action,
+.myspace-mode.dark .jdiv-contact-action {
+  color: #f0abfc;
+}
+
+.jessica-div-layout--dark .jdiv-contact-action:hover,
+.jessica-div-layout--dark .jdiv-contact-action:focus-visible,
+.myspace-mode.dark .jdiv-contact-action:hover,
+.myspace-mode.dark .jdiv-contact-action:focus-visible {
+  color: #fce7f3;
+  outline-color: #c084fc;
+}
+
+.jdiv-contact-icon {
+  flex-shrink: 0;
+  width: 1rem;
+  text-align: center;
+  font-size: 0.7rem;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.jdiv-contact-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-underline-offset: 2px;
+}
+
+.jdiv-contact-meta {
+  margin: 0.2rem 0.15rem 0.05rem;
+  padding-top: 0.25rem;
+  border-top: 1px dotted rgba(219, 39, 119, 0.55);
+  text-align: center;
+}
+
+.jessica-div-layout--dark .jdiv-contact-meta,
+.myspace-mode.dark .jdiv-contact-meta {
+  border-top-color: rgba(192, 132, 252, 0.55);
+}
+
+.jdiv-contact-action--meta {
+  justify-content: center;
+  width: 100%;
+  min-height: 34px;
+}
+
 .jdiv-link-list {
   list-style: none;
   margin: 0;
