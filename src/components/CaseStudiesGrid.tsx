@@ -31,13 +31,6 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
       emoji: "📈"
     },
     { 
-      name: "Hardened Container Pipeline",
-      description: "Designed and automated a container build/deploy pipeline using hardened base images, security scanning, and GitLab CI/CD for cloud deployments.",
-      impact: "Cut repetitive security remediation work and made releases more consistent.",
-      techUsed: ["Docker", "GitLab CI/CD", "AWS ECS"],
-      emoji: "🔒"
-    },
-    { 
       name: "Centralized Log Ingestion",
       description: "Implemented a Fluent Bit → OpenSearch pipeline for system observability across containerized services.",
       impact: "Enabled real-time error detection and analytics when something inevitably went sideways.",
@@ -46,7 +39,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
     },
     { 
       name: "Integrated Support Workflow",
-      description: "Designed and developed a custom plugin that brings support-request creation, tracking, comments, and attachments into an enterprise learning platform. Built REST API integration, workflow/status mapping, user-specific visibility, and UI that fits the existing app experience — so users never have to leave the platform to get help.",
+      description: "Designed and developed an integrated support workflow that lets users create, track, and interact with support requests directly within an enterprise learning platform. Custom plugin development with REST API integration, workflow/status mapping, user-specific ticket visibility, and a native UI for comments and attachments.",
       impact: "Reduced friction between users and support teams by bringing ticket submission, status tracking, comments, and attachments into the application’s existing user experience.",
       techUsed: ["PHP", "JavaScript", "REST APIs", "Moodle", "Git"],
       emoji: "🎫"
