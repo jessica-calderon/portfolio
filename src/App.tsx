@@ -6,12 +6,14 @@ import CaseStudiesGrid from './components/CaseStudiesGrid';
 import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
 import ResumeModal from './components/ResumeModal';
+import AimContactModal from './components/AimContactModal';
 import ShareProfileModal from './components/ShareProfileModal';
 import LegacyProfileModal from './components/LegacyProfileModal';
 import FloatingUtilityControls from './components/FloatingUtilityControls';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import { useLastLoginLabel } from './hooks/useLastLoginLabel';
 import { formatProfileViews, useProfileViews } from './hooks/useProfileViews';
+import { CONTACT_EMAIL } from './constants/contact';
 import profilePic from './assets/8bitme.png';
 import './App.css';
 
@@ -28,6 +30,7 @@ function AppContent() {
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
   const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
+  const [showAimModal, setShowAimModal] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState<boolean>(false);
   const [showLegacyModal, setShowLegacyModal] = useState<boolean>(false);
   const { isDarkMode } = useDarkMode();
@@ -406,7 +409,7 @@ function AppContent() {
             )}
           </div>
           <a 
-            href="mailto:calderonjessica13@yahoo.com" 
+            href={`mailto:${CONTACT_EMAIL}`}
             className="hidden md:flex items-center gap-1 text-sm hover:text-pink-200 dark:hover:text-pink-300 transition-colors duration-200 whitespace-nowrap"
             aria-label="Get help via email"
           >
@@ -573,13 +576,15 @@ function AppContent() {
           >
             <h3 className="font-bold text-black dark:text-white text-sm mb-3">Contacting Jessica</h3>
             <div className="grid grid-cols-2 gap-2">
-              <a 
-                href="mailto:calderonjessica13@yahoo.com" 
+              <button
+                type="button"
+                onClick={() => setShowAimModal(true)}
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Send email message to Jessica Calderon"
+                aria-label="Send message to Jessica Calderon"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">✉️</span> Send Message
-              </a>
+              </button>
               <a 
                 href="https://linkedin.com/in/Jessica-Calderon-00" 
                 target="_blank" 
@@ -881,6 +886,9 @@ function AppContent() {
       </div>
     </div>
     
+    {/* AIM-style contact window */}
+    {showAimModal && <AimContactModal onClose={() => setShowAimModal(false)} />}
+
     {/* Resume Modal */}
     {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
     

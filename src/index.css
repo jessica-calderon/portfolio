@@ -337,6 +337,186 @@ html.dyslexia-friendly .xp-a11y-dialog {
   box-shadow: inset 0 1px 0 #aca899;
 }
 
+/*
+ * AIM-inspired contact window — theme-isolated desktop chrome (same family as XP windows).
+ * Recreated stylistically; no proprietary AIM assets.
+ */
+.xp-window.aim-window .aim-shell {
+  border-radius: 4px 4px 2px 2px;
+}
+
+.xp-window.aim-window .aim-buddy {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 8px;
+  background: linear-gradient(to bottom, #f7f5eb 0%, #ece9d8 100%);
+  border-bottom: 1px solid #aca899;
+}
+
+.xp-window.aim-window .aim-buddy-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border: 1px solid #716f64;
+  box-shadow: inset 1px 1px 0 #ffffff;
+  background: #ffffff;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+.xp-window.aim-window .aim-buddy-name {
+  font-size: 13px;
+  font-weight: bold;
+  color: #000000;
+  line-height: 1.2;
+}
+
+.xp-window.aim-window .aim-buddy-presence {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #006600;
+  margin-top: 1px;
+}
+
+.xp-window.aim-window .aim-online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #7dff7d 0%, #00aa00 55%, #006600 100%);
+  border: 1px solid #004400;
+  box-shadow: 0 0 2px rgba(0, 160, 0, 0.55);
+  flex-shrink: 0;
+}
+
+.xp-window.aim-window .aim-buddy-title {
+  font-size: 10px;
+  color: #555555;
+  margin-top: 2px;
+  line-height: 1.25;
+}
+
+.xp-window.aim-window .aim-buddy-status {
+  font-size: 10px;
+  color: #333333;
+  margin-top: 3px;
+  line-height: 1.3;
+}
+
+.xp-window.aim-window .aim-body {
+  background: #d4d0c8;
+  padding: 8px;
+  gap: 8px;
+}
+
+.xp-window.aim-window .aim-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+}
+
+.xp-window.aim-window .aim-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.xp-window.aim-window .aim-field--message {
+  flex: 1;
+  min-height: 0;
+}
+
+.xp-window.aim-window .aim-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.xp-window.aim-window .aim-required {
+  font-weight: normal;
+  color: #555555;
+}
+
+.xp-window.aim-window .aim-input,
+.xp-window.aim-window .aim-textarea {
+  width: 100%;
+  font-family: Tahoma, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #000000;
+  background: #ffffff;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040;
+  border-radius: 0;
+  padding: 4px 6px;
+  min-height: 28px;
+}
+
+.xp-window.aim-window .aim-textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.35;
+  flex: 1;
+}
+
+.xp-window.aim-window .aim-input:focus,
+.xp-window.aim-window .aim-textarea:focus {
+  outline: 2px solid #245edb;
+  outline-offset: 1px;
+}
+
+.xp-window.aim-window .aim-error {
+  margin: 0;
+  font-size: 10px;
+  color: #9b2d2d;
+}
+
+.xp-window.aim-window .aim-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.xp-window.aim-window .aim-btn {
+  min-height: 32px;
+  min-width: 84px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-family: Tahoma, 'Segoe UI', sans-serif;
+  cursor: pointer;
+}
+
+.xp-window.aim-window .aim-btn:focus {
+  outline: 2px solid #245edb;
+  outline-offset: 1px;
+}
+
+.xp-window.aim-window .aim-statusbar {
+  font-size: 11px;
+}
+
+@media (max-width: 480px) {
+  .xp-window.aim-window .aim-textarea {
+    min-height: 140px;
+  }
+
+  .xp-window.aim-window .aim-input,
+  .xp-window.aim-window .aim-textarea,
+  .xp-window.aim-window .aim-btn {
+    font-size: 16px; /* reduce iOS zoom-on-focus */
+    min-height: 40px;
+  }
+
+  .xp-window.aim-window .aim-textarea {
+    min-height: 150px;
+  }
+}
+
 /* Accessibility Features */
 
 /* High Contrast Mode */

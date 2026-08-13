@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ResumeModal from './ResumeModal';
+import AimContactModal from './AimContactModal';
 import ShareProfileModal from './ShareProfileModal';
 import RatingModal from './RatingModal';
 import CustomizeModal from './CustomizeModal';
@@ -16,6 +17,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
   const [showResumeModal, setShowResumeModal] = useState(false);
+  const [showAimModal, setShowAimModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [showCustomizeModal, setShowCustomizeModal] = useState(false);
@@ -30,6 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
 
       {/* Contacting Jessica */}
       <ContactSection 
+        onSendMessageClick={() => setShowAimModal(true)}
         onResumeClick={() => setShowResumeModal(true)}
         onShareClick={() => setShowShareModal(true)}
         onRatingClick={() => setShowRatingModal(true)}
@@ -44,6 +47,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
 
       {/* Jessica's Links */}
       <LinksTable onResumeClick={() => setShowResumeModal(true)} isMyspaceMode={isMyspaceMode} />
+
+      {/* AIM-style contact window */}
+      {showAimModal && <AimContactModal onClose={() => setShowAimModal(false)} />}
 
       {/* Resume Modal */}
       {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
