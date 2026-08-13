@@ -553,7 +553,7 @@ function AppContent() {
           </div>
         </div>
         
-        {/* Professional Contact Banner - order 2 */}
+        {/* Extended network banner - order 2 */}
         <div className="mobile-order-2">
           <div 
             className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${

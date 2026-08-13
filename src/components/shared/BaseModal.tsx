@@ -131,7 +131,7 @@ const BaseModal: React.FC<BaseModalProps> = ({
 
   return (
     <div 
-      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] animate-fadeIn motion-reduce:animate-none${isXp ? ' xp-a11y-dialog' : ''}`}
+      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] animate-fadeIn motion-reduce:animate-none${isXp ? ' xp-window' : ''}`}
       onClick={handleBackdropClick}
       style={isXp ? undefined : { fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
       role="dialog"

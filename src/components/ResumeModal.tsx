@@ -1,29 +1,68 @@
-import React, { useEffect } from 'react';
-import { useDarkMode } from '../contexts/DarkModeContext';
+import React, { useEffect, useRef } from 'react';
 
 interface ResumeModalProps {
   onClose: () => void;
 }
 
 const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
-  const { isDarkMode } = useDarkMode();
   const resumeDocId = '1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8';
   const resumeUrl = `https://docs.google.com/document/d/${resumeDocId}/preview`;
   const downloadUrl = `https://docs.google.com/document/d/${resumeDocId}/export?format=pdf`;
+  const openDocsUrl = `https://docs.google.com/document/d/${resumeDocId}/edit?usp=sharing`;
+
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+  // Preserve prior "Last updated" behavior (dynamic calendar date)
+  const lastUpdatedLabel = new Date().toLocaleDateString();
 
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
+    previouslyFocusedRef.current = document.activeElement as HTMLElement | null;
+    document.body.style.overflow = 'hidden';
+
+    const dialog = dialogRef.current;
+    const getFocusable = () => {
+      if (!dialog) return [];
+      return Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], iframe, [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.offsetParent !== null || el.tagName === 'IFRAME');
+    };
+
+    // Focus first toolbar control (skip trapping into cross-origin iframe)
+    const focusable = getFocusable().filter((el) => el.tagName !== 'IFRAME');
+    focusable[0]?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        e.preventDefault();
         onClose();
+        return;
+      }
+
+      if (e.key !== 'Tab' || !dialog) return;
+
+      const items = getFocusable().filter((el) => el.tagName !== 'IFRAME');
+      if (items.length === 0) return;
+
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
+      previouslyFocusedRef.current?.focus();
     };
   }, [onClose]);
 
@@ -37,65 +76,83 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
     window.open(downloadUrl, '_blank', 'noopener,noreferrer');
   };
 
-  const handleViewOriginal = () => {
-    window.open(`https://docs.google.com/document/d/${resumeDocId}/edit?usp=sharing`, '_blank', 'noopener,noreferrer');
+  const handleOpenDocs = () => {
+    window.open(openDocsUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
+    <div
+      className="xp-window fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 p-1.5 sm:p-4 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
-      style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="resume-modal-title"
+      id="resume-document-window"
+      ref={dialogRef}
+      tabIndex={-1}
     >
-      <div 
-        className={`w-full max-w-4xl mx-4 my-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear flex flex-col h-[calc(90vh-2rem)] max-h-[calc(90vh-2rem)]`}
+      <div
+        className="xp-shell flex w-full max-w-5xl flex-col overflow-hidden animate-modalAppear motion-reduce:animate-none
+          h-[calc(100dvh-0.75rem)] max-h-[calc(100dvh-0.75rem)]
+          sm:h-[min(92vh,900px)] sm:max-h-[min(92vh,900px)]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Windows XP-style title bar */}
-        <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
-          <span className="text-sm">Jessica Calderon - Resume</span>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleDownload}
-              className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 text-xs font-medium border border-green-700 transition-colors"
-              aria-label="Download Resume"
+        {/* Title bar */}
+        <div className="xp-titlebar flex shrink-0 items-center justify-between px-2 py-1.5 sm:px-3 select-none">
+          <div className="flex min-w-0 items-center gap-1.5">
+            <span aria-hidden="true" className="text-sm leading-none">📄</span>
+            <span
+              id="resume-modal-title"
+              className="xp-titlebar-text truncate text-xs font-bold sm:text-sm"
             >
-              📥 Download PDF
-            </button>
-            <button
-              onClick={onClose}
-              className="bg-red-600 hover:bg-red-700 text-white w-6 h-6 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors"
-              aria-label="Close"
-            >
-              ✕
-            </button>
+              Jessica_Calderon_Resume.doc - My Documents
+            </span>
           </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="xp-close flex h-6 w-6 shrink-0 items-center justify-center text-xs font-bold transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]"
+            aria-label="Close resume document window"
+          >
+            <span aria-hidden="true">✕</span>
+          </button>
         </div>
 
-        {/* Modal content */}
-        <div className={`flex-1 overflow-hidden p-4 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
+        {/* Toolbar — only real actions */}
+        <div className="xp-toolbar shrink-0" role="toolbar" aria-label="Resume document tools">
+          <button
+            type="button"
+            className="xp-toolbar-btn"
+            onClick={handleOpenDocs}
+            aria-label="Open resume in Google Docs"
+          >
+            <span aria-hidden="true">📄</span>
+            <span>Open</span>
+          </button>
+          <button
+            type="button"
+            className="xp-toolbar-btn"
+            onClick={handleDownload}
+            aria-label="Download resume as PDF"
+          >
+            <span aria-hidden="true">💾</span>
+            <span>Download PDF</span>
+          </button>
+        </div>
+
+        {/* Document viewport — Google Docs iframe remains source of truth */}
+        <div className="xp-doc-viewport">
           <iframe
             src={resumeUrl}
-            className={`w-full h-full border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}
-            title="Resume"
+            className="xp-doc-frame"
+            title="Jessica Calderon resume document"
           />
         </div>
 
-        {/* Footer with action buttons */}
-        <div className={`${isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-gray-100 border-gray-300'} border-t px-4 py-3 flex items-center justify-between`}>
-          <button
-            onClick={handleViewOriginal}
-            className={`text-sm font-medium underline transition-colors ${
-              isDarkMode 
-                ? 'text-blue-300 hover:text-blue-200' 
-                : 'text-blue-600 hover:text-blue-800'
-            }`}
-          >
-            Open in Google Docs
-          </button>
-          <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            Last updated: {new Date().toLocaleDateString()}
-          </div>
+        {/* Status bar */}
+        <div className="xp-statusbar shrink-0" role="status">
+          <span>Ready</span>
+          <span className="xp-muted">Last updated: {lastUpdatedLabel}</span>
         </div>
       </div>
     </div>
@@ -103,4 +160,3 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
 };
 
 export default ResumeModal;
-

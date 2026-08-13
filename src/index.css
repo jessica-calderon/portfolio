@@ -95,10 +95,12 @@ body {
 }
 
 /*
- * Windows XP Accessibility Options dialog — theme-isolated.
+ * Windows XP OS-window chrome — theme-isolated.
+ * Used for Accessibility Options, Resume viewer, and similar system dialogs.
  * Portfolio light/dark/custom themes must NOT recolor this shell.
  * Global accessibility prefs (font size, dyslexia font, focus, motion) may still apply.
  */
+.xp-window,
 .xp-a11y-dialog {
   --xp-title-top: #3b7cda;
   --xp-title-mid: #245edb;
@@ -121,16 +123,20 @@ body {
   --xp-close-border: #9b2d2d;
   --xp-switch-off: #c0c0c0;
   --xp-switch-on: #245edb;
+  --xp-toolbar: #ece9d8;
+  --xp-statusbar: #ece9d8;
   --xp-shadow: 2px 2px 8px rgba(0, 0, 0, 0.45);
   color: var(--xp-text);
   font-family: Tahoma, 'Segoe UI', sans-serif;
 }
 
-/* Accessibility typography may restyle the XP dialog; portfolio themes must not */
+/* Accessibility typography may restyle XP windows; portfolio themes must not */
+html.dyslexia-friendly .xp-window,
 html.dyslexia-friendly .xp-a11y-dialog {
   font-family: 'OpenDyslexic', 'Comic Sans MS', Arial, Tahoma, sans-serif;
 }
 
+.xp-window .xp-shell,
 .xp-a11y-dialog .xp-shell {
   background: var(--xp-body);
   color: var(--xp-text);
@@ -139,6 +145,7 @@ html.dyslexia-friendly .xp-a11y-dialog {
   box-shadow: var(--xp-shadow);
 }
 
+.xp-window .xp-titlebar,
 .xp-a11y-dialog .xp-titlebar {
   background: linear-gradient(
     to bottom,
@@ -150,11 +157,13 @@ html.dyslexia-friendly .xp-a11y-dialog {
   border-bottom: 1px solid #003c74;
 }
 
+.xp-window .xp-titlebar-text,
 .xp-a11y-dialog .xp-titlebar-text {
   color: var(--xp-title-text);
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.35);
 }
 
+.xp-window .xp-close,
 .xp-a11y-dialog .xp-close {
   background: linear-gradient(to bottom, #e78989 0%, var(--xp-close) 50%, #a83838 100%);
   color: #ffffff;
@@ -162,28 +171,35 @@ html.dyslexia-friendly .xp-a11y-dialog {
   box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.35);
 }
 
+.xp-window .xp-close:hover,
 .xp-a11y-dialog .xp-close:hover {
   background: linear-gradient(to bottom, #f0a0a0 0%, var(--xp-close-hover) 50%, #b84444 100%);
 }
 
+.xp-window .xp-body,
+.xp-window .xp-footer,
 .xp-a11y-dialog .xp-body,
 .xp-a11y-dialog .xp-footer {
   background: var(--xp-body);
   color: var(--xp-text);
 }
 
+.xp-window .xp-footer,
 .xp-a11y-dialog .xp-footer {
   border-top: 1px solid #aca899;
 }
 
+.xp-window .xp-text,
 .xp-a11y-dialog .xp-text {
   color: var(--xp-text);
 }
 
+.xp-window .xp-muted,
 .xp-a11y-dialog .xp-muted {
   color: var(--xp-muted);
 }
 
+.xp-window .xp-btn,
 .xp-a11y-dialog .xp-btn {
   background: linear-gradient(to bottom, #ffffff 0%, var(--xp-control-face) 55%, var(--xp-control) 100%);
   color: var(--xp-text);
@@ -192,10 +208,12 @@ html.dyslexia-friendly .xp-a11y-dialog {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
+.xp-window .xp-btn:hover,
 .xp-a11y-dialog .xp-btn:hover {
   background: linear-gradient(to bottom, #ffffff 0%, var(--xp-control-hover) 100%);
 }
 
+.xp-window .xp-btn-primary,
 .xp-a11y-dialog .xp-btn-primary {
   background: linear-gradient(to bottom, #5b91e6 0%, var(--xp-primary) 55%, var(--xp-primary-hover) 100%);
   color: #ffffff;
@@ -204,31 +222,37 @@ html.dyslexia-friendly .xp-a11y-dialog {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
+.xp-window .xp-btn-primary:hover,
 .xp-a11y-dialog .xp-btn-primary:hover {
   background: linear-gradient(to bottom, #6ea0ef 0%, #2f6fe0 55%, #163f96 100%);
 }
 
+.xp-window .xp-slider,
 .xp-a11y-dialog .xp-slider {
   accent-color: var(--xp-primary);
   background: #d4d0c8;
   border-radius: 999px;
 }
 
+.xp-window .xp-switch,
 .xp-a11y-dialog .xp-switch {
   background: var(--xp-switch-off);
   border: 1px solid #808080;
 }
 
+.xp-window .xp-switch[aria-checked='true'],
 .xp-a11y-dialog .xp-switch[aria-checked='true'] {
   background: var(--xp-switch-on);
   border-color: var(--xp-primary-border);
 }
 
+.xp-window .xp-switch-thumb,
 .xp-a11y-dialog .xp-switch-thumb {
   background: #ffffff;
   border: 1px solid #808080;
 }
 
+.xp-window .xp-kbd,
 .xp-a11y-dialog .xp-kbd {
   background: var(--xp-control-face);
   color: var(--xp-text);
@@ -237,8 +261,80 @@ html.dyslexia-friendly .xp-a11y-dialog {
   box-shadow: inset 0 -1px 0 #aca899;
 }
 
+.xp-window .xp-divider,
 .xp-a11y-dialog .xp-divider {
   border-color: #aca899;
+}
+
+/* XP document-viewer toolbar + status bar */
+.xp-window .xp-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 6px;
+  background: linear-gradient(to bottom, #f8f6ec 0%, var(--xp-toolbar) 100%);
+  border-bottom: 1px solid #aca899;
+  color: var(--xp-text);
+}
+
+.xp-window .xp-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 28px;
+  padding: 2px 8px;
+  font-size: 11px;
+  line-height: 1.2;
+  background: linear-gradient(to bottom, #ffffff 0%, var(--xp-control-face) 55%, var(--xp-control) 100%);
+  color: var(--xp-text);
+  border: 1px solid var(--xp-control-border);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+}
+
+.xp-window .xp-toolbar-btn:hover {
+  background: linear-gradient(to bottom, #ffffff 0%, var(--xp-control-hover) 100%);
+}
+
+.xp-window .xp-toolbar-btn:focus {
+  outline: 2px solid #245edb;
+  outline-offset: 1px;
+}
+
+.xp-window .xp-doc-viewport {
+  flex: 1;
+  min-height: 0;
+  background: #808080;
+  padding: 3px;
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #404040;
+  border-bottom: 1px solid #404040;
+}
+
+.xp-window .xp-doc-frame {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #716f64;
+  background: #ffffff;
+  display: block;
+}
+
+.xp-window .xp-statusbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 3px 8px;
+  min-height: 22px;
+  font-size: 11px;
+  background: var(--xp-statusbar);
+  color: var(--xp-text);
+  border-top: 1px solid #ffffff;
+  box-shadow: inset 0 1px 0 #aca899;
 }
 
 /* Accessibility Features */
