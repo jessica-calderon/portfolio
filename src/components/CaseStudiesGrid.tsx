@@ -45,11 +45,11 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
       emoji: "📝"
     },
     { 
-      name: "Secure Application Framework",
-      description: "Containerized an open-source learning platform for controlled, repeatable deployments with configuration management and patch readiness baked in.",
-      impact: "Streamlined environment setup and made updates less painful.",
-      techUsed: ["Docker", "Redis", "PostgreSQL", "CI/CD", "Moodle"],
-      emoji: "📚"
+      name: "Integrated Support Workflow",
+      description: "Designed and developed a custom plugin that brings support-request creation, tracking, comments, and attachments into an enterprise learning platform. Built REST API integration, workflow/status mapping, user-specific visibility, and UI that fits the existing app experience — so users never have to leave the platform to get help.",
+      impact: "Reduced friction between users and support teams by bringing ticket submission, status tracking, comments, and attachments into the application’s existing user experience.",
+      techUsed: ["PHP", "JavaScript", "REST APIs", "Moodle", "Git"],
+      emoji: "🎫"
     },
     {
       name: "Homelab / Self-Hosted Infrastructure",
