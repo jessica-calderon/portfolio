@@ -211,7 +211,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         }}>
           <strong style={{ 
             color: isMyspaceMode && isDarkMode ? '#faf5ff' : isMyspaceMode && !isDarkMode ? '#831843' : isDarkMode ? '#d1d5db' : '#000000' 
-          }}>Development Tools:</strong> VS Code, Git, npm, GitHub Actions
+          }}>Development Tools:</strong> Cursor, VS Code, Git, npm, GitHub Actions
         </p>
         <p className="custom-font" style={{ 
           color: isMyspaceMode && isDarkMode ? '#e9d5ff' : isMyspaceMode && !isDarkMode ? '#9f1239' : isDarkMode ? '#9ca3af' : '#666666',
@@ -219,7 +219,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         }}>
           <strong style={{ 
             color: isMyspaceMode && isDarkMode ? '#faf5ff' : isMyspaceMode && !isDarkMode ? '#831843' : isDarkMode ? '#d1d5db' : '#000000' 
-          }}>Features:</strong> WCAG Compliant, Responsive Design, Optimized Assets
+          }}>Features:</strong> Responsive Design, Optimized Assets
         </p>
       </div>
     </MySpaceContainer>
