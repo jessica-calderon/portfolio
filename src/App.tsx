@@ -20,6 +20,7 @@ import LayoutBuilderModal from './components/LayoutBuilderModal';
 import ProfileEffects from './components/ProfileEffects';
 import FloatingUtilityControls from './components/FloatingUtilityControls';
 import JessicasCustomLayout from './components/JessicasCustomLayout';
+import ContactSection from './components/ContactSection';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import { ProfileThemeProvider, useProfileTheme } from './contexts/ProfileThemeContext';
 import { OsWindowProvider, useOsWindow } from './contexts/OsWindowContext';
@@ -551,68 +552,15 @@ function AppContent() {
         </div>
         
         {/* Contact Info - order 3 */}
-        <div className="mobile-order-3" id="contact">
-          <div 
-            className="bg-blue-100 dark:bg-blue-900 border-2 border-blue-500 dark:border-blue-400 spacing-standard"
-          >
-            <h3 className="font-bold text-black dark:text-white text-sm mb-3">Contacting Jessica</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => open('aim')}
-                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Send message to Jessica Calderon"
-                aria-haspopup="dialog"
-              >
-                <span className="mr-1" aria-hidden="true">✉️</span> Send Message
-              </button>
-              <button
-                type="button"
-                onClick={() => open('addNetwork')}
-                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Add Jessica to professional network"
-                aria-haspopup="dialog"
-              >
-                <span className="mr-1" aria-hidden="true">👥</span> Connect
-              </button>
-              <button 
-                type="button"
-                onClick={() => open('scheduleCall')} 
-                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Schedule a call"
-                aria-haspopup="dialog"
-              >
-                <span className="mr-1" aria-hidden="true">💬</span> Schedule Call
-              </button>
-              <button 
-                type="button"
-                onClick={() => open('resume')} 
-                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="View resume"
-                aria-haspopup="dialog"
-              >
-                <span className="mr-1" aria-hidden="true">📄</span> View Resume
-              </button>
-              <button 
-                type="button"
-                onClick={handleShareClick} 
-                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Share profile"
-                aria-haspopup="dialog"
-              >
-                <span className="mr-1" aria-hidden="true">↗️</span> Share Profile
-              </button>
-              <button
-                type="button"
-                onClick={() => open('saveContact')}
-                className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Save contact as vCard"
-                aria-haspopup="dialog"
-              >
-                <span className="mr-1" aria-hidden="true">📇</span> Save Contact
-              </button>
-            </div>
-          </div>
+        <div className="mobile-order-3">
+          <ContactSection
+            onSendMessageClick={() => open('aim')}
+            onConnectClick={() => open('addNetwork')}
+            onScheduleClick={() => open('scheduleCall')}
+            onResumeClick={() => open('resume')}
+            onShareClick={handleShareClick}
+            onSaveContactClick={() => open('saveContact')}
+          />
         </div>
         
         {/* Professional Profile - order 4 */}

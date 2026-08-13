@@ -5,19 +5,16 @@ interface ContactSectionProps {
   onResumeClick: () => void;
   onShareClick: () => void;
   onSaveContactClick: () => void;
-  onRatingClick: () => void;
-  onCustomizeClick: () => void;
   onScheduleClick: () => void;
   onConnectClick: () => void;
 }
 
+/** Shared Contacting Jessica actions — same set on desktop sidebar and mobile. */
 const ContactSection: React.FC<ContactSectionProps> = ({
   onSendMessageClick,
   onResumeClick,
   onShareClick,
   onSaveContactClick,
-  onRatingClick,
-  onCustomizeClick,
   onScheduleClick,
   onConnectClick,
 }) => {
@@ -78,22 +75,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({
           aria-haspopup="dialog"
         >
           <span className="mr-1" aria-hidden="true">📇</span> Save Contact
-        </button>
-        <button
-          type="button"
-          onClick={onCustomizeClick}
-          className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-          aria-label="Build your own layout"
-        >
-          <span className="mr-1" aria-hidden="true">🎨</span> Customize Profile
-        </button>
-        <button
-          type="button"
-          onClick={onRatingClick}
-          className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-          aria-label="Rate this profile"
-        >
-          <span className="mr-1" aria-hidden="true">👍</span> Rate Profile
         </button>
       </div>
     </div>
