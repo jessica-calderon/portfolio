@@ -72,41 +72,36 @@ body {
 
 /*
  * Full application windows (Explorer / IE / Word / case studies)
- * Intentionally near-viewport on large monitors — not a tiny centered card.
+ * Near-viewport on all desktop sizes — no fixed px width caps that leave
+ * huge empty margins on high-res / ultrawide monitors.
  */
 .modal-window--app {
   display: flex;
   flex-direction: column;
-  width: min(100%, calc(100vw - 24px));
-  max-width: min(100%, calc(100vw - 24px));
-  height: min(92dvh, calc(100dvh - 24px));
-  max-height: min(92dvh, calc(100dvh - 24px));
+  box-sizing: border-box;
+  width: min(100%, calc(100vw - 24px)) !important;
+  max-width: min(100%, calc(100vw - 24px)) !important;
+  height: min(92dvh, calc(100dvh - 24px)) !important;
+  max-height: min(92dvh, calc(100dvh - 24px)) !important;
   min-height: 0;
   overflow: hidden;
 }
 
 @media (min-width: 768px) {
   .modal-window--app {
-    width: min(94vw, calc(100vw - 48px));
-    max-width: min(94vw, calc(100vw - 48px));
-    height: min(90vh, calc(100vh - 48px));
-    max-height: min(90vh, calc(100vh - 48px));
+    width: min(96vw, calc(100vw - 40px)) !important;
+    max-width: min(96vw, calc(100vw - 40px)) !important;
+    height: min(92vh, calc(100vh - 40px)) !important;
+    max-height: min(92vh, calc(100vh - 40px)) !important;
   }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1280px) {
   .modal-window--app {
-    width: min(90vw, 1680px);
-    max-width: min(90vw, 1680px);
-    height: min(88vh, calc(100vh - 64px));
-    max-height: min(88vh, calc(100vh - 64px));
-  }
-}
-
-@media (min-width: 1920px) {
-  .modal-window--app {
-    width: min(88vw, 1800px);
-    max-width: min(88vw, 1800px);
+    width: min(96vw, calc(100vw - 48px)) !important;
+    max-width: min(96vw, calc(100vw - 48px)) !important;
+    height: min(94vh, calc(100vh - 48px)) !important;
+    max-height: min(94vh, calc(100vh - 48px)) !important;
   }
 }
 
