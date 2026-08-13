@@ -33,7 +33,12 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
   // Check if this section should be visible based on search
   const shouldShow = () => {
     if (!searchQuery.trim()) return true;
-    const keywords = ['senior software engineer', 'aws', 'php', 'docker', 'moodle', 'superset', 'react', 'typescript', 'python', 'postgresql', 'mysql', 'gitlab', 'ci/cd', 'iron bank', 'stig', 'dod', 'ecs', 's3', 'rds', 'cloudwatch', 'built with', 'tech stack', 'portfolio'];
+    const keywords = [
+      'principal software engineer', 'technical lead', 'aws', 'php', 'docker', 'moodle',
+      'superset', 'react', 'typescript', 'python', 'postgresql', 'mysql', 'gitlab', 'ci/cd',
+      'ecs', 'rds', 'cloudwatch', 'homelab', 'self-hosting', 'jellyfin', 'roku', 'linux',
+      'automation', 'security', 'built with', 'tech stack', 'portfolio', 'interests'
+    ];
     const query = searchQuery.toLowerCase();
     return keywords.some(keyword => keyword.includes(query) || query.includes(keyword));
   };
@@ -45,7 +50,21 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
   const headerColor = getHeaderColor();
   const textColor = getTextColor();
 
-  // Tech stack data with icons
+  // Interests — mix of professional + hobby, kept compact
+  const interests = [
+    { name: 'AWS', icon: '☁️' },
+    { name: 'Docker', icon: '🐳' },
+    { name: 'Linux', icon: '🐧' },
+    { name: 'Homelab', icon: '🏠' },
+    { name: 'Self-Hosting', icon: '🖥️' },
+    { name: 'Automation', icon: '⚙️' },
+    { name: 'Security', icon: '🔐' },
+    { name: 'Jellyfin', icon: '🎬' },
+    { name: 'Roku Dev', icon: '📺' },
+    { name: 'Open Source', icon: '💚' }
+  ];
+
+  // Portfolio tech stack
   const techStack = [
     { name: 'React', icon: '⚛️' },
     { name: 'TypeScript', icon: '🔷' },
@@ -83,14 +102,13 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
           color: headerColor
         }}>About Me</h4>
         
-        {/* Professional Profile Text */}
         <p className="custom-font" style={{ 
           color: textColor,
           fontSize: '11px',
           lineHeight: '1.4',
           marginBottom: '8px'
         }}>
-          {highlightText("Senior Software Engineer with extensive expertise in AWS cloud infrastructure, PHP backend development, and Docker containerization. Specialized in DoD/STIG-compliant environments with proven experience in secure, scalable system design and analytics-driven applications.")}
+          {highlightText("I'm a Principal Software Engineer / Technical Lead who still writes a lot of the code myself. Day to day I bounce between app development, cloud infrastructure, containers, CI/CD, application security, architecture, releases, and production troubleshooting — wherever the system needs attention.")}
         </p>
         
         <p className="custom-font" style={{ 
@@ -99,16 +117,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
           lineHeight: '1.4',
           marginBottom: '8px'
         }}>
-          {highlightText("Core competencies include Moodle Workplace customization, Apache Superset data visualization, and full-stack development using React, TypeScript, and Python. I'm especially passionate about front-end development—crafting beautiful, responsive, and accessible interfaces that elevate the user experience. Experienced in building Iron Bank-compliant containers and implementing CI/CD pipelines with GitLab CI for enterprise deployments.")}
-        </p>
-        
-        <p className="custom-font" style={{ 
-          color: textColor,
-          fontSize: '11px',
-          lineHeight: '1.4',
-          marginBottom: '8px'
-        }}>
-          {highlightText("Strong background in data integration, PostgreSQL/MySQL database optimization, and AWS ECS orchestration. Dedicated to creating secure, maintainable solutions that meet strict compliance requirements while delivering exceptional usability and performance.")}
+          {highlightText("I support a large-scale government learning platform and work across both the application and infrastructure layers. Leadership is part of the role now — code review, technical direction, standards, helping unblock other engineers — but I'm still very much in the weeds.")}
         </p>
         
         <p className="custom-font" style={{ 
@@ -117,8 +126,30 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
           lineHeight: '1.4',
           marginBottom: '12px'
         }}>
-          {highlightText("Currently open to new opportunities in senior engineering and front-end-focused roles involving cloud architecture, data analytics, or secure application development. Available for remote or hybrid positions.")}
+          {highlightText("Outside of work I run a homelab because one environment apparently wasn't enough. Lots of Linux, Docker, self-hosting, networking, storage, media stacks, automation, and monitoring. Sometimes things work. Sometimes I break them on purpose to see why.")}
         </p>
+
+        {/* Interests Header */}
+        <h4 className="font-bold custom-font" style={{ 
+          fontSize: '13px',
+          marginTop: '10px',
+          marginBottom: '6px',
+          color: headerColor
+        }}>Interests</h4>
+        
+        <div style={{ marginBottom: '12px' }}>
+          <div className="flex flex-wrap gap-2">
+            {interests.map((interest, index) => (
+              <TechBadge
+                key={index}
+                name={interest.name}
+                icon={interest.icon}
+                searchQuery={searchQuery}
+                highlightText={highlightText}
+              />
+            ))}
+          </div>
+        </div>
 
         {/* Built With Header - Theme adaptive */}
         <h4 className="font-bold custom-font" style={{ 

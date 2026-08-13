@@ -31,7 +31,7 @@ const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = fals
   // Education data
   const educationItems = [
     { key: 'certifications', title: "Certifications – CompTIA Security+ CE – Active", details: "Currently pursuing additional certifications in cloud architecture and DevSecOps." },
-    { key: 'clearance', title: "Clearance – Active DoD Secret Clearance", details: "Issued and maintained for DoD contracting work. Background investigation completed and clearance active for ongoing classified project work." },
+    { key: 'clearance', title: "Clearance – Active Secret Clearance", details: "Active Secret Clearance." },
     { key: 'bootcamp', title: "Full Stack Web Development Boot Camp – University of Texas at San Antonio", details: "Intensive 6-month program covering React, Node.js, MongoDB, MySQL, AWS, and modern development practices. Completed capstone project focused on cloud-based application architecture." },
     { key: 'mba', title: "MBA, Magna Cum Laude – Texas A&M University–San Antonio", details: "Concentration in Technology Management with coursework in strategic business analysis, cloud economics, and agile project management. GPA: 3.89/4.0" },
     { key: 'ba', title: "B.A. General Business, Cum Laude – Texas A&M University–San Antonio", details: "Comprehensive business curriculum covering finance, marketing, operations, and management. Foundation for advanced business strategy and leadership roles. GPA: 3.65/4.0" },

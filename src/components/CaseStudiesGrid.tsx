@@ -25,31 +25,45 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
   const caseStudies: CaseStudy[] = [
     { 
       name: "Secure Analytics Integration",
-      description: "Developed a data visualization bridge between a learning platform and a secure analytics environment.",
-      impact: "Improved dashboard performance and compliance readiness.",
-      techUsed: ["Docker", "Superset", "AWS ECS", "PostgreSQL"],
+      description: "Built a data visualization bridge connecting a learning platform to a secure analytics environment — wiring dashboards, data flow, and containerized services so teams could actually use the numbers.",
+      impact: "Faster, more reliable dashboards without giving up security or compliance constraints.",
+      techUsed: ["Docker", "Apache Superset", "AWS ECS", "PostgreSQL"],
       emoji: "📈"
     },
     { 
-      name: "STIG-Compliant Container Pipeline",
-      description: "Built and deployed secure application containers aligned with DoD STIG standards.",
-      impact: "Reduced security remediation workload by 35%.",
-      techUsed: ["Iron Bank", "GitLab CI/CD", "AWS ECS"],
+      name: "Hardened Container Pipeline",
+      description: "Designed and automated a container build/deploy pipeline using hardened base images, security scanning, and GitLab CI/CD for cloud deployments.",
+      impact: "Cut repetitive security remediation work and made releases more consistent.",
+      techUsed: ["Docker", "GitLab CI/CD", "AWS ECS"],
       emoji: "🔒"
     },
     { 
       name: "Centralized Log Ingestion",
-      description: "Implemented a Fluent Bit → OpenSearch pipeline for system observability.",
-      impact: "Enabled real-time error detection and analytics across multiple services.",
+      description: "Implemented a Fluent Bit → OpenSearch pipeline for system observability across containerized services.",
+      impact: "Enabled real-time error detection and analytics when something inevitably went sideways.",
       techUsed: ["Fluent Bit", "OpenSearch", "AWS CloudWatch"],
       emoji: "📝"
     },
     { 
       name: "Secure Application Framework",
-      description: "Containerized an open-source education platform for controlled deployment.",
-      impact: "Streamlined configuration management and patch compliance.",
-      techUsed: ["Docker", "Redis", "PostgreSQL", "CI/CD"],
+      description: "Containerized an open-source learning platform for controlled, repeatable deployments with configuration management and patch readiness baked in.",
+      impact: "Streamlined environment setup and made updates less painful.",
+      techUsed: ["Docker", "Redis", "PostgreSQL", "CI/CD", "Moodle"],
       emoji: "📚"
+    },
+    {
+      name: "Homelab / Self-Hosted Infrastructure",
+      description: "A Linux-based self-hosted environment I use to experiment with containers, storage, networking, reverse proxies, monitoring, automation, and media infrastructure. Built to tinker, break things, and learn how the stack actually behaves.",
+      impact: "Hands-on practice with real infrastructure problems — the fun kind, usually.",
+      techUsed: ["Docker", "Docker Compose", "Linux", "Traefik", "Jellyfin", "Portainer"],
+      emoji: "🏠"
+    },
+    {
+      name: "Finity — Roku / Jellyfin Client",
+      description: "A custom Roku client for Jellyfin that I'm building for fun. Focused on BrightScript, SceneGraph, Jellyfin integration, custom UI/UX, and deployment tooling.",
+      impact: "Personal project exploring streaming client UX and Roku development end to end.",
+      techUsed: ["BrightScript", "SceneGraph", "Roku", "Jellyfin"],
+      emoji: "📺"
     },
     {
       name: "All Shades of Texas Website",
@@ -178,4 +192,3 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
 };
 
 export default CaseStudiesGrid;
-

@@ -7,14 +7,12 @@ interface SkillsTableProps {
 
 const SkillsTable: React.FC<SkillsTableProps> = ({ isMyspaceMode = false }) => {
   const skillsData = [
-    { label: 'Programming', value: 'PHP, TypeScript, JavaScript, Python, React, Node.js' },
-    { label: 'Frontend', value: 'React, TypeScript, Tailwind, HTML5, CSS3, Responsive UI Design' },
-    { label: 'DevOps', value: 'Docker, AWS ECS/Fargate, CI/CD (GitLab CI), STIG Compliance, Container Security' },
-    { label: 'Databases', value: 'PostgreSQL, MySQL, Redis, OpenSearch' },
-    { label: 'Cloud & Infra', value: 'AWS (ECS, S3, RDS, CloudWatch, IAM), CloudFormation, Linux (Ubuntu, Debian, UBI STIG)' },
-    { label: 'Tools', value: 'VS Code, GitLab CI, JMeter, Fluent Bit, Fusion 360, Apache Superset' },
-    { label: 'Analytics & Data', value: 'Data Integration, Log Pipelines, Dashboard Design, Visualization' },
-    { label: 'Specialties', value: 'Moodle Workplace Development, Iron Bank Containerization, Secure Application Design' }
+    { label: 'Development', value: 'PHP, Python, JavaScript, TypeScript, SQL, REST APIs, Git' },
+    { label: 'Cloud / Infra', value: 'AWS, ECS, ECR, RDS / Aurora, Redis / ElastiCache, EFS, CloudWatch' },
+    { label: 'Containers / DevOps', value: 'Docker, Docker Compose, GitLab CI/CD, Linux, CI/CD pipelines' },
+    { label: 'Platforms', value: 'Moodle, Apache Superset, Keycloak, HAProxy, Solr' },
+    { label: 'Frontend', value: 'React, TypeScript, Tailwind, HTML5, CSS3' },
+    { label: 'Engineering', value: 'Technical Leadership, Architecture, Code Review, Production Troubleshooting, Vulnerability Remediation, Release Management' }
   ];
 
   return (

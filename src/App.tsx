@@ -93,21 +93,21 @@ function AppContent() {
   // Search data - all searchable content
   const searchData = [
     { category: 'Case Study', title: 'Secure Analytics Integration', keywords: 'Docker Superset AWS PostgreSQL data visualization bridge analytics dashboard' },
-    { category: 'Case Study', title: 'STIG-Compliant Container Pipeline', keywords: 'Iron Bank GitLab CI/CD AWS ECS DoD security containers' },
+    { category: 'Case Study', title: 'Hardened Container Pipeline', keywords: 'Docker GitLab CI/CD AWS ECS security containers hardened images' },
     { category: 'Case Study', title: 'Centralized Log Ingestion', keywords: 'Fluent Bit OpenSearch CloudWatch observability error detection analytics' },
     { category: 'Case Study', title: 'Secure Application Framework', keywords: 'Docker Redis PostgreSQL CI/CD configuration management Moodle' },
-    { category: 'Education', title: 'CompTIA Security+ Certification', keywords: 'Security CompTIA certification DoD active' },
-    { category: 'Education', title: 'DoD Secret Clearance', keywords: 'Security clearance classified background investigation contracting' },
+    { category: 'Case Study', title: 'Homelab / Self-Hosted Infrastructure', keywords: 'homelab Docker Linux Traefik Jellyfin Portainer self-hosting' },
+    { category: 'Case Study', title: 'Finity — Roku / Jellyfin Client', keywords: 'Finity Roku BrightScript SceneGraph Jellyfin streaming client' },
+    { category: 'Education', title: 'CompTIA Security+ Certification', keywords: 'Security CompTIA certification active' },
+    { category: 'Education', title: 'Active Secret Clearance', keywords: 'Security clearance active secret' },
     { category: 'Education', title: 'Full Stack Boot Camp', keywords: 'University Texas San Antonio React Node.js MongoDB MySQL AWS' },
     { category: 'Education', title: 'MBA Technology Management', keywords: 'MBA Magna Cum Laude Texas A&M management cloud economics agile' },
-    { category: 'Skill', title: 'TypeScript JavaScript React', keywords: 'TypeScript JavaScript React frontend programming web development' },
-    { category: 'Skill', title: 'PHP Python', keywords: 'PHP Python backend server-side scripting' },
-    { category: 'Skill', title: 'Docker AWS ECS', keywords: 'Docker containerization AWS ECS cloud deployment CI/CD' },
-    { category: 'Skill', title: 'PostgreSQL MySQL Redis', keywords: 'PostgreSQL MySQL Redis database SQL data storage cache' },
-    { category: 'Skill', title: 'GitLab CI/CD Git', keywords: 'GitLab CI/CD Git version control automation deployment pipeline' },
-    { category: 'Skill', title: 'Moodle Workplace', keywords: 'Moodle workplace LMS learning management system integration' },
-    { category: 'Tool', title: 'VS Code GitLab Apache Superset', keywords: 'VS Code IDE GitLab Superset data visualization business intelligence' },
-    { category: 'Cloud', title: 'AWS ECS S3 RDS CloudWatch', keywords: 'AWS cloud infrastructure ECS containers S3 storage RDS database CloudWatch monitoring' },
+    { category: 'Skill', title: 'PHP Python JavaScript TypeScript', keywords: 'PHP Python JavaScript TypeScript SQL REST APIs Git development' },
+    { category: 'Skill', title: 'Docker AWS ECS', keywords: 'Docker containerization AWS ECS ECR cloud deployment CI/CD' },
+    { category: 'Skill', title: 'GitLab CI/CD Linux', keywords: 'GitLab CI/CD Docker Compose Linux DevOps pipelines' },
+    { category: 'Skill', title: 'Moodle Apache Superset Keycloak', keywords: 'Moodle Superset Keycloak HAProxy Solr platforms' },
+    { category: 'Skill', title: 'Technical Leadership Architecture', keywords: 'technical leadership architecture code review troubleshooting releases' },
+    { category: 'Cloud', title: 'AWS ECS ECR RDS CloudWatch', keywords: 'AWS cloud infrastructure ECS ECR RDS Aurora Redis ElastiCache EFS CloudWatch' },
     { category: 'Tech Stack', title: 'React TypeScript Vite Tailwind', keywords: 'React TypeScript Vite Tailwind CSS frontend development build tools npm GitHub Pages' },
   ];
 
@@ -531,7 +531,8 @@ function AppContent() {
           <div 
             className="bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 spacing-standard"
           >
-            <p className="text-base font-bold text-black dark:text-white mb-2">Jessica Calderon, MBA</p>
+            <p className="text-base font-bold text-black dark:text-white mb-1">Jessica Calderon, MBA</p>
+            <p className="text-xs text-black dark:text-white mb-2">Principal Software Engineer / Technical Lead</p>
             <div className="flex items-start space-x-3">
               <img 
                 src={profilePic}
@@ -550,12 +551,12 @@ function AppContent() {
                 aria-label="View legacy profile (click for a surprise)"
               />
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-black dark:text-white">"Currently coding... "</p>
+                <p className="text-xs text-black dark:text-white">"Currently coding... (and occasionally breaking things)"</p>
                 <p className="text-xs text-black dark:text-white">She/Her</p>
                 <p className="text-xs text-black dark:text-white">San Antonio, TEXAS</p>
                 <p className="text-xs text-black dark:text-white">United States</p>
                 <p className="text-xs text-black dark:text-white mt-2">Last Updated: {lastDeployed || '...'}</p>
-                <p className="text-xs text-black dark:text-white">Status: Available for New Opportunities</p>
+                <p className="text-xs text-black dark:text-white">Status: Building & leading</p>
                 <div className="mt-2">
                   <span className="text-xs text-black dark:text-white">View My: </span>
                   <button 
@@ -739,13 +740,13 @@ function AppContent() {
                         className="whitespace-nowrap custom-font font-bold" 
                         style={{ color: labelColor }}
                       >
-                        Programming:
+                        Development:
                       </td>
                       <td 
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        PHP, TypeScript, JavaScript, Python, React, Node.js
+                        PHP, Python, JavaScript, TypeScript, SQL, REST APIs, Git
                       </td>
                     </tr>
                     <tr>
@@ -753,13 +754,13 @@ function AppContent() {
                         className="whitespace-nowrap custom-font font-bold" 
                         style={{ color: labelColor }}
                       >
-                        DevOps:
+                        Cloud / Infra:
                       </td>
                       <td 
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        Docker, AWS ECS, CI/CD, STIG compliance, GitLab CI
+                        AWS, ECS, ECR, RDS / Aurora, Redis / ElastiCache, EFS, CloudWatch
                       </td>
                     </tr>
                     <tr>
@@ -767,13 +768,13 @@ function AppContent() {
                         className="whitespace-nowrap custom-font font-bold" 
                         style={{ color: labelColor }}
                       >
-                        Databases:
+                        Containers / DevOps:
                       </td>
                       <td 
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        PostgreSQL, MySQL, Redis, OpenSearch
+                        Docker, Docker Compose, GitLab CI/CD, Linux, CI/CD pipelines
                       </td>
                     </tr>
                     <tr>
@@ -781,13 +782,13 @@ function AppContent() {
                         className="whitespace-nowrap custom-font font-bold" 
                         style={{ color: labelColor }}
                       >
-                        Tools:
+                        Platforms:
                       </td>
                       <td 
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        VS Code, GitLab CI, Fluent Bit, Apache Superset
+                        Moodle, Apache Superset, Keycloak, HAProxy, Solr
                       </td>
                     </tr>
                     <tr>
@@ -795,13 +796,13 @@ function AppContent() {
                         className="whitespace-nowrap custom-font font-bold" 
                         style={{ color: labelColor }}
                       >
-                        Cloud:
+                        Frontend:
                       </td>
                       <td 
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        AWS, ECS, S3, RDS, CloudWatch
+                        React, TypeScript, Tailwind, HTML5, CSS3
                       </td>
                     </tr>
                     <tr>
@@ -809,13 +810,13 @@ function AppContent() {
                         className="whitespace-nowrap custom-font font-bold" 
                         style={{ color: labelColor }}
                       >
-                        Specialties:
+                        Engineering:
                       </td>
                       <td 
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        Moodle Workplace, Data Integration, Iron Bank Containers
+                        Technical Leadership, Architecture, Code Review, Production Troubleshooting, Vulnerability Remediation, Release Management
                       </td>
                     </tr>
                   </>
