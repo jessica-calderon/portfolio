@@ -5,7 +5,6 @@ import MySpaceContainer from './shared/MySpaceContainer';
 import ThemeAwareHeader from './shared/ThemeAwareHeader';
 import TechBadge from './shared/TechBadge';
 import StatsBadge from './shared/StatsBadge';
-import MusicPlayer from './MusicPlayer';
 
 interface AboutMeProps {
   isMyspaceMode: boolean;
@@ -150,12 +149,6 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
             ))}
           </div>
         </div>
-
-        <MusicPlayer
-          headerColor={headerColor}
-          isMyspaceMode={isMyspaceMode}
-          isDarkMode={isDarkMode}
-        />
 
         {/* Built With Header - Theme adaptive */}
         <h4 className="font-bold custom-font" style={{ 
