@@ -83,7 +83,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
 
   return (
     <div
-      className="xp-window fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 p-1.5 sm:p-4 animate-fadeIn motion-reduce:animate-none"
+      className="xp-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -93,13 +93,12 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
       tabIndex={-1}
     >
       <div
-        className="xp-shell flex w-full max-w-5xl flex-col overflow-hidden animate-modalAppear motion-reduce:animate-none
-          h-[calc(100dvh-0.75rem)] max-h-[calc(100dvh-0.75rem)]
-          sm:h-[min(92vh,900px)] sm:max-h-[min(92vh,900px)]"
+        className="xp-shell modal-window--large max-w-5xl animate-modalAppear motion-reduce:animate-none
+          h-[min(90dvh,calc(100dvh-24px))] sm:h-[min(90vh,900px)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Title bar */}
-        <div className="xp-titlebar flex shrink-0 items-center justify-between px-2 py-1.5 sm:px-3 select-none">
+        <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 sm:px-3 select-none">
           <div className="flex min-w-0 items-center gap-1.5">
             <span aria-hidden="true" className="text-sm leading-none">📄</span>
             <span
@@ -120,7 +119,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
         </div>
 
         {/* Toolbar — only real actions */}
-        <div className="xp-toolbar shrink-0" role="toolbar" aria-label="Resume document tools">
+        <div className="xp-toolbar modal-window__chrome" role="toolbar" aria-label="Resume document tools">
           <button
             type="button"
             className="xp-toolbar-btn"
@@ -141,8 +140,8 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
           </button>
         </div>
 
-        {/* Document viewport — Google Docs iframe remains source of truth */}
-        <div className="xp-doc-viewport">
+        {/* Document viewport — Google Docs iframe remains source of truth (own scroll) */}
+        <div className="xp-doc-viewport min-h-0 flex-1">
           <iframe
             src={resumeUrl}
             className="xp-doc-frame"
@@ -152,7 +151,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
         </div>
 
         {/* Status bar */}
-        <div className="xp-statusbar shrink-0" role="status" aria-live="polite">
+        <div className="xp-statusbar modal-window__chrome" role="status" aria-live="polite">
           <span>{docStatus}</span>
           <span className="xp-muted">Last updated: {lastUpdatedLabel}</span>
         </div>

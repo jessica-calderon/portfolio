@@ -124,7 +124,7 @@ const AimContactModal: React.FC<AimContactModalProps> = ({ onClose }) => {
 
   return (
     <div
-      className="xp-window aim-window fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 p-2 sm:p-4 animate-fadeIn motion-reduce:animate-none"
+      className="xp-window aim-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -134,11 +134,11 @@ const AimContactModal: React.FC<AimContactModalProps> = ({ onClose }) => {
       tabIndex={-1}
     >
       <div
-        className="xp-shell aim-shell flex w-full max-w-[420px] flex-col overflow-hidden animate-modalAppear motion-reduce:animate-none
-          max-h-[calc(100dvh-1rem)] sm:max-h-[min(90vh,560px)]"
+        className="xp-shell aim-shell modal-window--compact max-w-[420px] animate-modalAppear motion-reduce:animate-none
+          sm:max-h-[min(90vh,560px)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="xp-titlebar flex shrink-0 items-center justify-between px-2 py-1.5 select-none">
+        <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 select-none">
           <div className="flex min-w-0 items-center gap-1.5">
             <span aria-hidden="true" className="text-sm leading-none">💬</span>
             <span
@@ -158,7 +158,7 @@ const AimContactModal: React.FC<AimContactModalProps> = ({ onClose }) => {
           </button>
         </div>
 
-        <div className="aim-buddy shrink-0">
+        <div className="aim-buddy modal-window__chrome">
           <img
             src={profilePic}
             alt=""
@@ -181,7 +181,7 @@ const AimContactModal: React.FC<AimContactModalProps> = ({ onClose }) => {
         </div>
 
         <form
-          className="aim-body flex min-h-0 flex-1 flex-col overflow-auto"
+          className="aim-body modal-window__body flex flex-col"
           onSubmit={handleSubmit}
           noValidate
         >
@@ -263,7 +263,7 @@ const AimContactModal: React.FC<AimContactModalProps> = ({ onClose }) => {
           </div>
         </form>
 
-        <div className="xp-statusbar aim-statusbar shrink-0" role="status" aria-live="polite">
+        <div className="xp-statusbar aim-statusbar modal-window__chrome" role="status" aria-live="polite">
           <span>{statusText}</span>
           <span className="xp-muted">Connected</span>
         </div>

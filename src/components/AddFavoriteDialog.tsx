@@ -77,7 +77,7 @@ const AddFavoriteDialog: React.FC<AddFavoriteDialogProps> = ({ onClose, onFavori
 
   return (
     <div
-      className="xp-window fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 p-3 animate-fadeIn motion-reduce:animate-none"
+      className="xp-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -87,10 +87,10 @@ const AddFavoriteDialog: React.FC<AddFavoriteDialogProps> = ({ onClose, onFavori
       tabIndex={-1}
     >
       <div
-        className="xp-shell w-full max-w-[380px] overflow-hidden animate-modalAppear motion-reduce:animate-none"
+        className="xp-shell modal-window--compact max-w-[380px] animate-modalAppear motion-reduce:animate-none"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="xp-titlebar flex items-center justify-between px-2 py-1.5 select-none">
+        <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 select-none">
           <span id="favorite-dialog-title" className="xp-titlebar-text text-xs font-bold">
             Add Favorite
           </span>
@@ -104,7 +104,7 @@ const AddFavoriteDialog: React.FC<AddFavoriteDialogProps> = ({ onClose, onFavori
           </button>
         </div>
 
-        <div className="xp-body p-4 space-y-3">
+        <div className="xp-body modal-window__body p-4 space-y-3">
           {phase === 'form' ? (
             <>
               <div>

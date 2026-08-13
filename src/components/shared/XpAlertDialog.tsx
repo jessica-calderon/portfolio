@@ -21,7 +21,7 @@ const XpAlertDialog: React.FC<XpAlertDialogProps> = ({
 
   return (
     <div
-      className="xp-window fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 p-3 animate-fadeIn motion-reduce:animate-none"
+      className="xp-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
       role="alertdialog"
       aria-modal="true"

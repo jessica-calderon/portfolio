@@ -16,6 +16,110 @@ body {
   background: #0a0a0a;
 }
 
+/*
+ * Shared responsive modal / OS-window sizing
+ * Page stays put. Window stays put. Content inside scrolls.
+ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    max(12px, env(safe-area-inset-top, 0px))
+    max(12px, env(safe-area-inset-right, 0px))
+    max(12px, env(safe-area-inset-bottom, 0px))
+    max(12px, env(safe-area-inset-left, 0px));
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .modal-overlay {
+    padding:
+      max(16px, env(safe-area-inset-top, 0px))
+      max(16px, env(safe-area-inset-right, 0px))
+      max(16px, env(safe-area-inset-bottom, 0px))
+      max(16px, env(safe-area-inset-left, 0px));
+  }
+}
+
+/* Large content windows — capped to viewport, never full-bleed sheets */
+.modal-window--large {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: min(90dvh, calc(100dvh - 24px));
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .modal-window--large {
+    max-height: min(90vh, 900px);
+  }
+}
+
+/* Compact dialogs: natural height, scroll only if needed */
+.modal-window--compact {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: min(85dvh, calc(100dvh - 24px));
+  min-height: 0;
+  overflow: hidden;
+}
+
+.modal-window__chrome {
+  flex-shrink: 0;
+}
+
+.modal-window__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+.modal-window__footer {
+  flex-shrink: 0;
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+}
+
+/* Case-study / media previews — contained, not viewport-dominating */
+.modal-preview {
+  width: 100%;
+  max-height: 45dvh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #ffffff;
+}
+
+.modal-preview iframe,
+.modal-preview img {
+  display: block;
+  width: 100%;
+  height: 45dvh;
+  max-height: 45dvh;
+  border: 0;
+  object-fit: contain;
+  background: #ffffff;
+}
+
+@media (min-width: 640px) {
+  .modal-preview {
+    max-height: min(50vh, 480px);
+  }
+
+  .modal-preview iframe,
+  .modal-preview img {
+    height: min(50vh, 480px);
+    max-height: min(50vh, 480px);
+  }
+}
+
 /* Customization Classes */
 .custom-accent {
   color: var(--accent-color) !important;
@@ -560,7 +664,7 @@ html.dyslexia-friendly .xp-a11y-dialog {
 /* My Network Places / Explorer-inspired homelab view */
 .xp-window.net-window .net-body {
   display: flex;
-  min-height: 280px;
+  min-height: 0;
   background: #ffffff;
 }
 

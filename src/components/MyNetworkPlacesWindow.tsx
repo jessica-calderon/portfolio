@@ -75,7 +75,7 @@ const MyNetworkPlacesWindow: React.FC<MyNetworkPlacesWindowProps> = ({ onClose }
 
   return (
     <div
-      className="xp-window net-window fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 p-1.5 sm:p-3 animate-fadeIn motion-reduce:animate-none"
+      className="xp-window net-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -85,11 +85,11 @@ const MyNetworkPlacesWindow: React.FC<MyNetworkPlacesWindowProps> = ({ onClose }
       tabIndex={-1}
     >
       <div
-        className="xp-shell net-shell flex w-full max-w-3xl flex-col overflow-hidden animate-modalAppear motion-reduce:animate-none
-          max-h-[calc(100dvh-0.75rem)] sm:max-h-[min(88vh,640px)]"
+        className="xp-shell net-shell modal-window--large max-w-3xl animate-modalAppear motion-reduce:animate-none
+          sm:max-h-[min(88vh,640px)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="xp-titlebar flex shrink-0 items-center justify-between px-2 py-1.5 select-none">
+        <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 select-none">
           <div className="flex min-w-0 items-center gap-1.5">
             <span aria-hidden="true">🖥️</span>
             <span id="net-window-title" className="xp-titlebar-text truncate text-xs font-bold sm:text-sm">
@@ -106,7 +106,7 @@ const MyNetworkPlacesWindow: React.FC<MyNetworkPlacesWindowProps> = ({ onClose }
           </button>
         </div>
 
-        <div className="net-toolbar shrink-0" aria-hidden="true">
+        <div className="net-toolbar modal-window__chrome" aria-hidden="true">
           <span>File</span>
           <span>Edit</span>
           <span>View</span>
@@ -115,7 +115,7 @@ const MyNetworkPlacesWindow: React.FC<MyNetworkPlacesWindowProps> = ({ onClose }
           <span>Help</span>
         </div>
 
-        <div className="net-body min-h-0 flex-1">
+        <div className="net-body modal-window__body">
           <aside className="net-pane" aria-label="Network Places tasks">
             <p className="net-pane-heading">Network Tasks</p>
             <ul className="net-pane-list">
@@ -167,7 +167,7 @@ const MyNetworkPlacesWindow: React.FC<MyNetworkPlacesWindowProps> = ({ onClose }
           </div>
         </div>
 
-        <div className="xp-statusbar shrink-0" role="status">
+        <div className="xp-statusbar modal-window__chrome" role="status">
           <span>{NETWORK_PLACES.length} objects</span>
           <span className="xp-muted">My Network Places</span>
         </div>

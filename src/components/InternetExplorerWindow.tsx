@@ -72,7 +72,7 @@ const InternetExplorerWindow: React.FC<InternetExplorerWindowProps> = ({ onClose
 
   return (
     <div
-      className="xp-window ie-window fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 p-1.5 sm:p-3 animate-fadeIn motion-reduce:animate-none"
+      className="xp-window ie-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -82,12 +82,11 @@ const InternetExplorerWindow: React.FC<InternetExplorerWindowProps> = ({ onClose
       tabIndex={-1}
     >
       <div
-        className="xp-shell ie-shell flex w-full max-w-5xl flex-col overflow-hidden animate-modalAppear motion-reduce:animate-none
-          h-[calc(100dvh-0.75rem)] max-h-[calc(100dvh-0.75rem)]
-          sm:h-[min(92vh,860px)] sm:max-h-[min(92vh,860px)]"
+        className="xp-shell ie-shell modal-window--large max-w-5xl animate-modalAppear motion-reduce:animate-none
+          h-[min(90dvh,calc(100dvh-24px))] sm:h-[min(90vh,860px)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="xp-titlebar flex shrink-0 items-center justify-between px-2 py-1 select-none">
+        <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1 select-none">
           <div className="flex min-w-0 items-center gap-1.5">
             <span aria-hidden="true" className="ie-app-icon">e</span>
             <span id="ie-window-title" className="xp-titlebar-text truncate text-xs font-bold sm:text-sm">
@@ -105,7 +104,7 @@ const InternetExplorerWindow: React.FC<InternetExplorerWindowProps> = ({ onClose
         </div>
 
         {/* Decorative IE menu — not interactive */}
-        <div className="ie-menubar" aria-hidden="true">
+        <div className="ie-menubar modal-window__chrome" aria-hidden="true">
           <span>File</span>
           <span>Edit</span>
           <span>View</span>
@@ -114,7 +113,7 @@ const InternetExplorerWindow: React.FC<InternetExplorerWindowProps> = ({ onClose
           <span>Help</span>
         </div>
 
-        <div className="ie-toolbar" role="toolbar" aria-label="Browser tools">
+        <div className="ie-toolbar modal-window__chrome" role="toolbar" aria-label="Browser tools">
           {/* Non-functional chrome (cross-origin history not available) */}
           <span className="ie-tool-deco" aria-hidden="true" title="Back">← Back</span>
           <span className="ie-tool-deco" aria-hidden="true" title="Forward">→ Forward</span>
@@ -134,7 +133,7 @@ const InternetExplorerWindow: React.FC<InternetExplorerWindowProps> = ({ onClose
           </button>
         </div>
 
-        <form className="ie-addressbar" onSubmit={handleGo}>
+        <form className="ie-addressbar modal-window__chrome" onSubmit={handleGo}>
           <label htmlFor="ie-address" className="ie-address-label">
             Address
           </label>
@@ -152,7 +151,7 @@ const InternetExplorerWindow: React.FC<InternetExplorerWindowProps> = ({ onClose
           </button>
         </form>
 
-        <div className="ie-viewport">
+        <div className="ie-viewport min-h-0 flex-1">
           {isLoading && (
             <div className="ie-loading" role="status">
               <div className="xp-progress" aria-hidden="true">
@@ -184,7 +183,7 @@ const InternetExplorerWindow: React.FC<InternetExplorerWindowProps> = ({ onClose
           )}
         </div>
 
-        <div className="xp-statusbar ie-statusbar shrink-0" role="status" aria-live="polite">
+        <div className="xp-statusbar ie-statusbar modal-window__chrome" role="status" aria-live="polite">
           <span>{status}</span>
           <span className="xp-muted hidden sm:inline">Internet zone</span>
         </div>

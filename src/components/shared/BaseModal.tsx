@@ -102,26 +102,26 @@ const BaseModal: React.FC<BaseModalProps> = ({
   };
 
   const shellClass = isXp
-    ? `xp-shell w-full ${maxWidth} mx-4 max-h-[min(90vh,100%)] overflow-hidden animate-modalAppear motion-reduce:animate-none flex flex-col`
-    : `w-full ${maxWidth} mx-4 max-h-[min(90vh,100%)] ${
+    ? `xp-shell modal-window--compact w-full ${maxWidth} animate-modalAppear motion-reduce:animate-none`
+    : `modal-window--compact w-full ${maxWidth} ${
         isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'
-      } rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear motion-reduce:animate-none flex flex-col`;
+      } rounded-md shadow-md border border-gray-400 dark:border-gray-600 animate-modalAppear motion-reduce:animate-none`;
 
   const titleBarClass = isXp
-    ? 'xp-titlebar font-bold px-4 py-2 flex items-center justify-between select-none'
+    ? 'xp-titlebar modal-window__chrome font-bold px-4 py-2 flex items-center justify-between select-none'
     : `${
         isDarkMode
           ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]'
           : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'
-      } text-white font-bold px-4 py-2 flex items-center justify-between select-none`;
+      } modal-window__chrome text-white font-bold px-4 py-2 flex items-center justify-between select-none`;
 
   const bodyClass = isXp
-    ? 'xp-body flex-1 overflow-auto p-6'
-    : `flex-1 overflow-auto p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`;
+    ? 'xp-body modal-window__body p-4 sm:p-6'
+    : `modal-window__body p-4 sm:p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`;
 
   const footerClass = isXp
-    ? 'xp-footer px-4 py-3 flex items-center justify-between'
-    : `border-t border-gray-300 dark:border-gray-600 px-4 py-3 flex items-center justify-between ${
+    ? 'xp-footer modal-window__footer px-4 py-3 flex items-center justify-between'
+    : `modal-window__footer border-t border-gray-300 dark:border-gray-600 px-4 py-3 flex items-center justify-between ${
         isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
       }`;
 
@@ -131,7 +131,7 @@ const BaseModal: React.FC<BaseModalProps> = ({
 
   return (
     <div 
-      className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[70] animate-fadeIn motion-reduce:animate-none${isXp ? ' xp-window' : ''}`}
+      className={`modal-overlay z-[70] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none${isXp ? ' xp-window' : ''}`}
       onClick={handleBackdropClick}
       style={isXp ? undefined : { fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
       role="dialog"

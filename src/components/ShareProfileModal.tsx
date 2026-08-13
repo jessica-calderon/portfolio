@@ -88,7 +88,7 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose, onCopied
 
   return (
     <div
-      className="xp-window fixed inset-0 z-[60] flex items-center justify-center bg-black bg-opacity-50 p-3 animate-fadeIn motion-reduce:animate-none"
+      className="xp-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -97,10 +97,10 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose, onCopied
       tabIndex={-1}
     >
       <div
-        className="xp-shell w-full max-w-md overflow-hidden animate-modalAppear motion-reduce:animate-none"
+        className="xp-shell modal-window--compact max-w-md animate-modalAppear motion-reduce:animate-none"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="xp-titlebar flex items-center justify-between px-2 py-1.5 select-none">
+        <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 select-none">
           <span id="share-modal-title" className="xp-titlebar-text text-xs font-bold">
             Share Profile
           </span>
@@ -114,7 +114,7 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose, onCopied
           </button>
         </div>
 
-        <div className="xp-body p-4 space-y-3">
+        <div className="xp-body modal-window__body p-4 space-y-3">
           <div>
             <h3 className="text-xs font-bold mb-1">Share this profile:</h3>
             <p className="text-xs break-all p-2 border border-[#aca899] bg-white">{profileUrl}</p>
