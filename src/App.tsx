@@ -103,12 +103,13 @@ function AppContent() {
     { category: 'Education', title: 'Full Stack Boot Camp', keywords: 'University Texas San Antonio React Node.js MongoDB MySQL AWS' },
     { category: 'Education', title: 'MBA Technology Management', keywords: 'MBA Magna Cum Laude Texas A&M management cloud economics agile' },
     { category: 'Skill', title: 'PHP Python JavaScript TypeScript', keywords: 'PHP Python JavaScript TypeScript SQL REST APIs Git development' },
-    { category: 'Skill', title: 'Docker AWS ECS', keywords: 'Docker containerization AWS ECS ECR cloud deployment CI/CD' },
-    { category: 'Skill', title: 'GitLab CI/CD Linux', keywords: 'GitLab CI/CD Docker Compose Linux DevOps pipelines' },
-    { category: 'Skill', title: 'Moodle Apache Superset Keycloak', keywords: 'Moodle Superset Keycloak HAProxy Solr platforms' },
+    { category: 'Skill', title: 'AWS ECS ECR RDS CloudWatch', keywords: 'AWS ECS ECR RDS Aurora EFS ElastiCache CloudWatch cloud infrastructure' },
+    { category: 'Skill', title: 'Docker GitLab CI/CD Linux', keywords: 'Docker Docker Compose GitLab CI/CD Linux containers DevOps' },
+    { category: 'Skill', title: 'Moodle Rustici Apache Superset', keywords: 'Moodle Rustici Content Controller Apache Superset web apps' },
+    { category: 'Skill', title: 'Keycloak HAProxy Solr Nginx', keywords: 'Apache HTTP Server Nginx HAProxy Keycloak Solr identity search' },
+    { category: 'Skill', title: 'PostgreSQL MySQL Redis', keywords: 'PostgreSQL MySQL Redis data databases caching' },
+    { category: 'Skill', title: 'React Tailwind Frontend', keywords: 'React Tailwind HTML5 CSS3 frontend' },
     { category: 'Skill', title: 'Technical Leadership Architecture', keywords: 'technical leadership architecture code review troubleshooting releases' },
-    { category: 'Cloud', title: 'AWS ECS ECR RDS CloudWatch', keywords: 'AWS cloud infrastructure ECS ECR RDS Aurora Redis ElastiCache EFS CloudWatch' },
-    { category: 'Tech Stack', title: 'React TypeScript Vite Tailwind', keywords: 'React TypeScript Vite Tailwind CSS frontend development build tools npm GitHub Pages' },
   ];
 
   // Search functionality
@@ -754,13 +755,13 @@ function AppContent() {
                         className="whitespace-nowrap custom-font font-bold" 
                         style={{ color: labelColor }}
                       >
-                        Cloud / Infra:
+                        Cloud / AWS:
                       </td>
                       <td 
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        AWS, ECS, ECR, RDS / Aurora, Redis / ElastiCache, EFS, CloudWatch
+                        AWS, ECS, ECR, RDS / Aurora, EFS, ElastiCache, CloudWatch
                       </td>
                     </tr>
                     <tr>
@@ -774,7 +775,7 @@ function AppContent() {
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        Docker, Docker Compose, GitLab CI/CD, Linux, CI/CD pipelines
+                        Docker, Docker Compose, GitLab CI/CD, Linux
                       </td>
                     </tr>
                     <tr>
@@ -782,13 +783,41 @@ function AppContent() {
                         className="whitespace-nowrap custom-font font-bold" 
                         style={{ color: labelColor }}
                       >
-                        Platforms:
+                        Web Apps:
                       </td>
                       <td 
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        Moodle, Apache Superset, Keycloak, HAProxy, Solr
+                        Moodle, Rustici Content Controller, Apache Superset
+                      </td>
+                    </tr>
+                    <tr>
+                      <td 
+                        className="whitespace-nowrap custom-font font-bold" 
+                        style={{ color: labelColor }}
+                      >
+                        Web / Identity / Search:
+                      </td>
+                      <td 
+                        className="custom-font" 
+                        style={{ color: valueColor }}
+                      >
+                        Apache HTTP Server, Nginx, HAProxy, Keycloak, Solr
+                      </td>
+                    </tr>
+                    <tr>
+                      <td 
+                        className="whitespace-nowrap custom-font font-bold" 
+                        style={{ color: labelColor }}
+                      >
+                        Data:
+                      </td>
+                      <td 
+                        className="custom-font" 
+                        style={{ color: valueColor }}
+                      >
+                        PostgreSQL, MySQL, Redis
                       </td>
                     </tr>
                     <tr>
@@ -802,7 +831,7 @@ function AppContent() {
                         className="custom-font" 
                         style={{ color: valueColor }}
                       >
-                        React, TypeScript, Tailwind, HTML5, CSS3
+                        React, Tailwind, HTML5, CSS3
                       </td>
                     </tr>
                     <tr>
