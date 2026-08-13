@@ -60,7 +60,6 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
     { name: 'Automation', icon: '⚙️' },
     { name: 'Security', icon: '🔐' },
     { name: 'Jellyfin', icon: '🎬' },
-    { name: 'Roku Dev', icon: '📺' },
     { name: 'Open Source', icon: '💚' }
   ];
 
