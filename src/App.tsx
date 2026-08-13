@@ -10,6 +10,8 @@ import ShareProfileModal from './components/ShareProfileModal';
 import LegacyProfileModal from './components/LegacyProfileModal';
 import FloatingUtilityControls from './components/FloatingUtilityControls';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
+import { useLastLoginLabel } from './hooks/useLastLoginLabel';
+import { formatProfileViews, useProfileViews } from './hooks/useProfileViews';
 import profilePic from './assets/8bitme.png';
 import './App.css';
 
@@ -37,8 +39,9 @@ function AppContent() {
     return 'border-blue-500 dark:border-blue-400';
   };
 
-  const [lastDeployed, setLastDeployed] = useState<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const lastLogin = useLastLoginLabel();
+  const profileViews = useProfileViews();
 
   // Apply body class based on layout mode
   useEffect(() => {
@@ -56,33 +59,6 @@ function AppContent() {
     if (params.get('view') === 'desktop') {
       setForceDesktopView(true);
     }
-  }, []);
-
-  // Calculate last deployed time
-  useEffect(() => {
-    const formatTimeAgo = (deployTime: Date) => {
-      const now = new Date();
-      const diffInMs = now.getTime() - deployTime.getTime();
-      const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-      const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-      
-      if (diffInMinutes < 1) {
-        return 'just now';
-      } else if (diffInMinutes < 60) {
-        return `${diffInMinutes}m ago`;
-      } else if (diffInHours < 24) {
-        return `${diffInHours}h ago`;
-      } else if (diffInDays < 7) {
-        return `${diffInDays}d ago`;
-      } else {
-        return deployTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      }
-    };
-
-    // Use document.lastModified for build time, fallback to now if not available
-    const deployTime = document.lastModified ? new Date(document.lastModified) : new Date();
-    setLastDeployed(formatTimeAgo(deployTime));
   }, []);
 
   const toggleLayoutMode = () => {
@@ -514,7 +490,7 @@ function AppContent() {
               'border-blue-500 dark:border-blue-400'
             }`}
           >
-            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is in your extended professional network.</h2>
           </div>
           <div id="about"><Education searchQuery={searchQuery} isMyspaceMode={isMyspaceMode} /></div>
           <AboutMe isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
@@ -550,12 +526,18 @@ function AppContent() {
                 aria-label="View legacy profile (click for a surprise)"
               />
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-black dark:text-white">"Currently coding... (and occasionally breaking things)"</p>
                 <p className="text-xs text-black dark:text-white">She/Her</p>
                 <p className="text-xs text-black dark:text-white">San Antonio, TEXAS</p>
                 <p className="text-xs text-black dark:text-white">United States</p>
-                <p className="text-xs text-black dark:text-white mt-2">Last Updated: {lastDeployed || '...'}</p>
-                <p className="text-xs text-black dark:text-white">Status: Building & leading</p>
+                <p className="text-xs text-black dark:text-white mt-2">
+                  Status: Currently coding... (and occasionally breaking things)
+                </p>
+                <p className="text-xs text-black dark:text-white">Last Login: {lastLogin || '...'}</p>
+                {profileViews !== null && (
+                  <p className="text-xs text-black dark:text-white">
+                    Profile Views: {formatProfileViews(profileViews)}
+                  </p>
+                )}
                 <div className="mt-2">
                   <span className="text-xs text-black dark:text-white">View My: </span>
                   <button 
@@ -580,7 +562,7 @@ function AppContent() {
               'border-blue-500 dark:border-blue-400'
             }`}
           >
-            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is in your extended professional network.</h2>
           </div>
         </div>
         
@@ -866,47 +848,36 @@ function AppContent() {
       </div>
     </div>
     
-    {/* Footer */}
-    <div className={`text-white py-4 px-4 mt-2 sm:mt-8 ${isMyspaceMode 
+    {/* Footer — early-2000s profile-site style */}
+    <div className={`text-white py-5 px-4 mt-2 sm:mt-8 ${isMyspaceMode 
       ? 'bg-gradient-to-r from-pink-400 to-purple-400 dark:from-purple-600 dark:to-pink-600' 
       : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800'
     }`}>
-      <div className="max-w-6xl mx-auto">
-        {/* Sitemap / Navigation Links */}
-        <div className="mb-3">
-          <p className="text-xs font-semibold mb-2 text-center sm:text-left">Sitemap</p>
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3 text-xs">
-            {navigationItems.map((item, index) => (
-              <a 
-                key={index} 
-                href={item.href} 
-                onClick={(e) => handleNavClick(e, item)}
-                className={`transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} cursor-pointer`}
-                aria-label={item.label === 'Home' ? 'Navigate to top of page' : `Navigate to ${item.label} section`}
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-        </div>
-        
-        {/* Copyright and Attribution */}
-        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between text-xs sm:text-sm gap-2 pt-2 border-t border-white/20">
-          <p className="text-center sm:text-left">
-            Built, designed & created by <a 
-              href="https://github.com/jessica-calderon" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className={`underline transition-colors duration-200 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'}`}
-              aria-label="View Jessica Calderon's GitHub profile (opens in new tab)"
-            >
-              Jessica Calderon
-            </a>
-          </p>
-          <p className="text-center sm:text-right opacity-75">
-            © {new Date().getFullYear()}
-          </p>
-        </div>
+      <div className="max-w-6xl mx-auto text-center text-xs leading-relaxed">
+        <p className="mb-2 opacity-95">
+          © 2003–{new Date().getFullYear()} MyPortfolio. All Rights Reserved.
+        </p>
+        <p className="mb-2 opacity-90" aria-hidden="true">
+          About&nbsp;|&nbsp;FAQ&nbsp;|&nbsp;Terms&nbsp;|&nbsp;Privacy&nbsp;|&nbsp;Safety&nbsp;|&nbsp;Contact
+        </p>
+        <p className="mb-1 opacity-80">
+          Powered by questionable CSS decisions.
+        </p>
+        <p className="opacity-75">
+          Best viewed on the Internet™
+        </p>
+        <p className="mt-3 opacity-70">
+          Built, designed & created by{' '}
+          <a
+            href="https://github.com/jessica-calderon"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`underline transition-colors duration-200 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'}`}
+            aria-label="View Jessica Calderon's GitHub profile (opens in new tab)"
+          >
+            Jessica Calderon
+          </a>
+        </p>
       </div>
     </div>
     
