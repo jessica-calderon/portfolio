@@ -15,9 +15,16 @@ interface CaseStudyModalProps {
   caseStudy: CaseStudy;
   onClose: () => void;
   onViewHomelab?: () => void;
+  /** When set, Visit Website closes into this handler instead of navigating away (e.g. shared IE window). */
+  onVisitWebsite?: () => void;
 }
 
-const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose, onViewHomelab }) => {
+const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
+  caseStudy,
+  onClose,
+  onViewHomelab,
+  onVisitWebsite,
+}) => {
   const isHomelab = caseStudy.name.toLowerCase().includes('homelab');
   const { isDarkMode } = useDarkMode();
 
@@ -143,15 +150,27 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose, onV
               </a>
             )}
             {caseStudy.websiteUrl && (
-              <a
-                href={caseStudy.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:underline"
-                aria-label={`Visit ${caseStudy.name} website (opens in new tab)`}
-              >
-                Visit Website
-              </a>
+              onVisitWebsite ? (
+                <button
+                  type="button"
+                  onClick={onVisitWebsite}
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  aria-label={`Visit ${caseStudy.name} website`}
+                  aria-haspopup="dialog"
+                >
+                  Visit Website
+                </button>
+              ) : (
+                <a
+                  href={caseStudy.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                  aria-label={`Visit ${caseStudy.name} website (opens in new tab)`}
+                >
+                  Visit Website
+                </a>
+              )
             )}
           </div>
         )}

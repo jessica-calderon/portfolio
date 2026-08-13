@@ -4,6 +4,7 @@ import SearchHighlight from './shared/SearchHighlight';
 import MySpaceContainer from './shared/MySpaceContainer';
 import ThemeAwareHeader from './shared/ThemeAwareHeader';
 import { useOsWindow } from '../contexts/OsWindowContext';
+import { LEGACY_PORTFOLIO_URL } from '../constants/urls';
 
 interface CaseStudy {
   name: string;
@@ -82,7 +83,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
       impact: "Served as an early showcase of projects and web development fundamentals before transitioning to a modern React stack.",
       techUsed: ["Bootstrap", "HTML", "CSS", "JavaScript"],
       emoji: "🧩",
-      websiteUrl: "https://jessica-calderon.github.io/portfolio-legacy/",
+      websiteUrl: LEGACY_PORTFOLIO_URL,
       githubUrl: "https://github.com/jessica-calderon/portfolio-legacy"
     }
   ];
@@ -185,6 +186,14 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
               ? () => {
                   setSelectedCaseStudy(null);
                   open('networkPlaces');
+                }
+              : undefined
+          }
+          onVisitWebsite={
+            selectedCaseStudy.name === 'Legacy Portfolio'
+              ? () => {
+                  setSelectedCaseStudy(null);
+                  open('legacyIe');
                 }
               : undefined
           }
