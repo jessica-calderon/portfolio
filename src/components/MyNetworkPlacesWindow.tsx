@@ -85,8 +85,8 @@ const MyNetworkPlacesWindow: React.FC<MyNetworkPlacesWindowProps> = ({ onClose }
       tabIndex={-1}
     >
       <div
-        className="xp-shell net-shell modal-window--large max-w-3xl animate-modalAppear motion-reduce:animate-none
-          sm:max-h-[min(88vh,640px)]"
+        className="xp-shell net-shell modal-window--large w-full max-w-5xl xl:max-w-6xl animate-modalAppear motion-reduce:animate-none
+          h-[min(90dvh,calc(100dvh-24px))] sm:h-[min(88vh,calc(100vh-48px))] xl:h-[min(86vh,calc(100vh-64px))]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 select-none">

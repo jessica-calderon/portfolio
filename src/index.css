@@ -44,19 +44,35 @@ body {
   }
 }
 
-/* Large content windows — capped to viewport, never full-bleed sheets */
+@media (min-width: 1280px) {
+  .modal-overlay {
+    padding:
+      max(24px, env(safe-area-inset-top, 0px))
+      max(24px, env(safe-area-inset-right, 0px))
+      max(24px, env(safe-area-inset-bottom, 0px))
+      max(24px, env(safe-area-inset-left, 0px));
+  }
+}
+
+/* Large content windows — fill most of the viewport on big desktops */
 .modal-window--large {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: min(90dvh, calc(100dvh - 24px));
+  max-height: min(92dvh, calc(100dvh - 24px));
   min-height: 0;
   overflow: hidden;
 }
 
 @media (min-width: 640px) {
   .modal-window--large {
-    max-height: min(90vh, 900px);
+    max-height: min(90vh, calc(100vh - 48px));
+  }
+}
+
+@media (min-width: 1280px) {
+  .modal-window--large {
+    max-height: min(88vh, calc(100vh - 64px));
   }
 }
 
@@ -110,13 +126,25 @@ body {
 
 @media (min-width: 640px) {
   .modal-preview {
-    max-height: min(50vh, 480px);
+    max-height: min(55vh, 560px);
   }
 
   .modal-preview iframe,
   .modal-preview img {
-    height: min(50vh, 480px);
-    max-height: min(50vh, 480px);
+    height: min(55vh, 560px);
+    max-height: min(55vh, 560px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .modal-preview {
+    max-height: min(58vh, 640px);
+  }
+
+  .modal-preview iframe,
+  .modal-preview img {
+    height: min(58vh, 640px);
+    max-height: min(58vh, 640px);
   }
 }
 
@@ -677,6 +705,24 @@ html.dyslexia-friendly .xp-a11y-dialog {
   color: #000000;
   font-size: 11px;
   overflow: auto;
+}
+
+@media (min-width: 1280px) {
+  .xp-window.net-window .net-pane {
+    width: 220px;
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .xp-window.net-window .net-grid {
+    grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .xp-window.net-window .net-details {
+    font-size: 12px;
+  }
 }
 
 .xp-window.net-window .net-pane-heading {
