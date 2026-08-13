@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDarkMode } from '../contexts/DarkModeContext';
 import MySpaceTable from './shared/MySpaceTable';
+import { GITHUB_URL, LINKEDIN_URL } from '../constants/contact';
+import { PROFILE_URL } from '../constants/urls';
 
 interface LinksTableProps {
   onResumeClick: () => void;
@@ -43,7 +45,7 @@ const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick, isMyspaceMode = 
       label: 'GitHub', 
       value: (
         <a 
-          href="https://github.com/jessica-calderon" 
+          href={GITHUB_URL} 
           target="_blank" 
           rel="noopener noreferrer" 
           className="break-all custom-font underline"
@@ -60,7 +62,7 @@ const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick, isMyspaceMode = 
       label: 'LinkedIn', 
       value: (
         <a 
-          href="https://linkedin.com/in/Jessica-Calderon-00" 
+          href={LINKEDIN_URL} 
           target="_blank" 
           rel="noopener noreferrer" 
           className="break-all custom-font underline"
@@ -77,7 +79,7 @@ const LinksTable: React.FC<LinksTableProps> = ({ onResumeClick, isMyspaceMode = 
       label: 'Portfolio', 
       value: (
         <a 
-          href="https://jessica-calderon.github.io/portfolio/" 
+          href={PROFILE_URL} 
           target="_blank" 
           rel="noopener noreferrer" 
           className="break-all custom-font underline"

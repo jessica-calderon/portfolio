@@ -32,7 +32,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
         onSendMessageClick={() => open('aim')}
         onResumeClick={() => open('resume')}
         onShareClick={handleShareClick}
-        onFavoritesClick={() => open('favorites')}
+        onSaveContactClick={() => open('saveContact')}
+        onConnectClick={() => open('addNetwork')}
         onRatingClick={() => open('rating')}
         onCustomizeClick={() => openBuilder('active')}
         onScheduleClick={() => open('scheduleCall')}

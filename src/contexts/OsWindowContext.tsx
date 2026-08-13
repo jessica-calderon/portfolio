@@ -10,11 +10,12 @@ export type MajorOsWindow =
   | 'resume'
   | 'legacyIe'
   | 'networkPlaces'
-  | 'favorites'
   | 'share'
   | 'clipboardAlert'
   | 'rating'
-  | 'scheduleCall';
+  | 'scheduleCall'
+  | 'addNetwork'
+  | 'saveContact';
 
 interface OsWindowContextValue {
   active: MajorOsWindow;

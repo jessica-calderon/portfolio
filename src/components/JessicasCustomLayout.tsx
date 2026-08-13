@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import profilePic from '../assets/8bitme.png';
 import AboutMe from './AboutMe';
 import Education from './Education';
@@ -10,7 +10,6 @@ import { useProfileTheme } from '../contexts/ProfileThemeContext';
 import { useLastLoginLabel } from '../hooks/useLastLoginLabel';
 import { formatProfileViews, useProfileViews } from '../hooks/useProfileViews';
 import { tryNativeShare } from './ShareProfileModal';
-import { readFavorited } from './AddFavoriteDialog';
 import { PROFILE_URL } from '../constants/urls';
 import {
   CURRENTLY_FOCUS,
@@ -53,18 +52,6 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
   const { openBuilder } = useProfileTheme();
   const lastLogin = useLastLoginLabel();
   const profileViews = useProfileViews();
-  const [favorited, setFavorited] = useState(readFavorited);
-
-  useEffect(() => {
-    const sync = () => setFavorited(readFavorited());
-    window.addEventListener('jc-favorites-changed', sync);
-    window.addEventListener('storage', sync);
-    return () => {
-      window.removeEventListener('jc-favorites-changed', sync);
-      window.removeEventListener('storage', sync);
-    };
-  }, []);
-
   const handleShareClick = async () => {
     const url = typeof window !== 'undefined' ? window.location.href : PROFILE_URL;
     const result = await tryNativeShare(url);
@@ -179,18 +166,30 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
             </span>
             <span className="jdiv-contact-label">Send Message</span>
           </button>
-          <a
-            href="https://linkedin.com/in/Jessica-Calderon-00"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             className="jdiv-contact-action"
-            aria-label="Connect on LinkedIn (opens in new tab)"
+            onClick={() => open('addNetwork')}
+            aria-label="Add Jessica to professional network"
+            aria-haspopup="dialog"
           >
             <span className="jdiv-contact-icon" aria-hidden="true">
               👥
             </span>
             <span className="jdiv-contact-label">Connect</span>
-          </a>
+          </button>
+          <button
+            type="button"
+            className="jdiv-contact-action"
+            onClick={() => open('scheduleCall')}
+            aria-label="Schedule a call"
+            aria-haspopup="dialog"
+          >
+            <span className="jdiv-contact-icon" aria-hidden="true">
+              💬
+            </span>
+            <span className="jdiv-contact-label">Schedule Call</span>
+          </button>
           <button
             type="button"
             className="jdiv-contact-action"
@@ -206,42 +205,6 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
           <button
             type="button"
             className="jdiv-contact-action"
-            onClick={() => open('scheduleCall')}
-            aria-label="Schedule a call"
-            aria-haspopup="dialog"
-          >
-            <span className="jdiv-contact-icon" aria-hidden="true">
-              📅
-            </span>
-            <span className="jdiv-contact-label">Schedule Call</span>
-          </button>
-          <a
-            href="https://github.com/jessica-calderon"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="jdiv-contact-action"
-            aria-label="View GitHub profile (opens in new tab)"
-          >
-            <span className="jdiv-contact-icon" aria-hidden="true">
-              ↗
-            </span>
-            <span className="jdiv-contact-label">GitHub</span>
-          </a>
-          <a
-            href="https://linkedin.com/in/Jessica-Calderon-00"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="jdiv-contact-action"
-            aria-label="View LinkedIn profile (opens in new tab)"
-          >
-            <span className="jdiv-contact-icon" aria-hidden="true">
-              ↗
-            </span>
-            <span className="jdiv-contact-label">LinkedIn</span>
-          </a>
-          <button
-            type="button"
-            className="jdiv-contact-action"
             onClick={handleShareClick}
             aria-label="Share profile"
             aria-haspopup="dialog"
@@ -254,16 +217,14 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
           <button
             type="button"
             className="jdiv-contact-action"
-            onClick={() => open('favorites')}
-            aria-label={favorited ? 'Manage MyPortfolio favorite' : 'Add to Favorites'}
+            onClick={() => open('saveContact')}
+            aria-label="Save contact as vCard"
             aria-haspopup="dialog"
           >
             <span className="jdiv-contact-icon" aria-hidden="true">
-              ⭐
+              📇
             </span>
-            <span className="jdiv-contact-label">
-              {favorited ? 'Favorited' : 'Add to Favorites'}
-            </span>
+            <span className="jdiv-contact-label">Save Contact</span>
           </button>
         </div>
         <div className="jdiv-contact-meta">

@@ -1139,6 +1139,179 @@ html.dyslexia-friendly .xp-a11y-dialog {
   }
 }
 
+/* Add to Network — compact XP / MySpace dialog */
+.xp-window.network-window .network-shell {
+  width: calc(100vw - 24px);
+  max-width: 460px;
+  max-height: calc(100dvh - 32px);
+}
+
+.xp-window.network-window .network-body {
+  padding: 0.65rem 0.75rem 0.4rem;
+}
+
+.xp-window.network-window .network-buddy {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  margin-bottom: 0.55rem;
+}
+
+.xp-window.network-window .network-avatar {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border: 2px solid #003c74;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.xp-window.network-window .network-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 0 0 0.15rem;
+}
+
+.xp-window.network-window .network-title {
+  font-size: 0.68rem;
+  margin: 0 0 0.25rem;
+  line-height: 1.3;
+}
+
+.xp-window.network-window .network-online {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #008000;
+  margin: 0;
+}
+
+.xp-window.network-window .network-online-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 4px #22c55e;
+}
+
+.xp-window.network-window .network-copy {
+  font-size: 0.72rem;
+  margin: 0 0 0.35rem;
+  line-height: 1.4;
+}
+
+.xp-window.network-window .network-copy--ask {
+  font-weight: 700;
+}
+
+.xp-window.network-window .network-hint {
+  font-size: 0.62rem;
+  color: #555;
+  font-style: italic;
+  margin: 0.45rem 0 0;
+}
+
+.xp-window.network-window .network-footer {
+  border-top: 1px solid #aca899;
+  background: #ece9d8;
+}
+
+/* Save Contact — Outlook address book + real vCard */
+.xp-window.save-contact-window .save-contact-shell {
+  width: calc(100vw - 24px);
+  max-width: 460px;
+  max-height: calc(100dvh - 32px);
+}
+
+.xp-window.save-contact-window .save-contact-body {
+  padding: 0.65rem 0.75rem 0.35rem;
+}
+
+.xp-window.save-contact-window .save-contact-buddy {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  margin-bottom: 0.55rem;
+}
+
+.xp-window.save-contact-window .save-contact-avatar {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border: 2px solid #003c74;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.xp-window.save-contact-window .save-contact-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 0 0 0.15rem;
+}
+
+.xp-window.save-contact-window .save-contact-title {
+  font-size: 0.68rem;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.xp-window.save-contact-window .save-contact-fields {
+  margin: 0;
+  border: 1px solid #aca899;
+  background: #fff;
+  padding: 0.3rem 0.45rem;
+}
+
+.xp-window.save-contact-window .save-contact-row {
+  display: grid;
+  grid-template-columns: 4.25rem minmax(0, 1fr);
+  gap: 0.35rem;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid #e4e1d4;
+}
+
+.xp-window.save-contact-window .save-contact-row:last-child {
+  border-bottom: none;
+}
+
+.xp-window.save-contact-window .save-contact-row dt {
+  font-weight: 700;
+  color: #003c74;
+  margin: 0;
+}
+
+.xp-window.save-contact-window .save-contact-row dd {
+  margin: 0;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.xp-window.save-contact-window .save-contact-row a {
+  color: #0033cc;
+  text-decoration: underline;
+}
+
+.xp-window.save-contact-window .save-contact-row a:focus-visible {
+  outline: 2px solid #245edb;
+  outline-offset: 1px;
+}
+
+.xp-window.save-contact-window .save-contact-footer {
+  border-top: 1px solid #aca899;
+  background: #ece9d8;
+}
+
+.xp-window.save-contact-window .save-contact-status {
+  font-size: 0.65rem;
+  color: #555;
+  margin: 0;
+  padding: 0.35rem 0.75rem 0;
+}
+
 /* Accessibility Features */
 
 /* High Contrast Mode */

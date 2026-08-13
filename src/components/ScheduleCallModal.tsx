@@ -70,7 +70,7 @@ const ScheduleCallModal: React.FC<ScheduleCallModalProps> = ({ onClose }) => {
         <div className="schedule-call-body modal-window__body">
           <div className="schedule-call-fields">
             <div className="schedule-call-row">
-              <span className="schedule-call-label">To:</span>
+              <span className="schedule-call-label">With:</span>
               <span className="schedule-call-value">Jessica Calderon</span>
             </div>
             <div className="schedule-call-row">

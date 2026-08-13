@@ -11,7 +11,8 @@ import ScheduleCallModal from './components/ScheduleCallModal';
 import ShareProfileModal, { tryNativeShare } from './components/ShareProfileModal';
 import InternetExplorerWindow from './components/InternetExplorerWindow';
 import MyNetworkPlacesWindow from './components/MyNetworkPlacesWindow';
-import AddFavoriteDialog, { readFavorited } from './components/AddFavoriteDialog';
+import AddToNetworkModal from './components/AddToNetworkModal';
+import SaveContactModal from './components/SaveContactModal';
 import XpAlertDialog from './components/shared/XpAlertDialog';
 import RatingModal from './components/RatingModal';
 import ThemePicker from './components/ThemePicker';
@@ -24,7 +25,7 @@ import { ProfileThemeProvider, useProfileTheme } from './contexts/ProfileThemeCo
 import { OsWindowProvider, useOsWindow } from './contexts/OsWindowContext';
 import { useLastLoginLabel } from './hooks/useLastLoginLabel';
 import { formatProfileViews, useProfileViews } from './hooks/useProfileViews';
-import { CONTACT_EMAIL } from './constants/contact';
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from './constants/contact';
 import { PROFILE_URL } from './constants/urls';
 import { SKILL_CATEGORIES } from './data/skills';
 import profilePic from './assets/8bitme.png';
@@ -42,15 +43,8 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
-  const [favorited, setFavorited] = useState(readFavorited);
   const { open, close, isOpen } = useOsWindow();
   const { isDarkMode } = useDarkMode();
-
-  useEffect(() => {
-    const sync = () => setFavorited(readFavorited());
-    window.addEventListener('jc-favorites-changed', sync);
-    return () => window.removeEventListener('jc-favorites-changed', sync);
-  }, []);
 
   const handleShareClick = async () => {
     const url = typeof window !== 'undefined' ? window.location.href : PROFILE_URL;
@@ -572,15 +566,15 @@ function AppContent() {
               >
                 <span className="mr-1" aria-hidden="true">✉️</span> Send Message
               </button>
-              <a 
-                href="https://linkedin.com/in/Jessica-Calderon-00" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <button
+                type="button"
+                onClick={() => open('addNetwork')}
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Connect on LinkedIn (opens in new tab)"
+                aria-label="Add Jessica to professional network"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">👥</span> Connect
-              </a>
+              </button>
               <button 
                 type="button"
                 onClick={() => open('scheduleCall')} 
@@ -610,12 +604,12 @@ function AppContent() {
               </button>
               <button
                 type="button"
-                onClick={() => open('favorites')}
+                onClick={() => open('saveContact')}
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label={favorited ? 'Manage MyPortfolio favorite' : 'Add to Favorites'}
+                aria-label="Save contact as vCard"
                 aria-haspopup="dialog"
               >
-                <span className="mr-1" aria-hidden="true">⭐</span> {favorited ? 'Favorited' : 'Add to Favorites'}
+                <span className="mr-1" aria-hidden="true">📇</span> Save Contact
               </button>
             </div>
           </div>
@@ -654,11 +648,11 @@ function AppContent() {
               <tbody>
                 <tr>
                   <td>GitHub:</td>
-                  <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile (opens in new tab)">github.com/jessica-calderon</a></td>
+                  <td><a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile (opens in new tab)">github.com/jessica-calderon</a></td>
                 </tr>
                 <tr>
                   <td>LinkedIn:</td>
-                  <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" aria-label="View LinkedIn profile (opens in new tab)">linkedin.com/in/Jessica-Calderon-00</a></td>
+                  <td><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="View LinkedIn profile (opens in new tab)">linkedin.com/in/Jessica-Calderon-00</a></td>
                 </tr>
                 <tr>
                   <td>Portfolio:</td>
@@ -785,10 +779,11 @@ function AppContent() {
     {/* Major OS-style windows — one at a time via OsWindowContext */}
     {isOpen('aim') && <AimContactModal onClose={close} />}
     {isOpen('scheduleCall') && <ScheduleCallModal onClose={close} />}
+    {isOpen('addNetwork') && <AddToNetworkModal onClose={close} />}
+    {isOpen('saveContact') && <SaveContactModal onClose={close} />}
     {isOpen('resume') && <ResumeModal onClose={close} />}
     {isOpen('legacyIe') && <InternetExplorerWindow onClose={close} />}
     {isOpen('networkPlaces') && <MyNetworkPlacesWindow onClose={close} />}
-    {isOpen('favorites') && <AddFavoriteDialog onClose={close} />}
     {isOpen('share') && (
       <ShareProfileModal
         onClose={close}
