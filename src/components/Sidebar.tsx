@@ -1,71 +1,45 @@
-import React, { useState } from 'react';
-import ResumeModal from './ResumeModal';
-import AimContactModal from './AimContactModal';
-import ShareProfileModal from './ShareProfileModal';
-import RatingModal from './RatingModal';
-import CustomizeModal from './CustomizeModal';
-import LegacyProfileModal from './LegacyProfileModal';
+import React from 'react';
 import ProfileSection from './ProfileSection';
 import ContactSection from './ContactSection';
 import PortfolioUrl from './PortfolioUrl';
 import SkillsTable from './SkillsTable';
 import LinksTable from './LinksTable';
+import { useOsWindow } from '../contexts/OsWindowContext';
+import { tryNativeShare } from './ShareProfileModal';
+import { PROFILE_URL } from '../constants/urls';
 
 interface SidebarProps {
   isMyspaceMode?: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
-  const [showResumeModal, setShowResumeModal] = useState(false);
-  const [showAimModal, setShowAimModal] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
-  const [showRatingModal, setShowRatingModal] = useState(false);
-  const [showCustomizeModal, setShowCustomizeModal] = useState(false);
-  const [showLegacyModal, setShowLegacyModal] = useState(false);
+  const { open } = useOsWindow();
+
+  const handleShareClick = async () => {
+    const url = typeof window !== 'undefined' ? window.location.href : PROFILE_URL;
+    const result = await tryNativeShare(url);
+    if (result === 'shared' || result === 'aborted') return;
+    open('share');
+  };
 
   return (
     <div className="space-y-2">
-      {/* Profile Picture and Basic Info */}
-      <ProfileSection 
-        onLegacyClick={() => setShowLegacyModal(true)}
+      <ProfileSection onLegacyClick={() => open('legacyIe')} />
+
+      <ContactSection
+        onSendMessageClick={() => open('aim')}
+        onResumeClick={() => open('resume')}
+        onShareClick={handleShareClick}
+        onFavoritesClick={() => open('favorites')}
+        onRatingClick={() => open('rating')}
+        onCustomizeClick={() => open('customize')}
       />
 
-      {/* Contacting Jessica */}
-      <ContactSection 
-        onSendMessageClick={() => setShowAimModal(true)}
-        onResumeClick={() => setShowResumeModal(true)}
-        onShareClick={() => setShowShareModal(true)}
-        onRatingClick={() => setShowRatingModal(true)}
-        onCustomizeClick={() => setShowCustomizeModal(true)}
-      />
-
-      {/* Portfolio URL */}
       <PortfolioUrl />
 
-      {/* Jessica's Technical Skills */}
       <SkillsTable isMyspaceMode={isMyspaceMode} />
 
-      {/* Jessica's Links */}
-      <LinksTable onResumeClick={() => setShowResumeModal(true)} isMyspaceMode={isMyspaceMode} />
-
-      {/* AIM-style contact window */}
-      {showAimModal && <AimContactModal onClose={() => setShowAimModal(false)} />}
-
-      {/* Resume Modal */}
-      {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
-      
-      {/* Share Profile Modal */}
-      {showShareModal && <ShareProfileModal onClose={() => setShowShareModal(false)} />}
-      
-      
-      {/* Rating Modal */}
-      {showRatingModal && <RatingModal onClose={() => setShowRatingModal(false)} />}
-      
-      {/* Customize Modal */}
-      {showCustomizeModal && <CustomizeModal onClose={() => setShowCustomizeModal(false)} />}
-      
-      {/* Legacy Profile Modal */}
-      {showLegacyModal && <LegacyProfileModal onClose={() => setShowLegacyModal(false)} />}
+      <LinksTable onResumeClick={() => open('resume')} isMyspaceMode={isMyspaceMode} />
     </div>
   );
 };

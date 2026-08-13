@@ -7,13 +7,20 @@ import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
 import ResumeModal from './components/ResumeModal';
 import AimContactModal from './components/AimContactModal';
-import ShareProfileModal from './components/ShareProfileModal';
-import LegacyProfileModal from './components/LegacyProfileModal';
+import ShareProfileModal, { tryNativeShare } from './components/ShareProfileModal';
+import InternetExplorerWindow from './components/InternetExplorerWindow';
+import MyNetworkPlacesWindow from './components/MyNetworkPlacesWindow';
+import AddFavoriteDialog, { readFavorited } from './components/AddFavoriteDialog';
+import XpAlertDialog from './components/shared/XpAlertDialog';
+import RatingModal from './components/RatingModal';
+import CustomizeModal from './components/CustomizeModal';
 import FloatingUtilityControls from './components/FloatingUtilityControls';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
+import { OsWindowProvider, useOsWindow } from './contexts/OsWindowContext';
 import { useLastLoginLabel } from './hooks/useLastLoginLabel';
 import { formatProfileViews, useProfileViews } from './hooks/useProfileViews';
 import { CONTACT_EMAIL } from './constants/contact';
+import { PROFILE_URL } from './constants/urls';
 import profilePic from './assets/8bitme.png';
 import './App.css';
 
@@ -29,11 +36,22 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
-  const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
-  const [showAimModal, setShowAimModal] = useState<boolean>(false);
-  const [showShareModal, setShowShareModal] = useState<boolean>(false);
-  const [showLegacyModal, setShowLegacyModal] = useState<boolean>(false);
+  const [favorited, setFavorited] = useState(readFavorited);
+  const { open, close, isOpen } = useOsWindow();
   const { isDarkMode } = useDarkMode();
+
+  useEffect(() => {
+    const sync = () => setFavorited(readFavorited());
+    window.addEventListener('jc-favorites-changed', sync);
+    return () => window.removeEventListener('jc-favorites-changed', sync);
+  }, []);
+
+  const handleShareClick = async () => {
+    const url = typeof window !== 'undefined' ? window.location.href : PROFILE_URL;
+    const result = await tryNativeShare(url);
+    if (result === 'shared' || result === 'aborted') return;
+    open('share');
+  };
 
   // Helper function to get border classes - consistent with MySpaceTable and MySpaceContainer
   const getBorderClasses = () => {
@@ -136,8 +154,7 @@ function AppContent() {
     e.stopPropagation();
     
     if (item.isModal) {
-      // Handle Resume modal
-      setShowResumeModal(true);
+      open('resume');
       return;
     }
     
@@ -519,11 +536,11 @@ function AppContent() {
                 title="Click for a surprise! 🦖"
                 role="button"
                 tabIndex={0}
-                onClick={() => setShowLegacyModal(true)}
+                onClick={() => open('legacyIe')}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    setShowLegacyModal(true);
+                    open('legacyIe');
                   }
                 }}
                 aria-label="View legacy profile (click for a surprise)"
@@ -544,9 +561,11 @@ function AppContent() {
                 <div className="mt-2">
                   <span className="text-xs text-black dark:text-white">View My: </span>
                   <button 
-                    onClick={() => setShowLegacyModal(true)} 
+                    type="button"
+                    onClick={() => open('legacyIe')} 
                     className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words"
                     aria-label="View legacy profile"
+                    aria-haspopup="dialog"
                   >
                     Legacy Profile
                   </button>
@@ -578,7 +597,7 @@ function AppContent() {
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                onClick={() => setShowAimModal(true)}
+                onClick={() => open('aim')}
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
                 aria-label="Send message to Jessica Calderon"
                 aria-haspopup="dialog"
@@ -595,35 +614,40 @@ function AppContent() {
                 <span className="mr-1" aria-hidden="true">👥</span> Connect
               </a>
               <button 
-                onClick={() => window.open('https://cal.com/jessica-calderon')} 
+                type="button"
+                onClick={() => window.open('https://cal.com/jessica-calderon', '_blank', 'noopener,noreferrer')} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
                 aria-label="Schedule a call via Cal.com"
               >
                 <span className="mr-1" aria-hidden="true">💬</span> Schedule Call
               </button>
               <button 
-                onClick={() => setShowResumeModal(true)} 
+                type="button"
+                onClick={() => open('resume')} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
                 aria-label="View resume"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">📄</span> View Resume
               </button>
               <button 
-                onClick={() => setShowShareModal(true)} 
+                type="button"
+                onClick={handleShareClick} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
                 aria-label="Share profile"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">↗️</span> Share Profile
               </button>
-              <a 
-                href="https://github.com/jessica-calderon" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <button
+                type="button"
+                onClick={() => open('favorites')}
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="View GitHub profile (opens in new tab)"
+                aria-label={favorited ? 'Manage MyPortfolio favorite' : 'Add to Favorites'}
+                aria-haspopup="dialog"
               >
-                <span className="mr-1" aria-hidden="true">⭐</span> Add to Favorites
-              </a>
+                <span className="mr-1" aria-hidden="true">⭐</span> {favorited ? 'Favorited' : 'Add to Favorites'}
+              </button>
             </div>
           </div>
         </div>
@@ -886,19 +910,30 @@ function AppContent() {
       </div>
     </div>
     
-    {/* AIM-style contact window */}
-    {showAimModal && <AimContactModal onClose={() => setShowAimModal(false)} />}
-
-    {/* Resume Modal */}
-    {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
+    {/* Major OS-style windows — one at a time via OsWindowContext */}
+    {isOpen('aim') && <AimContactModal onClose={close} />}
+    {isOpen('resume') && <ResumeModal onClose={close} />}
+    {isOpen('legacyIe') && <InternetExplorerWindow onClose={close} />}
+    {isOpen('networkPlaces') && <MyNetworkPlacesWindow onClose={close} />}
+    {isOpen('favorites') && <AddFavoriteDialog onClose={close} />}
+    {isOpen('share') && (
+      <ShareProfileModal
+        onClose={close}
+        onCopied={() => open('clipboardAlert')}
+      />
+    )}
+    {isOpen('clipboardAlert') && (
+      <XpAlertDialog
+        title="MyPortfolio"
+        message="Profile link copied to Clipboard."
+        icon="📋"
+        onClose={close}
+      />
+    )}
+    {isOpen('rating') && <RatingModal onClose={close} />}
+    {isOpen('customize') && <CustomizeModal onClose={close} />}
     
-    {/* Share Profile Modal */}
-    {showShareModal && <ShareProfileModal onClose={() => setShowShareModal(false)} />}
-    
-    {/* Legacy Profile Modal */}
-    {showLegacyModal && <LegacyProfileModal onClose={() => setShowLegacyModal(false)} />}
-    
-    {/* Bottom-right utility cluster: Accessibility + Scroll to Top */}
+    {/* Bottom-right utility cluster: Accessibility + Scroll to Top (Accessibility stays reachable above OS windows) */}
     <FloatingUtilityControls isMyspaceMode={isMyspaceMode} />
     
     </div>
@@ -908,7 +943,9 @@ function AppContent() {
 function App() {
   return (
     <DarkModeProvider>
-      <AppContent />
+      <OsWindowProvider>
+        <AppContent />
+      </OsWindowProvider>
     </DarkModeProvider>
   );
 }

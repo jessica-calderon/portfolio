@@ -337,6 +337,364 @@ html.dyslexia-friendly .xp-a11y-dialog {
   box-shadow: inset 0 1px 0 #aca899;
 }
 
+/* Shared classic form controls / action buttons (theme-isolated) */
+.xp-window .xp-input {
+  width: 100%;
+  font-family: Tahoma, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  color: #000000;
+  background: #ffffff;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040;
+  border-radius: 0;
+  padding: 4px 6px;
+  min-height: 28px;
+}
+
+.xp-window .xp-input:focus {
+  outline: 2px solid #245edb;
+  outline-offset: 1px;
+}
+
+.xp-window .xp-action-btn {
+  min-height: 32px;
+  min-width: 72px;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-family: Tahoma, 'Segoe UI', sans-serif;
+  cursor: pointer;
+}
+
+.xp-window .xp-action-btn:focus {
+  outline: 2px solid #245edb;
+  outline-offset: 1px;
+}
+
+.xp-window .xp-progress {
+  width: 160px;
+  max-width: 70%;
+  height: 14px;
+  background: #ffffff;
+  border: 1px solid #808080;
+  box-shadow: inset 1px 1px 0 #404040;
+  overflow: hidden;
+}
+
+.xp-window .xp-progress-bar {
+  height: 100%;
+  width: 35%;
+  background: repeating-linear-gradient(
+    -45deg,
+    #245edb,
+    #245edb 6px,
+    #3b7cda 6px,
+    #3b7cda 12px
+  );
+  animation: xp-progress-slide 1s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xp-window .xp-progress-bar {
+    animation: none;
+    width: 55%;
+  }
+}
+
+@keyframes xp-progress-slide {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(280%); }
+}
+
+/* Internet Explorer–inspired browser chrome */
+.xp-window.ie-window .ie-app-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  font-size: 10px;
+  font-weight: bold;
+  font-style: italic;
+  color: #245edb;
+  background: #ffffff;
+  border: 1px solid #003c74;
+  line-height: 1;
+}
+
+.xp-window.ie-window .ie-menubar,
+.xp-window.net-window .net-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 2px 8px;
+  font-size: 11px;
+  background: var(--xp-body);
+  border-bottom: 1px solid #aca899;
+  color: #000000;
+}
+
+.xp-window.ie-window .ie-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  background: linear-gradient(to bottom, #f8f6ec 0%, var(--xp-toolbar) 100%);
+  border-bottom: 1px solid #aca899;
+}
+
+.xp-window.ie-window .ie-tool-deco {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #808080;
+  user-select: none;
+}
+
+.xp-window.ie-window .ie-tool-btn,
+.xp-window.ie-window .ie-go-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 26px;
+  padding: 2px 8px;
+  font-size: 11px;
+  background: linear-gradient(to bottom, #ffffff 0%, var(--xp-control-face) 55%, var(--xp-control) 100%);
+  color: var(--xp-text);
+  border: 1px solid var(--xp-control-border);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.xp-window.ie-window .ie-tool-btn:hover,
+.xp-window.ie-window .ie-go-btn:hover {
+  background: linear-gradient(to bottom, #ffffff 0%, var(--xp-control-hover) 100%);
+}
+
+.xp-window.ie-window .ie-tool-btn:focus,
+.xp-window.ie-window .ie-go-btn:focus {
+  outline: 2px solid #245edb;
+  outline-offset: 1px;
+}
+
+.xp-window.ie-window .ie-addressbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  background: var(--xp-body);
+  border-bottom: 1px solid #aca899;
+}
+
+.xp-window.ie-window .ie-address-label {
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.xp-window.ie-window .ie-address-input {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  font-family: Tahoma, 'Segoe UI', sans-serif;
+  padding: 3px 6px;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040;
+  background: #ffffff;
+  color: #000000;
+}
+
+.xp-window.ie-window .ie-viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #808080;
+  padding: 2px;
+}
+
+.xp-window.ie-window .ie-frame {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #716f64;
+  background: #ffffff;
+  display: block;
+}
+
+.xp-window.ie-window .ie-loading,
+.xp-window.ie-window .ie-fallback {
+  position: absolute;
+  inset: 2px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ffffff;
+  padding: 16px;
+  text-align: center;
+}
+
+.xp-window .ie-favorite-folder {
+  font-size: 12px;
+  padding: 4px 8px;
+  background: #ffffff;
+  border: 2px solid;
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px 0 #404040;
+}
+
+@media (max-width: 640px) {
+  .xp-window.ie-window .ie-menubar span:nth-child(n+4) {
+    display: none;
+  }
+
+  .xp-window.ie-window .ie-tool-deco {
+    display: none;
+  }
+}
+
+/* My Network Places / Explorer-inspired homelab view */
+.xp-window.net-window .net-body {
+  display: flex;
+  min-height: 280px;
+  background: #ffffff;
+}
+
+.xp-window.net-window .net-pane {
+  width: 180px;
+  flex-shrink: 0;
+  padding: 8px;
+  background: linear-gradient(to bottom, #7ba2e7 0%, #647ecb 40%, #d6dff5 40%, #d6dff5 100%);
+  border-right: 1px solid #aca899;
+  color: #000000;
+  font-size: 11px;
+  overflow: auto;
+}
+
+.xp-window.net-window .net-pane-heading {
+  font-weight: bold;
+  color: #215dc6;
+  margin-bottom: 4px;
+}
+
+.xp-window.net-window .net-pane-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0 2px;
+  color: #000000;
+}
+
+.xp-window.net-window .net-pane-list li {
+  padding: 2px 0;
+}
+
+.xp-window.net-window .net-pane-note {
+  margin-top: 12px;
+  font-size: 10px;
+  color: #333333;
+  line-height: 1.3;
+}
+
+.xp-window.net-window .net-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  background: #ffffff;
+}
+
+.xp-window.net-window .net-path {
+  padding: 4px 8px;
+  font-size: 11px;
+  background: #ece9d8;
+  border-bottom: 1px solid #aca899;
+}
+
+.xp-window.net-window .net-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 12px;
+}
+
+.xp-window.net-window .net-icon-btn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  color: #000000;
+  font-size: 11px;
+}
+
+.xp-window.net-window .net-icon-btn:hover,
+.xp-window.net-window .net-icon-btn--selected {
+  background: #316ac5;
+  color: #ffffff;
+  border-color: #0a246a;
+}
+
+.xp-window.net-window .net-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.xp-window.net-window .net-icon-label {
+  text-align: center;
+  line-height: 1.2;
+}
+
+.xp-window.net-window .net-details {
+  margin-top: auto;
+  padding: 8px 10px;
+  border-top: 1px solid #aca899;
+  background: #ece9d8;
+  font-size: 11px;
+}
+
+.xp-window.net-window .net-details-title {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.xp-window.net-window .net-details-cat {
+  color: #555555;
+  margin-bottom: 4px;
+}
+
+.xp-window.net-window .net-details-desc {
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+
+@media (max-width: 640px) {
+  .xp-window.net-window .net-body {
+    flex-direction: column;
+  }
+
+  .xp-window.net-window .net-pane {
+    width: 100%;
+    max-height: 96px;
+    background: #d6dff5;
+  }
+
+  .xp-window.net-window .net-pane-list,
+  .xp-window.net-window .net-pane-heading.mt-3 {
+    display: none;
+  }
+}
+
 /*
  * AIM-inspired contact window — theme-isolated desktop chrome (same family as XP windows).
  * Recreated stylistically; no proprietary AIM assets.

@@ -3,6 +3,7 @@ import CaseStudyModal from './CaseStudyModal';
 import SearchHighlight from './shared/SearchHighlight';
 import MySpaceContainer from './shared/MySpaceContainer';
 import ThemeAwareHeader from './shared/ThemeAwareHeader';
+import { useOsWindow } from '../contexts/OsWindowContext';
 
 interface CaseStudy {
   name: string;
@@ -21,6 +22,7 @@ interface CaseStudiesGridProps {
 
 const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, searchQuery }) => {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
+  const { open } = useOsWindow();
 
   const caseStudies: CaseStudy[] = [
     { 
@@ -177,7 +179,15 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
       {selectedCaseStudy && (
         <CaseStudyModal 
           caseStudy={selectedCaseStudy} 
-          onClose={() => setSelectedCaseStudy(null)} 
+          onClose={() => setSelectedCaseStudy(null)}
+          onViewHomelab={
+            selectedCaseStudy.name.toLowerCase().includes('homelab')
+              ? () => {
+                  setSelectedCaseStudy(null);
+                  open('networkPlaces');
+                }
+              : undefined
+          }
         />
       )}
     </>

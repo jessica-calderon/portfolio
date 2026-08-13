@@ -14,9 +14,11 @@ interface CaseStudy {
 interface CaseStudyModalProps {
   caseStudy: CaseStudy;
   onClose: () => void;
+  onViewHomelab?: () => void;
 }
 
-const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) => {
+const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose, onViewHomelab }) => {
+  const isHomelab = caseStudy.name.toLowerCase().includes('homelab');
   const { isDarkMode } = useDarkMode();
 
   useEffect(() => {
@@ -115,9 +117,20 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ caseStudy, onClose }) =
           )}
         </div>
 
-        {/* Modal footer with Visit Website and GitHub links */}
-        {(caseStudy.websiteUrl || caseStudy.githubUrl) && (
-          <div className={`px-6 py-4 border-t ${isDarkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300 bg-[#ece9d8]'} flex justify-end gap-4`}>
+        {/* Modal footer with Visit Website / GitHub / Homelab explorer */}
+        {(caseStudy.websiteUrl || caseStudy.githubUrl || (isHomelab && onViewHomelab)) && (
+          <div className={`px-6 py-4 border-t ${isDarkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300 bg-[#ece9d8]'} flex flex-wrap justify-end gap-4`}>
+            {isHomelab && onViewHomelab && (
+              <button
+                type="button"
+                onClick={onViewHomelab}
+                className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                aria-label="View Homelab in My Network Places"
+                aria-haspopup="dialog"
+              >
+                View Homelab
+              </button>
+            )}
             {caseStudy.githubUrl && (
               <a
                 href={caseStudy.githubUrl}

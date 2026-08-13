@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ResumeModalProps {
   onClose: () => void;
@@ -12,6 +12,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
 
   const dialogRef = useRef<HTMLDivElement>(null);
   const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+  const [docStatus, setDocStatus] = useState('Loading document…');
   // Preserve prior "Last updated" behavior (dynamic calendar date)
   const lastUpdatedLabel = new Date().toLocaleDateString();
 
@@ -146,12 +147,13 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
             src={resumeUrl}
             className="xp-doc-frame"
             title="Jessica Calderon resume document"
+            onLoad={() => setDocStatus('Ready')}
           />
         </div>
 
         {/* Status bar */}
-        <div className="xp-statusbar shrink-0" role="status">
-          <span>Ready</span>
+        <div className="xp-statusbar shrink-0" role="status" aria-live="polite">
+          <span>{docStatus}</span>
           <span className="xp-muted">Last updated: {lastUpdatedLabel}</span>
         </div>
       </div>

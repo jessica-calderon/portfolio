@@ -14,7 +14,7 @@ interface FloatingUtilityControlsProps {
 const FloatingUtilityControls: React.FC<FloatingUtilityControlsProps> = ({ isMyspaceMode }) => {
   return (
     <div
-      className="floating-utility-controls fixed z-50 flex flex-col items-center gap-3"
+      className="floating-utility-controls fixed z-[70] flex flex-col items-center gap-3"
       role="region"
       aria-label="Page utilities"
     >
