@@ -5,7 +5,6 @@ import PortfolioUrl from './PortfolioUrl';
 import SkillsTable from './SkillsTable';
 import LinksTable from './LinksTable';
 import { useOsWindow } from '../contexts/OsWindowContext';
-import { useProfileTheme } from '../contexts/ProfileThemeContext';
 import { tryNativeShare } from './ShareProfileModal';
 import { PROFILE_URL } from '../constants/urls';
 
@@ -15,7 +14,6 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
   const { open } = useOsWindow();
-  const { openBuilder } = useProfileTheme();
 
   const handleShareClick = async () => {
     const url = typeof window !== 'undefined' ? window.location.href : PROFILE_URL;
@@ -34,8 +32,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
         onShareClick={handleShareClick}
         onSaveContactClick={() => open('saveContact')}
         onConnectClick={() => open('addNetwork')}
-        onRatingClick={() => open('rating')}
-        onCustomizeClick={() => openBuilder('active')}
         onScheduleClick={() => open('scheduleCall')}
       />
 
