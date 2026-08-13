@@ -5,7 +5,7 @@ interface ResumeModalProps {
 }
 
 const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
-  const resumeDocId = '1Te9UsvtdF-xzI0v7cLMYAuTnDRmaPyOiDUH30E5XXT8';
+  const resumeDocId = '1J5jp76xRdrOuN8jqRI0-UlW2f0fYyw0s70zmnPVlXuE';
   const resumeUrl = `https://docs.google.com/document/d/${resumeDocId}/preview`;
   const downloadUrl = `https://docs.google.com/document/d/${resumeDocId}/export?format=pdf`;
   const openDocsUrl = `https://docs.google.com/document/d/${resumeDocId}/edit?usp=sharing`;
