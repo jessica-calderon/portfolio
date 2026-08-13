@@ -70,9 +70,38 @@ body {
   }
 }
 
+/*
+ * Full application windows (Explorer / IE / Word / case studies)
+ * Near-viewport on all desktop sizes — no fixed px width caps that leave
+ * huge empty margins on high-res / ultrawide monitors.
+ */
+.modal-window--app {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: min(100%, calc(100vw - 24px)) !important;
+  max-width: min(100%, calc(100vw - 24px)) !important;
+  height: min(92dvh, calc(100dvh - 24px)) !important;
+  max-height: min(92dvh, calc(100dvh - 24px)) !important;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .modal-window--app {
+    width: min(96vw, calc(100vw - 40px)) !important;
+    max-width: min(96vw, calc(100vw - 40px)) !important;
+    height: min(92vh, calc(100vh - 40px)) !important;
+    max-height: min(92vh, calc(100vh - 40px)) !important;
+  }
+}
+
 @media (min-width: 1280px) {
-  .modal-window--large {
-    max-height: min(88vh, calc(100vh - 64px));
+  .modal-window--app {
+    width: min(96vw, calc(100vw - 48px)) !important;
+    max-width: min(96vw, calc(100vw - 48px)) !important;
+    height: min(94vh, calc(100vh - 48px)) !important;
+    max-height: min(94vh, calc(100vh - 48px)) !important;
   }
 }
 
@@ -690,8 +719,14 @@ html.dyslexia-friendly .xp-a11y-dialog {
 }
 
 /* My Network Places / Explorer-inspired homelab view */
+.xp-window.net-window .net-shell {
+  /* Ensure Tailwind max-width utilities cannot shrink app windows */
+  max-width: none;
+}
+
 .xp-window.net-window .net-body {
   display: flex;
+  flex: 1 1 auto;
   min-height: 0;
   background: #ffffff;
 }
