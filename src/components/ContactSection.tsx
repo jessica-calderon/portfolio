@@ -30,11 +30,11 @@ const ContactSection: React.FC<ContactSectionProps> = ({ onResumeClick, onShareC
         <button onClick={onCustomizeClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="Customize profile appearance">
           <span className="mr-1" aria-hidden="true">🎨</span> Customize Profile
         </button>
-        <a href="mailto:calderonjessica13@yahoo.com" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="Email resume to Jessica Calderon">
-          <span className="mr-1" aria-hidden="true">📧</span> Email Resume
+        <a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="Add Jessica on GitHub (opens in new tab)">
+          <span className="mr-1" aria-hidden="true">⭐</span> Add to Friends
         </a>
         <button onClick={onRatingClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="Rate this profile">
-          <span className="mr-1" aria-hidden="true">⭐</span> Rate Profile
+          <span className="mr-1" aria-hidden="true">👍</span> Rate Profile
         </button>
       </div>
     </div>

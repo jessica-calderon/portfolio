@@ -225,7 +225,7 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
                 fontFamily: selectedFont
               }}
             >
-              <span style={{ color: selectedColor, fontWeight: 'bold' }}>Jessica Calderon</span> - Senior Software Engineer
+              <span style={{ color: selectedColor, fontWeight: 'bold' }}>Jessica Calderon</span> - Principal Software Engineer / Technical Lead
               <br />
               <span style={{ color: selectedColor }}>✨ Customized just for you!</span>
             </div>
