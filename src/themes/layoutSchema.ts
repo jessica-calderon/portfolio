@@ -12,6 +12,14 @@ export type BackgroundPattern =
 export type BorderWidth = 'thin' | 'medium' | 'thick';
 export type BorderStyle = 'solid' | 'dashed' | 'dotted' | 'double';
 export type HeaderStyle = 'solid' | 'gradient';
+export type CustomizationMode = 'basic' | 'advanced';
+export type LayoutTemplate =
+  | 'classic-override'
+  | 'full-div'
+  | 'sidebar'
+  | 'graphic-header';
+export type NavPlacement = 'top' | 'sidebar';
+export type SectionEmphasis = 'feature-first' | 'identity-first' | 'lab-first';
 
 export interface LayoutEffects {
   sparkles: boolean;
@@ -24,6 +32,10 @@ export interface LayoutEffects {
 
 /** Declarative visitor (and builder draft) layout — no arbitrary CSS. */
 export interface VisitorLayoutValues {
+  customizationMode: CustomizationMode;
+  layoutTemplate: LayoutTemplate;
+  navPlacement: NavPlacement;
+  sectionEmphasis: SectionEmphasis;
   backgroundColor: string;
   backgroundStyle: BackgroundStyle;
   backgroundPattern: BackgroundPattern;
@@ -70,6 +82,50 @@ export const PATTERN_OPTIONS: { id: BackgroundPattern; label: string }[] = [
   { id: 'sparkles', label: 'Sparkles' },
 ];
 
+export const LAYOUT_TEMPLATES: LayoutTemplate[] = [
+  'classic-override',
+  'full-div',
+  'sidebar',
+  'graphic-header',
+];
+
+export const NAV_PLACEMENTS: NavPlacement[] = ['top', 'sidebar'];
+
+export const SECTION_EMPHASIS_OPTIONS: SectionEmphasis[] = [
+  'feature-first',
+  'identity-first',
+  'lab-first',
+];
+
+export const LAYOUT_TEMPLATE_OPTIONS: { id: LayoutTemplate; label: string; blurb: string }[] = [
+  {
+    id: 'classic-override',
+    label: 'Classic Override',
+    blurb: 'Still recognizable as MySpace, but rearranged.',
+  },
+  {
+    id: 'full-div',
+    label: 'Full DIV Overlay',
+    blurb: 'Custom masthead + little resemblance to stock layout.',
+  },
+  {
+    id: 'sidebar',
+    label: 'Sidebar Layout',
+    blurb: 'Narrow identity sidebar + wide custom content.',
+  },
+  {
+    id: 'graphic-header',
+    label: 'Graphic Header',
+    blurb: 'Large decorative header with dense sections below.',
+  },
+];
+
+export const SECTION_EMPHASIS_LABELS: { id: SectionEmphasis; label: string }[] = [
+  { id: 'feature-first', label: 'Featured Work first' },
+  { id: 'identity-first', label: 'Identity / About first' },
+  { id: 'lab-first', label: 'Homelab first' },
+];
+
 const DEFAULT_EFFECTS: LayoutEffects = {
   sparkles: false,
   floatingHearts: false,
@@ -79,9 +135,18 @@ const DEFAULT_EFFECTS: LayoutEffects = {
   cursorTrail: false,
 };
 
+const ADVANCED_DEFAULTS = {
+  customizationMode: 'basic' as CustomizationMode,
+  layoutTemplate: 'classic-override' as LayoutTemplate,
+  navPlacement: 'top' as NavPlacement,
+  sectionEmphasis: 'feature-first' as SectionEmphasis,
+};
+
 /** Snapshot used when starting the builder from Default (approximate). */
 export function createDefaultStartValues(): VisitorLayoutValues {
   return {
+    ...ADVANCED_DEFAULTS,
+    customizationMode: 'basic',
     backgroundColor: '#e5e7eb',
     backgroundStyle: 'solid',
     backgroundPattern: 'dots',
@@ -105,6 +170,11 @@ export function createDefaultStartValues(): VisitorLayoutValues {
 /** Snapshot used when starting from Jessica's Custom light look (copy, not live edit). */
 export function createJessicasCustomStartValues(): VisitorLayoutValues {
   return {
+    ...ADVANCED_DEFAULTS,
+    customizationMode: 'advanced',
+    layoutTemplate: 'full-div',
+    navPlacement: 'top',
+    sectionEmphasis: 'feature-first',
     backgroundColor: '#fecdd3',
     backgroundStyle: 'gradient',
     backgroundPattern: 'sparkles',
@@ -225,6 +295,10 @@ export function applyLayoutTokens(
     el.removeAttribute('data-header-style');
     el.removeAttribute('data-box-glow');
     el.removeAttribute('data-link-glow');
+    el.removeAttribute('data-custom-mode');
+    el.removeAttribute('data-layout-template');
+    el.removeAttribute('data-nav-placement');
+    el.removeAttribute('data-section-emphasis');
     return;
   }
 
@@ -252,6 +326,10 @@ export function applyLayoutTokens(
   el.setAttribute('data-header-style', values.headerStyle);
   el.setAttribute('data-box-glow', values.effects.boxGlow ? '1' : '0');
   el.setAttribute('data-link-glow', values.effects.linkGlow ? '1' : '0');
+  el.setAttribute('data-custom-mode', values.customizationMode);
+  el.setAttribute('data-layout-template', values.layoutTemplate);
+  el.setAttribute('data-nav-placement', values.navPlacement);
+  el.setAttribute('data-section-emphasis', values.sectionEmphasis);
 }
 
 const CURATED_PALETTES: Array<Partial<VisitorLayoutValues>> = [
@@ -347,6 +425,7 @@ export function randomizeLayoutValues(base: VisitorLayoutValues): VisitorLayoutV
   const borders: BorderStyle[] = ['solid', 'dashed', 'dotted', 'double'];
   const widths: BorderWidth[] = ['thin', 'medium', 'thick'];
   const fonts = [...FONT_OPTIONS];
+  const advanced = base.customizationMode === 'advanced';
 
   const next: VisitorLayoutValues = {
     ...base,
@@ -365,6 +444,17 @@ export function randomizeLayoutValues(base: VisitorLayoutValues): VisitorLayoutV
       linkGlow: Math.random() > 0.5,
       cursorTrail: Math.random() > 0.75,
     },
+    ...(advanced
+      ? {
+          layoutTemplate:
+            LAYOUT_TEMPLATES[Math.floor(Math.random() * LAYOUT_TEMPLATES.length)],
+          navPlacement: Math.random() > 0.5 ? 'sidebar' : 'top',
+          sectionEmphasis:
+            SECTION_EMPHASIS_OPTIONS[
+              Math.floor(Math.random() * SECTION_EMPHASIS_OPTIONS.length)
+            ],
+        }
+      : {}),
   };
 
   next.primaryTextColor = ensureReadableText(next.boxBackground, next.primaryTextColor);
@@ -374,13 +464,13 @@ export function randomizeLayoutValues(base: VisitorLayoutValues): VisitorLayoutV
   return next;
 }
 
-/** Progressive “Make It More MySpace” intensity (0–5). */
+/** Progressive “Make It More MySpace” intensity (0–7). */
 export function intensifyMyspace(
   values: VisitorLayoutValues,
   stage: number
 ): VisitorLayoutValues {
   const next = { ...values, effects: { ...values.effects } };
-  const s = Math.min(5, Math.max(0, stage));
+  const s = Math.min(7, Math.max(0, stage));
   if (s >= 1) {
     next.borderWidth = 'thick';
     next.borderStyle = s >= 3 ? 'dashed' : 'solid';
@@ -393,13 +483,25 @@ export function intensifyMyspace(
     next.backgroundPattern = 'sparkles';
   }
   if (s >= 4) {
+    next.fontFamily = 'Comic Sans MS';
+  }
+  if (s >= 5) {
     next.effects.linkGlow = true;
     next.effects.boxGlow = true;
   }
-  if (s >= 5) {
+  if (s >= 6) {
     next.effects.sparkles = true;
+    next.effects.starBackground = true;
+  }
+  if (s >= 7) {
     next.effects.floatingHearts = true;
-    next.fontFamily = 'Comic Sans MS';
+    next.effects.cursorTrail = true;
+    next.borderStyle = 'double';
+    if (next.customizationMode === 'advanced') {
+      next.layoutTemplate = 'full-div';
+      next.navPlacement = 'sidebar';
+      next.sectionEmphasis = 'feature-first';
+    }
   }
   return next;
 }
@@ -423,6 +525,14 @@ export function sanitizeVisitorLayout(raw: unknown): VisitorLayout | null {
     id: typeof o.id === 'string' ? o.id.slice(0, 64) : base.id,
     name: typeof o.name === 'string' && o.name.trim() ? o.name.trim().slice(0, 48) : base.name,
     basedOn,
+    customizationMode: o.customizationMode === 'advanced' ? 'advanced' : 'basic',
+    layoutTemplate: LAYOUT_TEMPLATES.includes(o.layoutTemplate as LayoutTemplate)
+      ? (o.layoutTemplate as LayoutTemplate)
+      : base.layoutTemplate,
+    navPlacement: o.navPlacement === 'sidebar' ? 'sidebar' : 'top',
+    sectionEmphasis: SECTION_EMPHASIS_OPTIONS.includes(o.sectionEmphasis as SectionEmphasis)
+      ? (o.sectionEmphasis as SectionEmphasis)
+      : base.sectionEmphasis,
     backgroundColor: pickHex(o.backgroundColor, base.backgroundColor),
     backgroundStyle:
       o.backgroundStyle === 'gradient' || o.backgroundStyle === 'pattern'
@@ -458,4 +568,55 @@ export function sanitizeVisitorLayout(raw: unknown): VisitorLayout | null {
     createdAt: typeof o.createdAt === 'number' ? o.createdAt : base.createdAt,
     updatedAt: Date.now(),
   };
+}
+
+/** Educational CSS representation — display only, never executed as user CSS. */
+export function buildEducationalCss(values: VisitorLayoutValues): string {
+  const bw = borderWidthPx(values.borderWidth);
+  const bg =
+    values.backgroundStyle === 'gradient'
+      ? `linear-gradient(180deg, ${values.backgroundColor}, ${values.backgroundGradientEnd})`
+      : values.backgroundColor;
+  const headerBg =
+    values.headerStyle === 'gradient'
+      ? `linear-gradient(90deg, ${values.headerBackground}, ${values.headerGradientEnd})`
+      : values.headerBackground;
+
+  return `/* Representation of your selected styles — not executed as pasted CSS */
+body {
+  background: ${bg};
+  color: ${values.primaryTextColor};
+  font-family: "${values.fontFamily}", sans-serif;
+}
+.profile-box {
+  background: ${values.boxBackground};
+  border: ${bw} ${values.borderStyle} ${values.borderColor};
+}
+.section-header {
+  background: ${headerBg};
+  color: ${values.headerTextColor};
+}
+h1, h2, h3 {
+  color: ${values.headingColor};
+}
+a {
+  color: ${values.linkColor};
+}`;
+}
+
+/** Educational HTML structure — display only. */
+export function buildEducationalHtml(values: VisitorLayoutValues): string {
+  const navTag = values.navPlacement === 'sidebar' ? 'aside' : 'nav';
+  return `<!-- Simplified layout structure (display only) -->
+<div class="profile layout-${values.layoutTemplate}">
+  <header class="masthead">Jessica Calderon</header>
+  <${navTag}>ABOUT // WORK // STACK // LAB // EXPERIENCE // CONTACT</${navTag}>
+  <main data-emphasis="${values.sectionEmphasis}">
+    <section class="featured-work">...</section>
+    <section class="about">...</section>
+    <section class="stack">...</section>
+    <section class="lab">...</section>
+    <section class="experience">...</section>
+  </main>
+</div>`;
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type MouseEvent } from 'react';
 import Sidebar from './components/Sidebar';
 import AboutMe from './components/AboutMe';
 import Education from './components/Education';
@@ -17,6 +17,7 @@ import ThemePicker from './components/ThemePicker';
 import LayoutBuilderModal from './components/LayoutBuilderModal';
 import ProfileEffects from './components/ProfileEffects';
 import FloatingUtilityControls from './components/FloatingUtilityControls';
+import JessicasCustomLayout from './components/JessicasCustomLayout';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
 import { ProfileThemeProvider, useProfileTheme } from './contexts/ProfileThemeContext';
 import { OsWindowProvider, useOsWindow } from './contexts/OsWindowContext';
@@ -24,6 +25,7 @@ import { useLastLoginLabel } from './hooks/useLastLoginLabel';
 import { formatProfileViews, useProfileViews } from './hooks/useProfileViews';
 import { CONTACT_EMAIL } from './constants/contact';
 import { PROFILE_URL } from './constants/urls';
+import { SKILL_CATEGORIES } from './data/skills';
 import profilePic from './assets/8bitme.png';
 import './App.css';
 
@@ -31,6 +33,8 @@ function AppContent() {
   const {
     isMyspaceMode,
     isVisitorThemeActive,
+    isDivLayout,
+    effectiveVisitorValues,
     active,
   } = useProfileTheme();
   
@@ -162,68 +166,31 @@ function AppContent() {
     { label: 'About', href: '#about', scrollToId: 'about' }
   ];
 
-  // Scroll to section handler
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof navigationItems[0]) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (item.isModal) {
-      open('resume');
-      return;
-    }
-    
-    if (!item.scrollToId) {
-      // Scroll to top for Home
+  const scrollToSectionId = (scrollToId: string) => {
+    if (!scrollToId) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    
-    // Calculate navbar height dynamically
+
     const getNavbarHeight = () => {
-      // Find the header and navigation elements using data attributes
       const header = document.querySelector('[data-navbar="header"]');
       const navContainer = document.querySelector('[data-navbar="navigation"]');
-      
       let totalHeight = 0;
-      if (header) {
-        const headerRect = header.getBoundingClientRect();
-        totalHeight += headerRect.height;
-      }
-      if (navContainer) {
-        const navRect = navContainer.getBoundingClientRect();
-        totalHeight += navRect.height;
-      }
-      
-      // Add some padding for better spacing
-      return totalHeight + 20; // 20px extra padding
+      if (header) totalHeight += header.getBoundingClientRect().height;
+      if (navContainer) totalHeight += navContainer.getBoundingClientRect().height;
+      return totalHeight + 20;
     };
-    
-    // Function to find visible element (not in hidden container)
+
     const findVisibleElement = (id: string): HTMLElement | null => {
-      // Get all elements with this ID (there shouldn't be duplicates, but handle it)
       const elements = document.querySelectorAll(`#${id}`);
-      
-      // Find the first visible element
       for (const element of Array.from(elements)) {
         const el = element as HTMLElement;
-        
-        // Check if element is actually visible using getBoundingClientRect
-        // This is more reliable than checking classes, especially with responsive classes like "hidden md:flex"
         const rect = el.getBoundingClientRect();
         const style = window.getComputedStyle(el);
-        
-        // Element must have actual dimensions and not be display:none
         if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
           continue;
         }
-        
-        // Element must have visible dimensions
-        if (rect.width === 0 && rect.height === 0) {
-          continue;
-        }
-        
-        // Element must be in the viewport or document (not hidden by parent)
-        // Check if any parent has display:none or visibility:hidden
+        if (rect.width === 0 && rect.height === 0) continue;
         let parent = el.parentElement;
         let isHiddenByParent = false;
         while (parent && parent !== document.body && parent !== document.documentElement) {
@@ -234,57 +201,37 @@ function AppContent() {
           }
           parent = parent.parentElement;
         }
-        
-        if (!isHiddenByParent) {
-          return el;
-        }
+        if (!isHiddenByParent) return el;
       }
-      
       return null;
     };
-    
-    // Use requestAnimationFrame for better timing, with a small delay to ensure DOM is ready
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const element = findVisibleElement(item.scrollToId);
-        if (element) {
-          // Get the element's position relative to the document
-          // Use offsetTop as fallback if getBoundingClientRect seems off
-          const rect = element.getBoundingClientRect();
-          const elementTop = rect.top + window.pageYOffset;
-          
-          // Fallback: if getBoundingClientRect returns 0, try offsetTop
-          let scrollTarget = elementTop;
-          if (elementTop === 0 && element.offsetTop > 0) {
-            scrollTarget = element.offsetTop;
-          }
-          
-          const navbarHeight = getNavbarHeight();
-          
-          // Calculate the target scroll position
-          const targetScroll = scrollTarget - navbarHeight;
-          
-          window.scrollTo({
-            top: Math.max(0, targetScroll), // Ensure we don't scroll to negative values
-            behavior: 'smooth'
-          });
-        } else {
-          // Fallback: try to find element without visibility check (desktop might have different structure)
-          const fallbackElement = document.getElementById(item.scrollToId);
-          if (fallbackElement) {
-            const rect = fallbackElement.getBoundingClientRect();
-            const elementTop = rect.top + window.pageYOffset;
-            const navbarHeight = getNavbarHeight();
-            const targetScroll = elementTop - navbarHeight;
-            
-            window.scrollTo({
-              top: Math.max(0, targetScroll),
-              behavior: 'smooth'
-            });
-          }
-        }
+        const element = findVisibleElement(scrollToId) || document.getElementById(scrollToId);
+        if (!element) return;
+        const rect = element.getBoundingClientRect();
+        let scrollTarget = rect.top + window.pageYOffset;
+        if (scrollTarget === 0 && element.offsetTop > 0) scrollTarget = element.offsetTop;
+        window.scrollTo({
+          top: Math.max(0, scrollTarget - getNavbarHeight()),
+          behavior: 'smooth',
+        });
       });
     });
+  };
+
+  // Scroll to section handler
+  const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, item: typeof navigationItems[0]) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (item.isModal) {
+      open('resume');
+      return;
+    }
+    
+    scrollToSectionId(item.scrollToId);
   };
 
   return (
@@ -492,6 +439,27 @@ function AppContent() {
 
     {/* Main Content */}
     <div className="max-w-6xl mx-auto p-2 sm:p-2">
+      {isDivLayout ? (
+        <JessicasCustomLayout
+          searchQuery={searchQuery}
+          authored={isMyspaceMode}
+          layoutTemplate={
+            isMyspaceMode
+              ? 'full-div'
+              : effectiveVisitorValues?.layoutTemplate ?? 'full-div'
+          }
+          navPlacement={
+            isMyspaceMode ? 'top' : effectiveVisitorValues?.navPlacement ?? 'top'
+          }
+          sectionEmphasis={
+            isMyspaceMode
+              ? 'feature-first'
+              : effectiveVisitorValues?.sectionEmphasis ?? 'feature-first'
+          }
+          onNavScroll={scrollToSectionId}
+        />
+      ) : (
+      <>
       {/* Desktop Layout: Sidebar + Main Content */}
       <div className={`${forceDesktopView ? 'flex' : 'hidden md:flex'} flex-row gap-2`}>
         {/* Left Sidebar */}
@@ -744,118 +712,19 @@ function AppContent() {
 
                 return (
                   <>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Development:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        PHP, Python, JavaScript, TypeScript, SQL, REST APIs, Git
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Cloud / AWS:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        AWS, ECS, ECR, RDS / Aurora, EFS, ElastiCache, CloudWatch
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Containers / DevOps:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        Docker, Docker Compose, GitLab CI/CD, Linux
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Web Apps:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        Moodle, Rustici Content Controller, Apache Superset
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Web / Identity / Search:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        Apache HTTP Server, Nginx, HAProxy, Keycloak, Solr
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Data:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        PostgreSQL, MySQL, Redis
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Frontend:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        React, Tailwind, HTML5, CSS3
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Engineering:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        Technical Leadership, Architecture, Code Review, Production Troubleshooting, Vulnerability Remediation, Release Management
-                      </td>
-                    </tr>
+                    {SKILL_CATEGORIES.map((cat) => (
+                      <tr key={cat.label}>
+                        <td
+                          className="whitespace-nowrap custom-font font-bold"
+                          style={{ color: labelColor }}
+                        >
+                          {cat.label}:
+                        </td>
+                        <td className="custom-font" style={{ color: valueColor }}>
+                          {cat.value}
+                        </td>
+                      </tr>
+                    ))}
                   </>
                 );
               })()}
@@ -874,6 +743,8 @@ function AppContent() {
           <LearningWall isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
         </div>
       </div>
+      </>
+      )}
     </div>
     
     {/* Footer — early-2000s profile-site style */}

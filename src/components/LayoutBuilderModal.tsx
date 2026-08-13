@@ -2,10 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useProfileTheme } from '../contexts/ProfileThemeContext';
 import {
   AuthoredThemeId,
+  buildEducationalCss,
+  buildEducationalHtml,
   collectContrastWarnings,
   FONT_OPTIONS,
   isValidHex,
+  LAYOUT_TEMPLATE_OPTIONS,
   PATTERN_OPTIONS,
+  SECTION_EMPHASIS_LABELS,
 } from '../themes/layoutSchema';
 
 const LayoutBuilderModal: React.FC = () => {
@@ -22,11 +26,25 @@ const LayoutBuilderModal: React.FC = () => {
     openBuilder,
     exportActiveVisitor,
     importVisitorLayout,
+    setAuthoredTheme,
+    resetToJessicasCustom,
   } = useProfileTheme();
 
-  const [openSection, setOpenSection] = useState<string>('background');
+  const [openSection, setOpenSection] = useState<string>('mode');
   const [importError, setImportError] = useState('');
+  const [showCss, setShowCss] = useState(false);
+  const [showHtml, setShowHtml] = useState(false);
+  const [showWhy, setShowWhy] = useState(false);
+  const [builderStartSnapshot, setBuilderStartSnapshot] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!builderOpen || !draft) return;
+    setBuilderStartSnapshot(JSON.stringify(draft));
+    setOpenSection('mode');
+    setShowCss(false);
+    setShowHtml(false);
+  }, [builderOpen]); // eslint-disable-line react-hooks/exhaustive-deps -- snapshot only when opening
 
   useEffect(() => {
     if (!builderOpen) return;
@@ -44,14 +62,9 @@ const LayoutBuilderModal: React.FC = () => {
   if (!builderOpen || !draft) return null;
 
   const warnings = collectContrastWarnings(draft);
-
   const toggle = (id: string) => setOpenSection((s) => (s === id ? '' : id));
 
-  const colorField = (
-    label: string,
-    key: keyof typeof draft,
-    value: string
-  ) => (
+  const colorField = (label: string, key: keyof typeof draft, value: string) => (
     <label className="block text-xs mb-2">
       <span className="font-bold">{label}</span>
       <div className="flex gap-2 mt-1 items-center">
@@ -80,6 +93,20 @@ const LayoutBuilderModal: React.FC = () => {
 
   const startFrom = (id: AuthoredThemeId) => {
     openBuilder(id);
+  };
+
+  const resetChanges = () => {
+    if (!builderStartSnapshot) return;
+    try {
+      const snap = JSON.parse(builderStartSnapshot);
+      updateDraft({
+        ...snap,
+        effects: { ...snap.effects },
+        name: snap.name,
+      });
+    } catch {
+      /* ignore */
+    }
   };
 
   const handleExport = () => {
@@ -136,8 +163,7 @@ const LayoutBuilderModal: React.FC = () => {
 
         <div className="modal-window__body p-3 space-y-3 text-xs">
           <p className="text-[11px] text-purple-800">
-            Customize Jessica&apos;s profile the way nature intended: with questionable color
-            choices. Built-in themes stay untouched.
+            Choose how much damage you&apos;d like to do. Built-in themes stay untouched.
           </p>
 
           <label className="block">
@@ -169,7 +195,62 @@ const LayoutBuilderModal: React.FC = () => {
                 Jessica&apos;s Custom
               </button>
             </div>
+            <p className="text-[10px] text-purple-700 mt-1">
+              Starting from Jessica&apos;s Custom clones her look — it never overwrites the original.
+            </p>
           </div>
+
+          <section className="border border-pink-300 bg-white/80">
+            <button
+              type="button"
+              className="w-full text-left font-bold px-2 py-2 bg-pink-100"
+              onClick={() => toggle('mode')}
+              aria-expanded={openSection === 'mode'}
+            >
+              Editing Mode
+            </button>
+            {openSection === 'mode' && (
+              <div className="p-2 space-y-2">
+                <label className="flex gap-2 items-start border border-pink-200 p-2 bg-white cursor-pointer">
+                  <input
+                    type="radio"
+                    name="custom-mode"
+                    checked={draft.customizationMode === 'basic'}
+                    onChange={() => updateDraft({ customizationMode: 'basic' })}
+                    className="mt-1"
+                  />
+                  <span>
+                    <strong>Basic Profile Editor</strong>
+                    <br />
+                    Customize the recognizable MySpace profile — colors, borders, fonts, effects.
+                  </span>
+                </label>
+                <label className="flex gap-2 items-start border border-pink-200 p-2 bg-white cursor-pointer">
+                  <input
+                    type="radio"
+                    name="custom-mode"
+                    checked={draft.customizationMode === 'advanced'}
+                    onChange={() =>
+                      updateDraft({
+                        customizationMode: 'advanced',
+                        layoutTemplate:
+                          draft.layoutTemplate === 'classic-override' &&
+                          draft.basedOn === 'jessicas-custom'
+                            ? 'full-div'
+                            : draft.layoutTemplate,
+                      })
+                    }
+                    className="mt-1"
+                  />
+                  <span>
+                    <strong>Advanced / DIV Layout</strong>
+                    <br />
+                    Change the actual composition with safe structural options.
+                  </span>
+                </label>
+              </div>
+            )}
+          </section>
 
           {warnings.length > 0 && (
             <div className="border border-amber-500 bg-amber-50 text-amber-950 p-2" role="status">
@@ -182,7 +263,80 @@ const LayoutBuilderModal: React.FC = () => {
             </div>
           )}
 
-          {/* Collapsible groups */}
+          {draft.customizationMode === 'advanced' && (
+            <section className="border border-pink-300 bg-white/80">
+              <button
+                type="button"
+                className="w-full text-left font-bold px-2 py-2 bg-pink-100"
+                onClick={() => toggle('advanced')}
+                aria-expanded={openSection === 'advanced'}
+              >
+                Advanced / DIV Layout
+              </button>
+              {openSection === 'advanced' && (
+                <div className="p-2 space-y-3">
+                  <div>
+                    <span className="font-bold">Layout template</span>
+                    <div className="mt-1 space-y-1">
+                      {LAYOUT_TEMPLATE_OPTIONS.map((opt) => (
+                        <label
+                          key={opt.id}
+                          className="flex gap-2 items-start border border-pink-200 p-1.5 bg-white cursor-pointer"
+                        >
+                          <input
+                            type="radio"
+                            name="layout-template"
+                            checked={draft.layoutTemplate === opt.id}
+                            onChange={() => updateDraft({ layoutTemplate: opt.id })}
+                            className="mt-1"
+                          />
+                          <span>
+                            <strong>{opt.label}</strong>
+                            <br />
+                            <span className="text-[10px] text-purple-700">{opt.blurb}</span>
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <label className="block">
+                    <span className="font-bold">Navigation</span>
+                    <select
+                      className="mt-1 w-full border border-pink-300 px-2 py-2"
+                      value={draft.navPlacement}
+                      onChange={(e) =>
+                        updateDraft({
+                          navPlacement: e.target.value as typeof draft.navPlacement,
+                        })
+                      }
+                    >
+                      <option value="top">Top</option>
+                      <option value="sidebar">Sidebar</option>
+                    </select>
+                  </label>
+                  <label className="block">
+                    <span className="font-bold">Content emphasis</span>
+                    <select
+                      className="mt-1 w-full border border-pink-300 px-2 py-2"
+                      value={draft.sectionEmphasis}
+                      onChange={(e) =>
+                        updateDraft({
+                          sectionEmphasis: e.target.value as typeof draft.sectionEmphasis,
+                        })
+                      }
+                    >
+                      {SECTION_EMPHASIS_LABELS.map((o) => (
+                        <option key={o.id} value={o.id}>
+                          {o.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+              )}
+            </section>
+          )}
+
           <section className="border border-pink-300 bg-white/80">
             <button
               type="button"
@@ -278,6 +432,18 @@ const LayoutBuilderModal: React.FC = () => {
                     <option value="dotted">Dotted</option>
                     <option value="double">Double</option>
                   </select>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={draft.effects.boxGlow}
+                    onChange={(e) =>
+                      updateDraft({
+                        effects: { ...draft.effects, boxGlow: e.target.checked },
+                      })
+                    }
+                  />
+                  <span>Box Glow</span>
                 </label>
               </div>
             )}
@@ -401,7 +567,82 @@ const LayoutBuilderModal: React.FC = () => {
               className="px-2 py-2 border border-pink-400 bg-white hover:bg-pink-50"
               onClick={makeMoreMyspace}
             >
-              ✨ Make It More MySpace ({myspaceIntensity}/5)
+              ✨ Make It More MySpace ({myspaceIntensity}/7)
+            </button>
+            <button
+              type="button"
+              className="px-2 py-2 border border-pink-400 bg-white hover:bg-pink-50"
+              onClick={resetChanges}
+            >
+              Reset Changes
+            </button>
+          </div>
+
+          <div className="flex flex-wrap gap-2 border-t border-pink-200 pt-2">
+            <button
+              type="button"
+              className="px-2 py-2 border border-purple-400 bg-white hover:bg-purple-50 font-mono"
+              onClick={() => setShowCss((v) => !v)}
+            >
+              {'</>'} View My Changes
+            </button>
+            {draft.customizationMode === 'advanced' && (
+              <button
+                type="button"
+                className="px-2 py-2 border border-purple-400 bg-white hover:bg-purple-50 font-mono"
+                onClick={() => setShowHtml((v) => !v)}
+              >
+                View Layout Structure
+              </button>
+            )}
+            <button
+              type="button"
+              className="px-2 py-2 border border-pink-300 bg-white hover:bg-pink-50 text-[11px]"
+              onClick={() => setShowWhy((v) => !v)}
+            >
+              Why is this here?
+            </button>
+          </div>
+
+          {showWhy && (
+            <p className="text-[11px] text-purple-800 border border-pink-200 bg-white/90 p-2">
+              Customizing MySpace layouts was one of my first introductions to HTML and CSS.
+              Consider this the modern version — with fewer broken tables.
+            </p>
+          )}
+
+          {showCss && (
+            <pre className="text-[10px] leading-snug bg-[#1a1025] text-pink-100 p-2 overflow-x-auto border border-pink-400 whitespace-pre-wrap">
+              {buildEducationalCss(draft)}
+            </pre>
+          )}
+
+          {showHtml && draft.customizationMode === 'advanced' && (
+            <pre className="text-[10px] leading-snug bg-[#1a1025] text-cyan-100 p-2 overflow-x-auto border border-pink-400 whitespace-pre-wrap">
+              {buildEducationalHtml(draft)}
+            </pre>
+          )}
+
+          <div className="flex flex-wrap gap-2 border-t border-pink-200 pt-2">
+            <button
+              type="button"
+              className="px-2 py-2 border border-pink-400 bg-white hover:bg-pink-50"
+              onClick={() => {
+                closeBuilder(false);
+                setAuthoredTheme('default');
+              }}
+            >
+              Reset to Default
+            </button>
+            <button
+              type="button"
+              className="px-2 py-2 border border-pink-400 bg-white hover:bg-pink-50"
+              onClick={() => {
+                closeBuilder(false);
+                resetToJessicasCustom();
+              }}
+            >
+              Reset to Jessica&apos;s Custom
             </button>
           </div>
 

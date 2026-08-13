@@ -32,6 +32,10 @@ interface ProfileThemeContextValue {
   isMyspaceMode: boolean;
   /** True when a visitor layout (saved or draft preview) drives profile colors. */
   isVisitorThemeActive: boolean;
+  /** Authored Jessica's Custom OR visitor Advanced / DIV mode. */
+  isDivLayout: boolean;
+  /** Effective visitor values (draft preview wins over saved). */
+  effectiveVisitorValues: VisitorLayoutValues | null;
   visitorLayouts: VisitorLayout[];
   activeVisitor: VisitorLayout | null;
   /** Live draft while builder is open */
@@ -117,6 +121,11 @@ export const ProfileThemeProvider: React.FC<{ children: React.ReactNode }> = ({ 
     !effectiveVisitorValues && active.kind === 'authored' && active.id === 'jessicas-custom';
 
   const isVisitorThemeActive = Boolean(effectiveVisitorValues);
+
+  const isDivLayout =
+    isMyspaceMode ||
+    (Boolean(effectiveVisitorValues) &&
+      effectiveVisitorValues!.customizationMode === 'advanced');
 
   // Persist active + visitors
   useEffect(() => {
@@ -265,7 +274,7 @@ export const ProfileThemeProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const makeMoreMyspace = useCallback(() => {
     setMyspaceIntensity((stage) => {
-      const nextStage = Math.min(5, stage + 1);
+      const nextStage = Math.min(7, stage + 1);
       setDraft((prev) => {
         if (!prev) return prev;
         const values = intensifyMyspace(prev, nextStage);
@@ -307,6 +316,8 @@ export const ProfileThemeProvider: React.FC<{ children: React.ReactNode }> = ({ 
       authoredId,
       isMyspaceMode,
       isVisitorThemeActive,
+      isDivLayout,
+      effectiveVisitorValues,
       visitorLayouts,
       activeVisitor,
       draft,
@@ -331,6 +342,8 @@ export const ProfileThemeProvider: React.FC<{ children: React.ReactNode }> = ({ 
       authoredId,
       isMyspaceMode,
       isVisitorThemeActive,
+      isDivLayout,
+      effectiveVisitorValues,
       visitorLayouts,
       activeVisitor,
       draft,
