@@ -70,9 +70,43 @@ body {
   }
 }
 
-@media (min-width: 1280px) {
-  .modal-window--large {
+/*
+ * Full application windows (Explorer / IE / Word / case studies)
+ * Intentionally near-viewport on large monitors — not a tiny centered card.
+ */
+.modal-window--app {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, calc(100vw - 24px));
+  max-width: min(100%, calc(100vw - 24px));
+  height: min(92dvh, calc(100dvh - 24px));
+  max-height: min(92dvh, calc(100dvh - 24px));
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .modal-window--app {
+    width: min(94vw, calc(100vw - 48px));
+    max-width: min(94vw, calc(100vw - 48px));
+    height: min(90vh, calc(100vh - 48px));
+    max-height: min(90vh, calc(100vh - 48px));
+  }
+}
+
+@media (min-width: 1440px) {
+  .modal-window--app {
+    width: min(90vw, 1680px);
+    max-width: min(90vw, 1680px);
+    height: min(88vh, calc(100vh - 64px));
     max-height: min(88vh, calc(100vh - 64px));
+  }
+}
+
+@media (min-width: 1920px) {
+  .modal-window--app {
+    width: min(88vw, 1800px);
+    max-width: min(88vw, 1800px);
   }
 }
 
@@ -690,8 +724,14 @@ html.dyslexia-friendly .xp-a11y-dialog {
 }
 
 /* My Network Places / Explorer-inspired homelab view */
+.xp-window.net-window .net-shell {
+  /* Ensure Tailwind max-width utilities cannot shrink app windows */
+  max-width: none;
+}
+
 .xp-window.net-window .net-body {
   display: flex;
+  flex: 1 1 auto;
   min-height: 0;
   background: #ffffff;
 }

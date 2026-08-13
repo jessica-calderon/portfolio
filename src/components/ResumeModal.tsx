@@ -93,8 +93,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
       tabIndex={-1}
     >
       <div
-        className="xp-shell modal-window--large w-full max-w-5xl xl:max-w-6xl animate-modalAppear motion-reduce:animate-none
-          h-[min(90dvh,calc(100dvh-24px))] sm:h-[min(88vh,calc(100vh-48px))] xl:h-[min(86vh,calc(100vh-64px))]"
+        className="xp-shell modal-window--app animate-modalAppear motion-reduce:animate-none"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Title bar */}

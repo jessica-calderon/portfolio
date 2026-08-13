@@ -65,10 +65,9 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
       aria-labelledby="case-study-modal-title"
     >
       <div
-        className={`modal-window--large w-full max-w-5xl xl:max-w-6xl ${
+        className={`modal-window--app ${
           isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'
-        } rounded-md shadow-md border border-gray-400 dark:border-gray-600 animate-modalAppear
-          max-h-[min(90dvh,calc(100dvh-24px))] sm:max-h-[min(88vh,calc(100vh-48px))] xl:max-h-[min(86vh,calc(100vh-64px))]`}
+        } rounded-md shadow-md border border-gray-400 dark:border-gray-600 animate-modalAppear`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Fixed title bar */}
