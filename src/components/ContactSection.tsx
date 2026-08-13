@@ -55,7 +55,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({
         <button type="button" onClick={onShareClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="Share profile" aria-haspopup="dialog">
           <span className="mr-1" aria-hidden="true">↗️</span> Share Profile
         </button>
-        <button type="button" onClick={onCustomizeClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="Customize profile appearance">
+        <button type="button" onClick={onCustomizeClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="Build your own layout">
           <span className="mr-1" aria-hidden="true">🎨</span> Customize Profile
         </button>
         <button

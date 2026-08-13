@@ -13,9 +13,12 @@ import MyNetworkPlacesWindow from './components/MyNetworkPlacesWindow';
 import AddFavoriteDialog, { readFavorited } from './components/AddFavoriteDialog';
 import XpAlertDialog from './components/shared/XpAlertDialog';
 import RatingModal from './components/RatingModal';
-import CustomizeModal from './components/CustomizeModal';
+import ThemePicker from './components/ThemePicker';
+import LayoutBuilderModal from './components/LayoutBuilderModal';
+import ProfileEffects from './components/ProfileEffects';
 import FloatingUtilityControls from './components/FloatingUtilityControls';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
+import { ProfileThemeProvider, useProfileTheme } from './contexts/ProfileThemeContext';
 import { OsWindowProvider, useOsWindow } from './contexts/OsWindowContext';
 import { useLastLoginLabel } from './hooks/useLastLoginLabel';
 import { formatProfileViews, useProfileViews } from './hooks/useProfileViews';
@@ -25,13 +28,11 @@ import profilePic from './assets/8bitme.png';
 import './App.css';
 
 function AppContent() {
-  // Initialize layout mode from localStorage, default to 'default'
-  const [layoutMode, setLayoutMode] = useState<'default' | 'custom'>(() => {
-    const saved = localStorage.getItem('layoutMode');
-    return (saved === 'default' || saved === 'custom') ? saved : 'default';
-  });
-  
-  const isMyspaceMode = layoutMode === 'custom';
+  const {
+    isMyspaceMode,
+    isVisitorThemeActive,
+    active,
+  } = useProfileTheme();
   
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -53,6 +54,18 @@ function AppContent() {
     open('share');
   };
 
+  // Body class for authored layout toggle styling (legacy CSS hooks)
+  useEffect(() => {
+    document.body.classList.remove('default-layout', 'custom-layout', 'visitor-layout-body');
+    if (isVisitorThemeActive) {
+      document.body.classList.add('visitor-layout-body');
+    } else if (active.kind === 'authored' && active.id === 'jessicas-custom') {
+      document.body.classList.add('custom-layout');
+    } else {
+      document.body.classList.add('default-layout');
+    }
+  }, [active, isVisitorThemeActive]);
+
   // Helper function to get border classes - consistent with MySpaceTable and MySpaceContainer
   const getBorderClasses = () => {
     if (isMyspaceMode && !isDarkMode) return 'border-pink-500';
@@ -64,16 +77,6 @@ function AppContent() {
   const lastLogin = useLastLoginLabel();
   const profileViews = useProfileViews();
 
-  // Apply body class based on layout mode
-  useEffect(() => {
-    document.body.classList.remove('default-layout', 'custom-layout');
-    document.body.classList.add(`${layoutMode}-layout`);
-    
-    // Save to localStorage
-    localStorage.setItem('layoutMode', layoutMode);
-  }, [layoutMode]);
-
-
   // Check if user wants to force desktop view
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -81,10 +84,6 @@ function AppContent() {
       setForceDesktopView(true);
     }
   }, []);
-
-  const toggleLayoutMode = () => {
-    setLayoutMode(prev => prev === 'default' ? 'custom' : 'default');
-  };
 
   // Search data - all searchable content
   const searchData = [
@@ -129,13 +128,28 @@ function AppContent() {
     }
   }, [searchQuery]);
 
-  // Get theme classes
+  // Get theme classes — authored Default / Jessica's Custom stay as before; visitor uses token layer
   const getThemeClasses = () => {
+    if (isVisitorThemeActive) {
+      return 'min-h-screen visitor-layout';
+    }
     if (isMyspaceMode) {
       return `min-h-screen myspace-mode ${isDarkMode ? 'dark' : ''}`;
     }
     return 'min-h-screen bg-gray-200 dark:bg-gray-900 default-mode';
   };
+
+  const chromeGradient = isVisitorThemeActive
+    ? 'visitor-chrome'
+    : isMyspaceMode
+      ? 'bg-gradient-to-r from-pink-500 to-purple-500 dark:from-purple-700 dark:to-pink-700'
+      : 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-slate-800 dark:to-slate-900';
+
+  const navGradient = isVisitorThemeActive
+    ? 'visitor-chrome'
+    : isMyspaceMode
+      ? 'bg-gradient-to-r from-pink-400 to-purple-400 dark:from-purple-600 dark:to-pink-600'
+      : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800';
 
   // Navigation items - same for both modes
   const navigationItems = [
@@ -274,12 +288,10 @@ function AppContent() {
   };
 
   return (
-    <div className={getThemeClasses()}>
+    <div id="profile-theme-root" className={getThemeClasses()}>
+    <ProfileEffects />
     {/* Professional Portfolio Header */}
-    <div className={`text-white py-2 sm:py-3 px-2 sm:px-4 ${isMyspaceMode 
-      ? 'bg-gradient-to-r from-pink-500 to-purple-500 dark:from-purple-700 dark:to-pink-700' 
-      : 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-slate-800 dark:to-slate-900'
-    }`} data-navbar="header">
+    <div className={`text-white py-2 sm:py-3 px-2 sm:px-4 ${chromeGradient}`} data-navbar="header">
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
         <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold">MyPortfolio</h1>
@@ -437,27 +449,14 @@ function AppContent() {
           </a>
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-          <button
-            onClick={toggleLayoutMode}
-            title="Switch between Default and Custom MySpace layouts"
-            className="layout-toggle flex items-center justify-center px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 shadow-md hover:shadow-lg"
-            aria-label={`Switch to ${layoutMode === 'custom' ? 'default' : 'custom'} layout`}
-            aria-pressed={layoutMode === 'custom'}
-          >
-            <span className="mr-1" aria-hidden="true">🪄</span>
-            <span className="hidden sm:inline">{layoutMode === 'custom' ? 'Default Layout' : 'Custom Layout'}</span>
-            <span className="sm:hidden">{layoutMode === 'custom' ? 'Default' : 'Custom'}</span>
-          </button>
-          <DarkModeToggle />
+          <ThemePicker />
+          {!isVisitorThemeActive && <DarkModeToggle />}
         </div>
       </div>
     </div>
 
     {/* Navigation */}
-    <div className={`text-white py-2 px-4 ${isMyspaceMode 
-      ? 'bg-gradient-to-r from-pink-400 to-purple-400 dark:from-purple-600 dark:to-pink-600' 
-      : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800'
-    }`} data-navbar="navigation">
+    <div className={`text-white py-2 px-4 ${navGradient}`} data-navbar="navigation">
       <div className="max-w-6xl mx-auto">
         <nav role="navigation" aria-label="Main navigation" className="flex flex-wrap items-center justify-center sm:justify-start space-x-4 sm:space-x-6 text-sm">
           {navigationItems.map((item, index) => (
@@ -931,10 +930,11 @@ function AppContent() {
       />
     )}
     {isOpen('rating') && <RatingModal onClose={close} />}
-    {isOpen('customize') && <CustomizeModal onClose={close} />}
+
+    <LayoutBuilderModal />
     
     {/* Bottom-right utility cluster: Accessibility + Scroll to Top (Accessibility stays reachable above OS windows) */}
-    <FloatingUtilityControls isMyspaceMode={isMyspaceMode} />
+    <FloatingUtilityControls isMyspaceMode={isMyspaceMode || isVisitorThemeActive} />
     
     </div>
   );
@@ -943,9 +943,11 @@ function AppContent() {
 function App() {
   return (
     <DarkModeProvider>
-      <OsWindowProvider>
-        <AppContent />
-      </OsWindowProvider>
+      <ProfileThemeProvider>
+        <OsWindowProvider>
+          <AppContent />
+        </OsWindowProvider>
+      </ProfileThemeProvider>
     </DarkModeProvider>
   );
 }
