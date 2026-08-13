@@ -19,9 +19,15 @@ interface CaseStudy {
 interface CaseStudiesGridProps {
   isMyspaceMode: boolean;
   searchQuery: string;
+  /** When true, skip outer MySpace box/header — parent DIV layout provides chrome. */
+  embedded?: boolean;
 }
 
-const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, searchQuery }) => {
+const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({
+  isMyspaceMode,
+  searchQuery,
+  embedded = false,
+}) => {
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<CaseStudy | null>(null);
   const { open } = useOsWindow();
 
@@ -107,75 +113,95 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({ isMyspaceMode, search
     return null;
   }
 
-  return (
-    <>
-      <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery}>
-        <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
-          Jessica's Case Studies
-        </ThemeAwareHeader>
-        <p className="text-xs mb-3 text-black dark:text-gray-300 custom-font">
+  const countLine = (
+    <p className="text-xs mb-3 text-black dark:text-gray-300 custom-font">
+      {embedded ? (
+        <>
+          Displaying{' '}
+          <span className="custom-font font-bold text-gray-800 dark:text-gray-100">
+            {filteredStudies.length}
+          </span>
+          {' '}of{' '}
+          <span className="custom-font font-bold text-gray-800 dark:text-gray-100">
+            {caseStudies.length}
+          </span>
+          {' '}Featured Case Studies.
+        </>
+      ) : (
+        <>
           Jessica has{' '}
           <span className="custom-font font-bold text-gray-800 dark:text-gray-100">
             {caseStudies.length}
           </span>
           {' '}Featured Case Studies.
-          {searchQuery && filteredStudies.length < caseStudies.length && (
-            <span className="ml-2 text-pink-600 dark:text-pink-400 custom-font">
-              ({filteredStudies.length} match{filteredStudies.length !== 1 ? 'es' : ''})
-            </span>
-          )}
-        </p>
+        </>
+      )}
+      {searchQuery && filteredStudies.length < caseStudies.length && (
+        <span className="ml-2 text-pink-600 dark:text-pink-400 custom-font">
+          ({filteredStudies.length} match{filteredStudies.length !== 1 ? 'es' : ''})
+        </span>
+      )}
+    </p>
+  );
 
-        {/* MySpace Friend Space Grid - 2 columns on mobile/tablet, 4 on desktop */}
-        {filteredStudies.length > 0 ? (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4">
-          {filteredStudies.map((caseStudy, index) => (
-            <div 
-              key={index} 
-              className={`flex flex-col items-center cursor-pointer p-2 rounded transition-all duration-200 hover:scale-[1.03] hover:shadow-md search-result-match ${
-                searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''
-              }`}
-              onClick={() => setSelectedCaseStudy(caseStudy)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setSelectedCaseStudy(caseStudy);
-                }
-              }}
-              aria-label={`View case study: ${caseStudy.name}`}
-            >
-              {/* Square image placeholder - MySpace style */}
-              <div 
-                className="w-16 h-16 sm:w-[100px] sm:h-[100px] bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 flex items-center justify-center mb-2 transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
-                style={{ 
-                  boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
-                }}
-              >
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-xl sm:text-2xl">{caseStudy.emoji}</span>
-                </div>
-              </div>
-              
-              {/* Title */}
-              <p className="text-sm font-bold mb-1 mt-1 text-center">
-                <span className="text-black dark:text-white break-words">
-                  <SearchHighlight text={caseStudy.name} searchQuery={searchQuery} />
-                </span>
-              </p>
-              
-              {/* Subtitle */}
-              <p className="text-xs italic leading-tight text-center">
-                <span className="text-gray-600 dark:text-gray-400">
-                  Click to view case study
-                </span>
-              </p>
+  const grid = filteredStudies.length > 0 ? (
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4">
+      {filteredStudies.map((caseStudy, index) => (
+        <div
+          key={index}
+          className={`flex flex-col items-center cursor-pointer p-2 rounded transition-all duration-200 hover:scale-[1.03] hover:shadow-md search-result-match ${
+            searchQuery ? 'ring-2 ring-blue-400 dark:ring-blue-500 animate-pulse-subtle' : ''
+          }`}
+          onClick={() => setSelectedCaseStudy(caseStudy)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setSelectedCaseStudy(caseStudy);
+            }
+          }}
+          aria-label={`View case study: ${caseStudy.name}`}
+        >
+          <div
+            className="w-16 h-16 sm:w-[100px] sm:h-[100px] bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 flex items-center justify-center mb-2 transition-all duration-200 hover:border-gray-400 dark:hover:border-gray-500"
+            style={{
+              boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
+            }}
+          >
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-xl sm:text-2xl">{caseStudy.emoji}</span>
             </div>
-          ))}
+          </div>
+          <p className="text-sm font-bold mb-1 mt-1 text-center">
+            <span className="text-black dark:text-white break-words">
+              <SearchHighlight text={caseStudy.name} searchQuery={searchQuery} />
+            </span>
+          </p>
+          <p className="text-xs italic leading-tight text-center">
+            <span className="text-gray-600 dark:text-gray-400">Click to view case study</span>
+          </p>
         </div>
-        ) : null}
+      ))}
+    </div>
+  ) : null;
+
+  return (
+    <>
+      {embedded ? (
+        <div className="jdiv-embedded-case-studies">
+          {countLine}
+          {grid}
+        </div>
+      ) : (
+      <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery}>
+        <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
+          Jessica's Case Studies
+        </ThemeAwareHeader>
+        {countLine}
+        {grid}
       </MySpaceContainer>
+      )}
 
       {selectedCaseStudy && (
         <CaseStudyModal 

@@ -163,7 +163,8 @@ const LayoutBuilderModal: React.FC = () => {
 
         <div className="modal-window__body p-3 space-y-3 text-xs">
           <p className="text-[11px] text-purple-800">
-            Choose how much damage you&apos;d like to do. Built-in themes stay untouched.
+            Traditional MySpace styling lives in Basic. Jessica&apos;s Custom is the authored DIV-overlay
+            showcase — Start from it to clone styles, never overwrite the original.
           </p>
 
           <label className="block">
@@ -222,7 +223,8 @@ const LayoutBuilderModal: React.FC = () => {
                   <span>
                     <strong>Basic Profile Editor</strong>
                     <br />
-                    Customize the recognizable MySpace profile — colors, borders, fonts, effects.
+                    Classic MySpace customization — colors, backgrounds, borders, fonts, effects.
+                    Keeps the recognizable profile structure.
                   </span>
                 </label>
                 <label className="flex gap-2 items-start border border-pink-200 p-2 bg-white cursor-pointer">

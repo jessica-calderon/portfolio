@@ -4,7 +4,6 @@ import AboutMe from './AboutMe';
 import Education from './Education';
 import CaseStudiesGrid from './CaseStudiesGrid';
 import LearningWall from './LearningWall';
-import ContactSection from './ContactSection';
 import { useDarkMode } from '../contexts/DarkModeContext';
 import { useOsWindow } from '../contexts/OsWindowContext';
 import { useProfileTheme } from '../contexts/ProfileThemeContext';
@@ -28,7 +27,7 @@ import type {
 interface JessicasCustomLayoutProps {
   searchQuery: string;
   onNavScroll: (scrollToId: string) => void;
-  /** When true, use authored myspace pink/purple; visitor advanced uses token styling. */
+  /** Authored Jessica's Custom gets the flagship asymmetric DIV overlay. */
   authored: boolean;
   layoutTemplate?: LayoutTemplate;
   navPlacement?: NavPlacement;
@@ -37,7 +36,8 @@ interface JessicasCustomLayoutProps {
 
 /**
  * DIV-overlay composition for Jessica's Custom (and visitor Advanced layouts).
- * Shares the same content components/data as Default — different presentation only.
+ * Authored mode: asymmetric masthead + dense sidebar + dominant main column.
+ * Visitor advanced: safer structural templates without overwriting Jessica's theme.
  */
 const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
   searchQuery,
@@ -68,102 +68,6 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
     onNavScroll(item.scrollToId);
   };
 
-  const featured = (
-    <section key="featured" id="projects" className="jdiv-section jdiv-featured">
-      <div className="jdiv-section-head">★ FEATURED WORK ★</div>
-      <p className="jdiv-blurb">Jessica&apos;s Top 8 — Featured Case Studies</p>
-      <CaseStudiesGrid isMyspaceMode searchQuery={searchQuery} />
-    </section>
-  );
-
-  const currently = (
-    <section key="currently" className="jdiv-section jdiv-currently">
-      <div className="jdiv-section-head">CURRENTLY</div>
-      <ul className="jdiv-currently-list">
-        {CURRENTLY_FOCUS.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </section>
-  );
-
-  const lab = (
-    <section key="lab" id="lab" className="jdiv-section jdiv-lab">
-      <div className="jdiv-section-head">THE LAB</div>
-      <p className="jdiv-blurb">Homelab / self-hosting — tinkering without the private IPs.</p>
-      <div className="jdiv-lab-grid">
-        {LAB_INTERESTS.map((item) => (
-          <span key={item.name} className="jdiv-lab-chip">
-            <span aria-hidden="true">{item.icon}</span> {item.name}
-          </span>
-        ))}
-      </div>
-      <button
-        type="button"
-        className="jdiv-lab-btn"
-        onClick={() => open('networkPlaces')}
-        aria-haspopup="dialog"
-      >
-        View Homelab → My Network Places
-      </button>
-    </section>
-  );
-
-  const stack = (
-    <section key="stack" id="tech" className="jdiv-section jdiv-stack">
-      <div className="jdiv-section-head">STACK</div>
-      <div className="jdiv-stack-dense">
-        {SKILL_CATEGORIES.map((cat) => (
-          <p key={cat.label} className="jdiv-stack-line">
-            {cat.tokens.join(' // ')}
-          </p>
-        ))}
-      </div>
-    </section>
-  );
-
-  const about = (
-    <section key="about" id="about" className="jdiv-section">
-      <div className="jdiv-section-head">ABOUT</div>
-      <AboutMe isMyspaceMode searchQuery={searchQuery} />
-    </section>
-  );
-
-  const experienceEdu = (
-    <section key="edu" className="jdiv-section">
-      <div className="jdiv-section-head">EXPERIENCE / EDUCATION</div>
-      <Education searchQuery={searchQuery} isMyspaceMode />
-    </section>
-  );
-
-  const comments = (
-    <section key="comments" id="experience" className="jdiv-section">
-      <div className="jdiv-section-head">COMMENTS / LEARNING</div>
-      <LearningWall isMyspaceMode searchQuery={searchQuery} />
-    </section>
-  );
-
-  const contact = (
-    <section key="contact" className="jdiv-section jdiv-contact">
-      <div className="jdiv-section-head">CONTACT</div>
-      <ContactSection
-        onSendMessageClick={() => open('aim')}
-        onResumeClick={() => open('resume')}
-        onShareClick={handleShareClick}
-        onFavoritesClick={() => open('favorites')}
-        onRatingClick={() => open('rating')}
-        onCustomizeClick={() => openBuilder('jessicas-custom')}
-      />
-    </section>
-  );
-
-  const sections =
-    sectionEmphasis === 'lab-first'
-      ? [currently, lab, featured, stack, about, experienceEdu, comments, contact]
-      : sectionEmphasis === 'identity-first'
-        ? [currently, about, featured, stack, lab, experienceEdu, comments, contact]
-        : [currently, featured, lab, stack, about, experienceEdu, comments, contact];
-
   const nav = (
     <nav className="jdiv-nav" aria-label="Custom profile navigation">
       {CUSTOM_NAV_ITEMS.map((item, i) => (
@@ -182,100 +86,283 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
     </nav>
   );
 
-  const metaBlock = (
-    <div className="jdiv-meta">
-      <img
-        src={profilePic}
-        alt="Jessica Calderon pixel avatar"
-        className="jdiv-avatar"
-        role="button"
-        tabIndex={0}
-        title="Click for a surprise! 🦖"
-        onClick={() => open('legacyIe')}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            open('legacyIe');
-          }
-        }}
-        aria-label="View legacy profile"
-      />
-      <div className="jdiv-meta-text">
-        <p className="jdiv-meta-name">{PROFILE_IDENTITY.formalName}</p>
-        <p>{PROFILE_IDENTITY.title}</p>
-        <p>{PROFILE_IDENTITY.location}</p>
-        <p>Status: {PROFILE_IDENTITY.status}</p>
-        <p>Last Login: {lastLogin || '...'}</p>
-        {profileViews !== null && (
-          <p>Profile Views: {formatProfileViews(profileViews)}</p>
-        )}
-      </div>
-    </div>
-  );
-
   const masthead = (
-    <header className={`jdiv-masthead jdiv-masthead--${layoutTemplate}`}>
+    <header className="jdiv-masthead">
       <div className="jdiv-stars" aria-hidden="true">
-        ★ · ✦ · ★ · ✧ · ★
+        ★ · ✦ · ★ · ✧ · ★ · ✦ · ★
       </div>
       <h1 className="jdiv-name">{PROFILE_IDENTITY.displayName.toUpperCase()}</h1>
       <p className="jdiv-title">{PROFILE_IDENTITY.titleLine}</p>
       <p className="jdiv-tagline">{PROFILE_IDENTITY.tagline}</p>
-      {layoutTemplate !== 'sidebar' && navPlacement === 'top' && nav}
-      {layoutTemplate === 'graphic-header' && (
-        <div className="jdiv-graphic-bar" aria-hidden="true">
-          ▓▒░ CUSTOM LAYOUT ░▒▓
-        </div>
-      )}
-      {(layoutTemplate === 'full-div' || layoutTemplate === 'graphic-header') && metaBlock}
+      {nav}
+      <p className="jdiv-masthead-remnant" aria-hidden="true">
+        · custom CSS layout · tables optional · glitter not included ·
+      </p>
     </header>
   );
 
-  const sidebarIdentity =
-    navPlacement === 'sidebar' || layoutTemplate === 'sidebar' ? (
-      <aside className="jdiv-sidebar">
-        {metaBlock}
-        {nav}
-        <div className="jdiv-sidebar-deco" aria-hidden="true">
-          ♥ · ★ · ♥
+  const sidebar = (
+    <aside className="jdiv-sidebar" aria-label="Profile identity">
+      <div className="jdiv-id-card">
+        <img
+          src={profilePic}
+          alt="Jessica Calderon pixel avatar"
+          className="jdiv-avatar jdiv-avatar--lg"
+          role="button"
+          tabIndex={0}
+          title="Click for a surprise! 🦖"
+          onClick={() => open('legacyIe')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              open('legacyIe');
+            }
+          }}
+          aria-label="View legacy profile"
+        />
+        <p className="jdiv-meta-name">{PROFILE_IDENTITY.formalName}</p>
+        <p className="jdiv-id-title">{PROFILE_IDENTITY.title}</p>
+        <p className="jdiv-online">
+          <span className="jdiv-online-dot" aria-hidden="true" /> Online
+        </p>
+        <p className="jdiv-id-line">
+          <strong>Status:</strong> {PROFILE_IDENTITY.status}
+        </p>
+        <p className="jdiv-id-line">Last Login: {lastLogin || '...'}</p>
+        {profileViews !== null && (
+          <p className="jdiv-id-line">Profile Views: {formatProfileViews(profileViews)}</p>
+        )}
+        <p className="jdiv-id-line">{PROFILE_IDENTITY.location}</p>
+        <button
+          type="button"
+          className="jdiv-text-link"
+          onClick={() => open('legacyIe')}
+          aria-haspopup="dialog"
+        >
+          View My: Legacy Profile
+        </button>
+      </div>
+
+      <div className="jdiv-side-block jdiv-side-currently">
+        <div className="jdiv-side-head">Currently</div>
+        <ul className="jdiv-currently-list">
+          {CURRENTLY_FOCUS.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="jdiv-side-block jdiv-side-contact" id="contact">
+        <div className="jdiv-side-head">Contacting Jessica</div>
+        <ul className="jdiv-link-list">
+          <li>
+            <button type="button" onClick={() => open('aim')} aria-haspopup="dialog">
+              ✉ Send Message
+            </button>
+          </li>
+          <li>
+            <button type="button" onClick={() => open('resume')} aria-haspopup="dialog">
+              📄 View Resume
+            </button>
+          </li>
+          <li>
+            <a
+              href="https://github.com/jessica-calderon"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://linkedin.com/in/Jessica-Calderon-00"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://cal.com/jessica-calderon"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Schedule Call
+            </a>
+          </li>
+          <li>
+            <button type="button" onClick={handleShareClick} aria-haspopup="dialog">
+              Share Profile
+            </button>
+          </li>
+          <li>
+            <button type="button" onClick={() => open('favorites')} aria-haspopup="dialog">
+              Add to Favorites
+            </button>
+          </li>
+          <li>
+            <button type="button" onClick={() => openBuilder('jessicas-custom')}>
+              🎨 Customize Profile
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div className="jdiv-side-block jdiv-side-stack" id="tech">
+        <div className="jdiv-side-head">Stack</div>
+        <div className="jdiv-stack-dense">
+          {SKILL_CATEGORIES.slice(0, 5).map((cat) => (
+            <p key={cat.label} className="jdiv-stack-line">
+              {cat.tokens.slice(0, 5).join(' // ')}
+            </p>
+          ))}
         </div>
-      </aside>
-    ) : null;
+      </div>
+
+      <div className="jdiv-sidebar-deco" aria-hidden="true">
+        ♥ · ★ · ♥ · ★ · ♥
+      </div>
+    </aside>
+  );
+
+  const networkBanner = (
+    <div className="jdiv-network-banner" role="note">
+      Jessica Calderon is in your extended professional network.
+    </div>
+  );
+
+  const featured = (
+    <section id="projects" className="jdiv-panel jdiv-featured">
+      <div className="jdiv-featured-head">
+        <span className="jdiv-featured-title">Jessica&apos;s Featured Work</span>
+        <span className="jdiv-featured-sub">★ Top 8 Case Studies ★</span>
+      </div>
+      <CaseStudiesGrid isMyspaceMode embedded searchQuery={searchQuery} />
+    </section>
+  );
+
+  const lab = (
+    <section id="lab" className="jdiv-panel jdiv-lab">
+      <div className="jdiv-lab-head">
+        <span className="jdiv-lab-prompt" aria-hidden="true">
+          ~/lab
+        </span>
+        <span>THE LAB</span>
+        <span className="jdiv-lab-prompt" aria-hidden="true">
+          self-hosted
+        </span>
+      </div>
+      <p className="jdiv-lab-blurb">
+        Homelab / self-hosting — Linux, containers, networking, storage, media, automation.
+        No private IPs. No secrets. Just the tinkering side.
+      </p>
+      <div className="jdiv-lab-grid">
+        {LAB_INTERESTS.map((item) => (
+          <span key={item.name} className="jdiv-lab-chip">
+            <span aria-hidden="true">{item.icon}</span> {item.name}
+          </span>
+        ))}
+      </div>
+      <button
+        type="button"
+        className="jdiv-lab-btn"
+        onClick={() => open('networkPlaces')}
+        aria-haspopup="dialog"
+      >
+        View Homelab → My Network Places
+      </button>
+    </section>
+  );
+
+  const about = (
+    <section id="about" className="jdiv-panel jdiv-about">
+      <div className="jdiv-about-head">About Me</div>
+      <AboutMe isMyspaceMode embedded searchQuery={searchQuery} />
+    </section>
+  );
+
+  const experienceEdu = (
+    <section className="jdiv-panel jdiv-edu">
+      <div className="jdiv-edu-head">Experience / Education</div>
+      <Education searchQuery={searchQuery} isMyspaceMode embedded />
+    </section>
+  );
+
+  const comments = (
+    <section id="experience" className="jdiv-panel jdiv-comments">
+      <LearningWall isMyspaceMode searchQuery={searchQuery} />
+    </section>
+  );
+
+  const stackWide = (
+    <section className="jdiv-panel jdiv-stack-wide">
+      <div className="jdiv-side-head">Full Stack Dump</div>
+      <div className="jdiv-stack-dense">
+        {SKILL_CATEGORIES.map((cat) => (
+          <p key={cat.label} className="jdiv-stack-line">
+            <span className="jdiv-stack-label">{cat.label}:</span> {cat.tokens.join(' // ')}
+          </p>
+        ))}
+      </div>
+    </section>
+  );
+
+  // Authored Jessica's Custom: fixed asymmetric hierarchy
+  if (authored) {
+    return (
+      <div
+        className={`jessica-div-layout jessica-div-layout--authored${
+          isDarkMode ? ' jessica-div-layout--dark' : ''
+        }`}
+        data-template="authored-div"
+      >
+        {masthead}
+        <div className="jdiv-authored-grid">
+          {sidebar}
+          <main className="jdiv-main">
+            {networkBanner}
+            {featured}
+            {lab}
+            {about}
+            {stackWide}
+            {experienceEdu}
+            {comments}
+          </main>
+        </div>
+
+        {/* Mobile-only identity strip order helpers are CSS-driven; sidebar also appears in flow */}
+      </div>
+    );
+  }
+
+  // Visitor Advanced: structural templates (not Jessica's immutable Custom)
+  const visitorMain =
+    sectionEmphasis === 'lab-first'
+      ? [lab, featured, about, stackWide, experienceEdu, comments]
+      : sectionEmphasis === 'identity-first'
+        ? [about, featured, lab, stackWide, experienceEdu, comments]
+        : [featured, lab, about, stackWide, experienceEdu, comments];
+
+  const showSideNav = navPlacement === 'sidebar' || layoutTemplate === 'sidebar';
 
   return (
     <div
-      className={`jessica-div-layout jessica-div-layout--${layoutTemplate}${
-        isDarkMode && authored ? ' jessica-div-layout--dark' : ''
-      }`}
+      className={`jessica-div-layout jessica-div-layout--${layoutTemplate}`}
       data-template={layoutTemplate}
       data-nav={navPlacement}
     >
-      {layoutTemplate === 'classic-override' ? (
-        <div className="jdiv-classic">
-          {masthead}
-          <div className="jdiv-classic-grid">
-            <div className="jdiv-classic-side">
-              {metaBlock}
-              {navPlacement === 'sidebar' ? nav : null}
-            </div>
-            <div className="jdiv-classic-main">{sections}</div>
-          </div>
-        </div>
-      ) : (
-        <div className={`jdiv-shell${sidebarIdentity ? ' jdiv-shell--with-sidebar' : ''}`}>
-          {layoutTemplate !== 'sidebar' && masthead}
-          {layoutTemplate === 'sidebar' && (
-            <header className="jdiv-masthead jdiv-masthead--compact">
-              <h1 className="jdiv-name">{PROFILE_IDENTITY.displayName.toUpperCase()}</h1>
-              <p className="jdiv-title">{PROFILE_IDENTITY.titleLine}</p>
-            </header>
+      {masthead}
+      <div className={`jdiv-authored-grid${showSideNav ? '' : ' jdiv-authored-grid--single'}`}>
+        {showSideNav ? sidebar : null}
+        <main className="jdiv-main">
+          {!showSideNav && (
+            <div className="jdiv-visitor-meta-row">{networkBanner}</div>
           )}
-          <div className="jdiv-body">
-            {sidebarIdentity}
-            <main className="jdiv-main">{sections}</main>
-          </div>
-        </div>
-      )}
+          {visitorMain}
+        </main>
+      </div>
     </div>
   );
 };

@@ -100,7 +100,7 @@ const ThemePicker: React.FC = () => {
               >
                 <span className="theme-preview-swatch theme-preview-swatch--jessica" aria-hidden="true" />
                 <span className="text-[11px] font-bold">Jessica&apos;s Custom</span>
-                <span className="text-[9px] text-purple-700">DIV overlay layout</span>
+                <span className="text-[9px] text-purple-700">DIV-overlay layout</span>
               </button>
             </div>
 

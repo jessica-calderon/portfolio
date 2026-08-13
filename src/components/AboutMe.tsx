@@ -9,9 +9,11 @@ import StatsBadge from './shared/StatsBadge';
 interface AboutMeProps {
   isMyspaceMode: boolean;
   searchQuery: string;
+  /** Parent DIV layout provides section chrome. */
+  embedded?: boolean;
 }
 
-const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
+const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery, embedded = false }) => {
   const { isDarkMode } = useDarkMode();
   
   // Get header text color based on theme
@@ -84,22 +86,18 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
 
   if (!shouldShow() && searchQuery) return null;
 
-  return (
-    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery}>
-      {/* Main Section Header with white separator line */}
-      <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
-        Jessica's Professional Profile
-      </ThemeAwareHeader>
-      
-      {/* Single clean bordered container - NO nested containers */}
-      <div>
-        {/* About Me Header - Theme adaptive */}
+  const aboutHeader = !embedded ? (
         <h4 className="font-bold custom-font" style={{ 
           fontSize: '13px',
           marginTop: '10px',
           marginBottom: '6px',
           color: headerColor
         }}>About Me</h4>
+  ) : null;
+
+  const body = (
+      <div className={embedded ? 'jdiv-about-body' : undefined}>
+        {aboutHeader}
         
         <p className="custom-font" style={{ 
           color: textColor,
@@ -222,6 +220,16 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
           }}>Features:</strong> Responsive Design, Optimized Assets
         </p>
       </div>
+  );
+
+  if (embedded) return body;
+
+  return (
+    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery}>
+      <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
+        Jessica&apos;s Professional Profile
+      </ThemeAwareHeader>
+      {body}
     </MySpaceContainer>
   );
 };
