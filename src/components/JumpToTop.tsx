@@ -12,14 +12,9 @@ const JumpToTop: React.FC<JumpToTopProps> = ({ isMyspaceMode }) => {
   // Show button after scrolling down 300px
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      setIsVisible(window.pageYOffset > 300);
     };
 
-    // Check initial scroll position
     toggleVisibility();
 
     window.addEventListener('scroll', toggleVisibility, { passive: true });
@@ -27,7 +22,6 @@ const JumpToTop: React.FC<JumpToTopProps> = ({ isMyspaceMode }) => {
   }, []);
 
   const scrollToTop = () => {
-    // Respect reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     window.scrollTo({
@@ -36,34 +30,30 @@ const JumpToTop: React.FC<JumpToTopProps> = ({ isMyspaceMode }) => {
     });
   };
 
-  // Get button styling based on theme
+  // Positioning handled by FloatingUtilityControls; omit from layout when not useful
+  if (!isVisible) return null;
+
   const getButtonClasses = () => {
-    const baseClasses = 'fixed bottom-6 right-6 z-50 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-lg';
+    const baseClasses = 'flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent shadow-lg transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none';
     
-    // Add fade-in/fade-out animation classes
-    const visibilityClasses = isVisible 
-      ? 'opacity-100 translate-y-0 pointer-events-auto' 
-      : 'opacity-0 translate-y-2 pointer-events-none';
-    
-    // Default layout mode
     if (!isMyspaceMode) {
       if (isDarkMode) {
-        return `${baseClasses} ${visibilityClasses} bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:ring-blue-400 text-white border border-blue-500 hover:shadow-xl hover:scale-110 active:scale-95`;
+        return `${baseClasses} bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:ring-blue-400 text-white border border-blue-500 hover:shadow-xl hover:scale-105 active:scale-95 motion-reduce:hover:scale-100`;
       } else {
-        return `${baseClasses} ${visibilityClasses} bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:ring-blue-400 text-white border border-blue-400 hover:shadow-xl hover:scale-110 active:scale-95`;
+        return `${baseClasses} bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:ring-blue-400 text-white border border-blue-400 hover:shadow-xl hover:scale-105 active:scale-95 motion-reduce:hover:scale-100`;
       }
     }
     
-    // MySpace layout mode
     if (isDarkMode) {
-      return `${baseClasses} ${visibilityClasses} bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:ring-purple-400 text-white border border-purple-400 hover:shadow-xl hover:scale-110 active:scale-95`;
+      return `${baseClasses} bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 focus:ring-purple-400 text-white border border-purple-400 hover:shadow-xl hover:scale-105 active:scale-95 motion-reduce:hover:scale-100`;
     } else {
-      return `${baseClasses} ${visibilityClasses} bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 focus:ring-pink-400 text-white border border-pink-400 hover:shadow-xl hover:scale-110 active:scale-95`;
+      return `${baseClasses} bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 focus:ring-pink-400 text-white border border-pink-400 hover:shadow-xl hover:scale-105 active:scale-95 motion-reduce:hover:scale-100`;
     }
   };
 
   return (
     <button
+      type="button"
       onClick={scrollToTop}
       className={getButtonClasses()}
       aria-label="Scroll to top"
@@ -75,6 +65,8 @@ const JumpToTop: React.FC<JumpToTopProps> = ({ isMyspaceMode }) => {
         stroke="currentColor"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
       >
         <path
           strokeLinecap="round"
@@ -88,4 +80,3 @@ const JumpToTop: React.FC<JumpToTopProps> = ({ isMyspaceMode }) => {
 };
 
 export default JumpToTop;
-

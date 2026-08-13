@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDarkMode } from '../contexts/DarkModeContext';
 import SearchHighlight from './shared/SearchHighlight';
 import MySpaceContainer from './shared/MySpaceContainer';
@@ -17,8 +17,12 @@ interface LearningWallProps {
   searchQuery: string;
 }
 
+const COMMENTS_PER_PAGE = 8;
+
 const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery }) => {
   const { isDarkMode, customization } = useDarkMode();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showAll, setShowAll] = useState(false);
 
   // Helper function to lighten a color for light mode comment boxes
   const lightenColor = (color: string, percent: number): string => {
@@ -145,78 +149,90 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
   const entries: LearningEntry[] = [
     {
       id: 1,
+      timestamp: "08/13/2026 12:30 AM",
+      learning: "Wired up a GitHub Actions workflow so merges to main automatically build the portfolio and publish to the gh-pages branch — no more manual deploy step when content lands.",
+      focus: "CI/CD, GitHub Actions, and automated static site deployment."
+    },
+    {
+      id: 2,
+      timestamp: "08/13/2026 12:08 AM",
+      learning: "Learning and using agentic AI — pairing with an autonomous coding agent from the Cursor mobile app to update this portfolio, deploy changes, and keep the MySpace vibe intact while I steer.",
+      focus: "agentic AI, AI-assisted development, and human-in-the-loop workflows."
+    },
+    {
+      id: 3,
       timestamp: "08/10/2026 9:15 PM",
       learning: "Working on Finity — a custom Roku / Jellyfin client. Digging into BrightScript, SceneGraph, and how streaming clients actually talk to media servers.",
       focus: "Roku development, BrightScript, SceneGraph, Jellyfin integration."
     },
     {
-      id: 2,
+      id: 4,
       timestamp: "07/18/2026 6:40 PM",
       learning: "Homelab weekend: reshuffling Docker Compose stacks, reverse proxy routes, and storage mounts until the media services behaved again.",
       focus: "Docker, Traefik, storage, and self-hosted media infrastructure."
     },
     {
-      id: 3,
+      id: 5,
       timestamp: "05/22/2026 8:05 PM",
       learning: "Experimenting with monitoring and automation in the homelab — uptime checks, dashboards, and scripts that save me from clicking things at 1am.",
       focus: "Linux, automation, monitoring, and infrastructure experiments."
     },
     {
-      id: 4,
+      id: 6,
       timestamp: "11/03/2025 12:42 PM",
       learning: "Refined MySpace-style portfolio with improved dark and light mode handling and mobile layout consistency.",
       focus: "React theming, component alignment, and responsive design."
     },
     {
-      id: 5,
+      id: 7,
       timestamp: "11/01/2025 7:15 PM",
       learning: "Created automated load test plans to measure containerized web app performance under concurrent export conditions.",
       focus: "scalability, performance benchmarking, and test automation."
     },
     {
-      id: 6,
+      id: 8,
       timestamp: "10/22/2025 5:48 PM",
       learning: "Enhanced container logging pipelines for centralized monitoring and structured data visualization.",
       focus: "log aggregation, observability, and analytics dashboards."
     },
     {
-      id: 7,
+      id: 9,
       timestamp: "10/04/2025 4:37 PM",
       learning: "Automated administrative setup during container build using entrypoint scripting and environment variables.",
       focus: "container automation and secure configuration management."
     },
     {
-      id: 8,
+      id: 10,
       timestamp: "09/02/2025 8:20 PM",
       learning: "Experimented with Fusion 360 parametric modeling for multi-compartment tray designs and custom organizers.",
       focus: "CAD design, constraints, and 3D print optimization."
     },
     {
-      id: 9,
+      id: 11,
       timestamp: "08/05/2025 6:52 PM",
       learning: "Rebuilt containerized applications using hardened base images for compliance and reproducibility.",
       focus: "secure image builds and DevSecOps best practices."
     },
     {
-      id: 10,
+      id: 12,
       timestamp: "07/22/2025 9:11 AM",
       learning: "Aligned observability configuration across multiple environments to improve consistency and traceability.",
       focus: "configuration management and cloud monitoring."
     },
     {
-      id: 11,
+      id: 13,
       timestamp: "04/26/2025 9:50 PM",
       learning: "Explored file compression techniques to reduce export sizes while maintaining clarity and quality.",
       focus: "data optimization and efficient file handling."
     },
     {
-      id: 12,
+      id: 14,
       timestamp: "03/31/2025 8:30 PM",
       learning: "Developed modular export logic to support large dataset handling across multiple formats.",
       focus: "asynchronous data processing and UX feedback loops."
     },
     {
-      id: 13,
+      id: 15,
       timestamp: "03/10/2025 5:12 PM",
       learning: "Configured session handling and tuned database settings to improve web app responsiveness.",
       focus: "backend performance optimization and reliability."
@@ -224,7 +240,22 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
   ];
 
   const filteredEntries = entries.filter(shouldShow);
-  
+  const totalComments = filteredEntries.length;
+  const totalPages = Math.max(1, Math.ceil(totalComments / COMMENTS_PER_PAGE));
+
+  // Reset pagination when search results change
+  useEffect(() => {
+    setCurrentPage(1);
+    setShowAll(false);
+  }, [searchQuery, totalComments]);
+
+  const safePage = Math.min(currentPage, totalPages);
+  const startIndex = showAll ? 0 : (safePage - 1) * COMMENTS_PER_PAGE;
+  const endIndex = showAll ? totalComments : Math.min(startIndex + COMMENTS_PER_PAGE, totalComments);
+  const pageEntries = filteredEntries.slice(startIndex, endIndex);
+  const displayStart = totalComments === 0 ? 0 : startIndex + 1;
+  const displayEnd = endIndex;
+
   if (filteredEntries.length === 0 && searchQuery) return null;
 
   // MySpace styling colors - comment section colors
@@ -239,13 +270,28 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
     linkColor: isDarkMode ? '#99ccff' : '#003399'
   };
 
+  const linkStyle: React.CSSProperties = {
+    color: myspaceColors.linkColor,
+    textDecoration: 'none',
+    background: 'none',
+    border: 'none',
+    padding: 0,
+    font: 'inherit',
+    cursor: 'pointer',
+  };
+
+  const goToPage = (page: number) => {
+    setShowAll(false);
+    setCurrentPage(page);
+  };
+
   return (
     <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery}>
       <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
         What I'm Learning
       </ThemeAwareHeader>
 
-      {/* Comment Links - Directly below header */}
+      {/* MySpace-style comment count / navigation */}
       <div
         className="custom-font"
         style={{
@@ -254,39 +300,31 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           fontSize: '12px'
         }}
       >
-        Displaying <span className="font-bold text-gray-800 dark:text-gray-100">{filteredEntries.length}</span> of <span className="font-bold text-gray-800 dark:text-gray-100">{entries.length}</span> entries ( 
-        <a
-          href="https://github.com/jessica-calderon"
-          target="_blank"
-          rel="noopener noreferrer"
+        Displaying{' '}
+        <span className="font-bold" style={{ color: myspaceColors.textColor }}>
+          {displayStart}-{displayEnd}
+        </span>
+        {' '}of{' '}
+        <span className="font-bold" style={{ color: myspaceColors.textColor }}>
+          {totalComments}
+        </span>
+        {' '}comments
+        {' ('}
+        <button
+          type="button"
           className="custom-font"
-          style={{
-            color: myspaceColors.linkColor,
-            textDecoration: 'none'
+          style={linkStyle}
+          onClick={() => {
+            setShowAll(true);
+            setCurrentPage(1);
           }}
-          onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
-          onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
-          aria-label="View learning entries on GitHub (opens in new tab)"
+          onMouseEnter={(e) => { e.currentTarget.style.textDecoration = 'underline'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.textDecoration = 'none'; }}
+          aria-label="View all comments"
         >
-          View on GitHub
-        </a>
-        {' | '}
-        <a
-          href="https://linkedin.com/in/Jessica-Calderon-00"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="custom-font"
-          style={{
-            color: myspaceColors.linkColor,
-            textDecoration: 'none'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
-          onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
-          aria-label="Connect on LinkedIn (opens in new tab)"
-        >
-          Connect
-        </a>
-        {' )'}
+          View All Comments
+        </button>
+        {')'}
       </div>
       
       {/* Comments Container - Continuous vertical stack */}
@@ -299,7 +337,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           fontSize: '12px'
         }}
       >
-        {filteredEntries.map((entry, index) => (
+        {pageEntries.map((entry, index) => (
           <React.Fragment key={entry.id}>
             {/* Comment Box */}
             <div
@@ -400,7 +438,7 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
             </div>
             
             {/* Divider Line - Between comments */}
-            {index < filteredEntries.length - 1 && (
+            {index < pageEntries.length - 1 && (
               <div
                 style={{
                   height: '1px',
@@ -414,6 +452,73 @@ const LearningWall: React.FC<LearningWallProps> = ({ isMyspaceMode, searchQuery 
           </React.Fragment>
         ))}
       </div>
+
+      {/* Early-2000s pagination */}
+      {totalComments > COMMENTS_PER_PAGE && (
+        <nav
+          className="custom-font"
+          aria-label="Learning comments pagination"
+          style={{
+            marginTop: '10px',
+            fontSize: '12px',
+            color: myspaceColors.textColor,
+            textAlign: 'center',
+          }}
+        >
+          {!showAll && safePage > 1 ? (
+            <button
+              type="button"
+              className="custom-font"
+              style={linkStyle}
+              onClick={() => goToPage(safePage - 1)}
+              aria-label="Previous page of comments"
+            >
+              « Previous
+            </button>
+          ) : (
+            <span style={{ color: myspaceColors.timestampColor }} aria-hidden="true">« Previous</span>
+          )}
+          <span aria-hidden="true"> | </span>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page, index) => (
+            <React.Fragment key={page}>
+              {index > 0 && <span aria-hidden="true"> | </span>}
+              {!showAll && page === safePage ? (
+                <span
+                  className="font-bold"
+                  aria-current="page"
+                  style={{ color: myspaceColors.textColor }}
+                >
+                  {page}
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  className="custom-font"
+                  style={linkStyle}
+                  onClick={() => goToPage(page)}
+                  aria-label={`Go to comments page ${page}`}
+                >
+                  {page}
+                </button>
+              )}
+            </React.Fragment>
+          ))}
+          <span aria-hidden="true"> | </span>
+          {!showAll && safePage < totalPages ? (
+            <button
+              type="button"
+              className="custom-font"
+              style={linkStyle}
+              onClick={() => goToPage(safePage + 1)}
+              aria-label="Next page of comments"
+            >
+              Next »
+            </button>
+          ) : (
+            <span style={{ color: myspaceColors.timestampColor }} aria-hidden="true">Next »</span>
+          )}
+        </nav>
+      )}
     </MySpaceContainer>
   );
 };

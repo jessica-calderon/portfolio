@@ -1,42 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { useDarkMode } from '../contexts/DarkModeContext';
+import React from 'react';
+import { PROFILE_URL } from '../constants/urls';
+import { useXpWindowBehavior } from '../hooks/useXpWindowBehavior';
 
 interface ShareProfileModalProps {
   onClose: () => void;
+  onCopied: () => void;
 }
 
-const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose }) => {
-  const { isDarkMode } = useDarkMode();
-  const [copied, setCopied] = useState(false);
-  const profileUrl = window.location.href;
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [onClose]);
-
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
+/** Attempt Web Share first; returns whether the share sheet handled the action. */
+export async function tryNativeShare(profileUrl: string): Promise<'shared' | 'aborted' | 'unavailable'> {
+  if (typeof navigator === 'undefined' || typeof navigator.share !== 'function') {
+    return 'unavailable';
+  }
+  try {
+    await navigator.share({
+      title: 'Jessica Calderon — Portfolio',
+      text: 'Check out Jessica Calderon’s portfolio',
+      url: profileUrl,
+    });
+    return 'shared';
+  } catch (err) {
+    if (err instanceof DOMException && err.name === 'AbortError') {
+      return 'aborted';
     }
-  };
+    return 'unavailable';
+  }
+}
 
-  const handleCopyUrl = () => {
-    navigator.clipboard.writeText(profileUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+/**
+ * Fallback share sheet (social targets + clipboard).
+ * Clipboard success is confirmed via a separate XP alert (onCopied).
+ */
+const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose, onCopied }) => {
+  const { dialogRef, handleBackdropClick } = useXpWindowBehavior({ onClose });
+  const profileUrl =
+    typeof window !== 'undefined' && window.location.href
+      ? window.location.href
+      : PROFILE_URL;
 
   const shareOptions = [
     {
@@ -57,77 +57,93 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose }) => {
     {
       name: 'Email',
       icon: '📧',
-      url: `mailto:?subject=Check out my portfolio!&body=${encodeURIComponent(profileUrl)}`,
+      url: `mailto:?subject=${encodeURIComponent('Check out my portfolio!')}&body=${encodeURIComponent(profileUrl)}`,
     },
   ];
 
   const handleShare = (url: string) => {
-    window.open(url, '_blank', 'width=600,height=400');
+    window.open(url, '_blank', 'noopener,noreferrer,width=600,height=400');
+  };
+
+  const handleCopyUrl = async () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(profileUrl);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = profileUrl;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      onCopied();
+    } catch {
+      /* keep modal open if copy fails */
+    }
   };
 
   return (
-    <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
+    <div
+      className="xp-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
-      style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="share-modal-title"
+      ref={dialogRef}
+      tabIndex={-1}
     >
-      <div 
-        className={`w-full max-w-md mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear`}
+      <div
+        className="xp-shell modal-window--compact max-w-md animate-modalAppear motion-reduce:animate-none"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Windows XP-style title bar */}
-        <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
-          <span className="text-sm">Share Profile</span>
+        <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 select-none">
+          <span id="share-modal-title" className="xp-titlebar-text text-xs font-bold">
+            Share Profile
+          </span>
           <button
+            type="button"
             onClick={onClose}
-            className="bg-red-600 hover:bg-red-700 text-white w-6 h-6 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors"
-            aria-label="Close"
+            className="xp-close flex h-6 w-6 shrink-0 items-center justify-center text-xs font-bold focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]"
+            aria-label="Close Share Profile"
           >
-            ✕
+            <span aria-hidden="true">✕</span>
           </button>
         </div>
 
-        {/* Modal content */}
-        <div className={`p-6 space-y-4 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
+        <div className="xp-body modal-window__body p-4 space-y-3">
           <div>
-            <h3 className={`text-sm font-bold mb-2 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Share this profile:</h3>
-            <p className={`text-xs break-all p-2 border rounded ${
-              isDarkMode 
-                ? 'text-gray-300 bg-gray-800 border-gray-600' 
-                : 'text-gray-600 bg-gray-50 border-gray-300'
-            }`}>{profileUrl}</p>
+            <h3 className="text-xs font-bold mb-1">Share this profile:</h3>
+            <p className="text-xs break-all p-2 border border-[#aca899] bg-white">{profileUrl}</p>
           </div>
 
           <div>
-            <h3 className={`text-sm font-bold mb-3 ${isDarkMode ? 'text-gray-200' : 'text-gray-800'}`}>Share on:</h3>
-            <div className="grid grid-cols-2 gap-3">
+            <h3 className="text-xs font-bold mb-2">Share on:</h3>
+            <div className="grid grid-cols-2 gap-2">
               {shareOptions.map((option) => (
                 <button
                   key={option.name}
+                  type="button"
                   onClick={() => handleShare(option.url)}
-                  className={`px-4 py-3 rounded border transition-colors flex items-center justify-center space-x-2 text-sm font-medium ${
-                    isDarkMode
-                      ? 'bg-blue-800 hover:bg-blue-700 text-blue-100 border-blue-600'
-                      : 'bg-blue-100 hover:bg-blue-200 text-blue-800 border-blue-300'
-                  }`}
+                  className="xp-btn xp-action-btn flex items-center justify-center gap-1 text-xs"
                 >
-                  <span className="text-lg">{option.icon}</span>
+                  <span aria-hidden="true">{option.icon}</span>
                   <span>{option.name}</span>
                 </button>
               ))}
             </div>
           </div>
 
-          <div className={`pt-3 border-t ${isDarkMode ? 'border-gray-600' : 'border-gray-300'}`}>
+          <div className="pt-2 border-t border-[#aca899]">
             <button
+              type="button"
               onClick={handleCopyUrl}
-              className={`w-full px-4 py-3 rounded font-medium text-sm transition-colors ${
-                copied
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white'
-              }`}
+              className="xp-btn-primary xp-action-btn w-full"
             >
-              {copied ? '✓ URL Copied!' : '📋 Copy Profile URL'}
+              📋 Copy Profile URL
             </button>
           </div>
         </div>
@@ -137,4 +153,3 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose }) => {
 };
 
 export default ShareProfileModal;
-

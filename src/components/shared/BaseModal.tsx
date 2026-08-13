@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode } from 'react';
+import React, { useEffect, useRef, ReactNode } from 'react';
 import { useDarkMode } from '../../contexts/DarkModeContext';
 
 interface BaseModalProps {
@@ -8,11 +8,19 @@ interface BaseModalProps {
   titleBarActions?: ReactNode;
   maxWidth?: string;
   footer?: ReactNode;
+  id?: string;
+  /** When true, moves focus into the dialog on mount and traps Tab within it */
+  manageFocus?: boolean;
+  /**
+   * 'themed' follows portfolio dark/light mode.
+   * 'xp' uses a fixed Windows XP system-dialog appearance (theme-isolated).
+   */
+  visualVariant?: 'themed' | 'xp';
 }
 
 /**
- * BaseModal - A reusable modal component with dark mode support
- * Handles common modal functionality: backdrop, escape key, scroll lock, dark mode styling
+ * BaseModal - reusable modal shell.
+ * Supports portfolio-themed dialogs or a fixed Windows XP system-dialog look.
  */
 const BaseModal: React.FC<BaseModalProps> = ({
   children,
@@ -21,8 +29,13 @@ const BaseModal: React.FC<BaseModalProps> = ({
   titleBarActions,
   maxWidth = 'max-w-2xl',
   footer,
+  id,
+  manageFocus = false,
+  visualVariant = 'themed',
 }) => {
   const { isDarkMode } = useDarkMode();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const isXp = visualVariant === 'xp';
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -40,52 +53,119 @@ const BaseModal: React.FC<BaseModalProps> = ({
     };
   }, [onClose]);
 
+  // Optional focus management: initial focus + basic Tab trap
+  useEffect(() => {
+    if (!manageFocus) return;
+
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const getFocusable = () =>
+      Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => !el.hasAttribute('disabled') && el.offsetParent !== null);
+
+    const focusable = getFocusable();
+    if (focusable.length > 0) {
+      focusable[0].focus();
+    } else {
+      dialog.focus();
+    }
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      const items = getFocusable();
+      if (items.length === 0) return;
+
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    dialog.addEventListener('keydown', handleTab);
+    return () => dialog.removeEventListener('keydown', handleTab);
+  }, [manageFocus]);
+
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
 
+  const shellClass = isXp
+    ? `xp-shell modal-window--compact w-full ${maxWidth} animate-modalAppear motion-reduce:animate-none`
+    : `modal-window--compact w-full ${maxWidth} ${
+        isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'
+      } rounded-md shadow-md border border-gray-400 dark:border-gray-600 animate-modalAppear motion-reduce:animate-none`;
+
+  const titleBarClass = isXp
+    ? 'xp-titlebar modal-window__chrome font-bold px-4 py-2 flex items-center justify-between select-none'
+    : `${
+        isDarkMode
+          ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]'
+          : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'
+      } modal-window__chrome text-white font-bold px-4 py-2 flex items-center justify-between select-none`;
+
+  const bodyClass = isXp
+    ? 'xp-body modal-window__body p-4 sm:p-6'
+    : `modal-window__body p-4 sm:p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`;
+
+  const footerClass = isXp
+    ? 'xp-footer modal-window__footer px-4 py-3 flex items-center justify-between'
+    : `modal-window__footer border-t border-gray-300 dark:border-gray-600 px-4 py-3 flex items-center justify-between ${
+        isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
+      }`;
+
+  const closeClass = isXp
+    ? 'xp-close min-w-[28px] min-h-[28px] w-7 h-7 flex items-center justify-center text-xs font-bold transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]'
+    : 'bg-red-600 hover:bg-red-700 text-white min-w-[28px] min-h-[28px] w-7 h-7 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]';
+
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
+      className={`modal-overlay z-[70] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none${isXp ? ' xp-window' : ''}`}
       onClick={handleBackdropClick}
-      style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
+      style={isXp ? undefined : { fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
+      id={id}
+      ref={dialogRef}
+      tabIndex={-1}
     >
       <div 
-        className={`w-full ${maxWidth} mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear flex flex-col ${
-          footer ? '' : 'max-h-[calc(90vh-2rem)]'
-        }`}
+        className={shellClass}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Windows XP-style title bar - adapts to dark mode */}
-        <div 
-          className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between select-none`}
-        >
-          <span id="modal-title" className="text-sm">{title}</span>
+        <div className={titleBarClass}>
+          <span id="modal-title" className={`text-sm${isXp ? ' xp-titlebar-text' : ''}`}>{title}</span>
           <div className="flex items-center gap-2">
             {titleBarActions}
             <button
+              type="button"
               onClick={onClose}
-              className="bg-red-600 hover:bg-red-700 text-white w-6 h-6 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors"
-              aria-label={`Close ${title} modal`}
+              className={closeClass}
+              aria-label={`Close ${title}`}
             >
               <span aria-hidden="true">✕</span>
             </button>
           </div>
         </div>
 
-        {/* Modal content */}
-        <div className={`flex-1 overflow-auto p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
+        <div className={bodyClass}>
           {children}
         </div>
 
-        {/* Optional footer */}
         {footer && (
-          <div className={`border-t border-gray-300 dark:border-gray-600 px-4 py-3 flex items-center justify-between ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
+          <div className={footerClass}>
             {footer}
           </div>
         )}
@@ -95,4 +175,3 @@ const BaseModal: React.FC<BaseModalProps> = ({
 };
 
 export default BaseModal;
-

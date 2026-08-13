@@ -1,35 +1,69 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type MouseEvent } from 'react';
 import Sidebar from './components/Sidebar';
 import AboutMe from './components/AboutMe';
 import Education from './components/Education';
 import CaseStudiesGrid from './components/CaseStudiesGrid';
 import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
-import AccessibilityButton from './components/AccessibilityButton';
 import ResumeModal from './components/ResumeModal';
-import ShareProfileModal from './components/ShareProfileModal';
-import LegacyProfileModal from './components/LegacyProfileModal';
-import JumpToTop from './components/JumpToTop';
+import AimContactModal from './components/AimContactModal';
+import ScheduleCallModal from './components/ScheduleCallModal';
+import ShareProfileModal, { tryNativeShare } from './components/ShareProfileModal';
+import InternetExplorerWindow from './components/InternetExplorerWindow';
+import MyNetworkPlacesWindow from './components/MyNetworkPlacesWindow';
+import AddToNetworkModal from './components/AddToNetworkModal';
+import SaveContactModal from './components/SaveContactModal';
+import XpAlertDialog from './components/shared/XpAlertDialog';
+import RatingModal from './components/RatingModal';
+import ThemePicker from './components/ThemePicker';
+import LayoutBuilderModal from './components/LayoutBuilderModal';
+import ProfileEffects from './components/ProfileEffects';
+import FloatingUtilityControls from './components/FloatingUtilityControls';
+import JessicasCustomLayout from './components/JessicasCustomLayout';
 import { DarkModeProvider, useDarkMode } from './contexts/DarkModeContext';
+import { ProfileThemeProvider, useProfileTheme } from './contexts/ProfileThemeContext';
+import { OsWindowProvider, useOsWindow } from './contexts/OsWindowContext';
+import { useLastLoginLabel } from './hooks/useLastLoginLabel';
+import { formatProfileViews, useProfileViews } from './hooks/useProfileViews';
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL } from './constants/contact';
+import { PROFILE_URL } from './constants/urls';
+import { SKILL_CATEGORIES } from './data/skills';
 import profilePic from './assets/8bitme.png';
 import './App.css';
 
 function AppContent() {
-  // Initialize layout mode from localStorage, default to 'default'
-  const [layoutMode, setLayoutMode] = useState<'default' | 'custom'>(() => {
-    const saved = localStorage.getItem('layoutMode');
-    return (saved === 'default' || saved === 'custom') ? saved : 'default';
-  });
-  
-  const isMyspaceMode = layoutMode === 'custom';
+  const {
+    isMyspaceMode,
+    isVisitorThemeActive,
+    isDivLayout,
+    effectiveVisitorValues,
+    active,
+  } = useProfileTheme();
   
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
-  const [showResumeModal, setShowResumeModal] = useState<boolean>(false);
-  const [showShareModal, setShowShareModal] = useState<boolean>(false);
-  const [showLegacyModal, setShowLegacyModal] = useState<boolean>(false);
+  const { open, close, isOpen } = useOsWindow();
   const { isDarkMode } = useDarkMode();
+
+  const handleShareClick = async () => {
+    const url = typeof window !== 'undefined' ? window.location.href : PROFILE_URL;
+    const result = await tryNativeShare(url);
+    if (result === 'shared' || result === 'aborted') return;
+    open('share');
+  };
+
+  // Body class for authored layout toggle styling (legacy CSS hooks)
+  useEffect(() => {
+    document.body.classList.remove('default-layout', 'custom-layout', 'visitor-layout-body');
+    if (isVisitorThemeActive) {
+      document.body.classList.add('visitor-layout-body');
+    } else if (active.kind === 'authored' && active.id === 'jessicas-custom') {
+      document.body.classList.add('custom-layout');
+    } else {
+      document.body.classList.add('default-layout');
+    }
+  }, [active, isVisitorThemeActive]);
 
   // Helper function to get border classes - consistent with MySpaceTable and MySpaceContainer
   const getBorderClasses = () => {
@@ -38,18 +72,9 @@ function AppContent() {
     return 'border-blue-500 dark:border-blue-400';
   };
 
-  const [lastDeployed, setLastDeployed] = useState<string>('');
   const searchInputRef = useRef<HTMLInputElement>(null);
-
-  // Apply body class based on layout mode
-  useEffect(() => {
-    document.body.classList.remove('default-layout', 'custom-layout');
-    document.body.classList.add(`${layoutMode}-layout`);
-    
-    // Save to localStorage
-    localStorage.setItem('layoutMode', layoutMode);
-  }, [layoutMode]);
-
+  const lastLogin = useLastLoginLabel();
+  const profileViews = useProfileViews();
 
   // Check if user wants to force desktop view
   useEffect(() => {
@@ -59,43 +84,11 @@ function AppContent() {
     }
   }, []);
 
-  // Calculate last deployed time
-  useEffect(() => {
-    const formatTimeAgo = (deployTime: Date) => {
-      const now = new Date();
-      const diffInMs = now.getTime() - deployTime.getTime();
-      const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
-      const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-      const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-      
-      if (diffInMinutes < 1) {
-        return 'just now';
-      } else if (diffInMinutes < 60) {
-        return `${diffInMinutes}m ago`;
-      } else if (diffInHours < 24) {
-        return `${diffInHours}h ago`;
-      } else if (diffInDays < 7) {
-        return `${diffInDays}d ago`;
-      } else {
-        return deployTime.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      }
-    };
-
-    // Use document.lastModified for build time, fallback to now if not available
-    const deployTime = document.lastModified ? new Date(document.lastModified) : new Date();
-    setLastDeployed(formatTimeAgo(deployTime));
-  }, []);
-
-  const toggleLayoutMode = () => {
-    setLayoutMode(prev => prev === 'default' ? 'custom' : 'default');
-  };
-
   // Search data - all searchable content
   const searchData = [
     { category: 'Case Study', title: 'Secure Analytics Integration', keywords: 'Docker Superset AWS PostgreSQL data visualization bridge analytics dashboard' },
-    { category: 'Case Study', title: 'Hardened Container Pipeline', keywords: 'Docker GitLab CI/CD AWS ECS security containers hardened images' },
     { category: 'Case Study', title: 'Centralized Log Ingestion', keywords: 'Fluent Bit OpenSearch CloudWatch observability error detection analytics' },
-    { category: 'Case Study', title: 'Secure Application Framework', keywords: 'Docker Redis PostgreSQL CI/CD configuration management Moodle' },
+    { category: 'Case Study', title: 'Integrated Support Workflow', keywords: 'support workflow plugin Moodle REST APIs PHP JavaScript tickets comments attachments learning platform' },
     { category: 'Case Study', title: 'Homelab / Self-Hosted Infrastructure', keywords: 'homelab Docker Linux Traefik Jellyfin Portainer self-hosting' },
     { category: 'Case Study', title: 'Finity — Roku / Jellyfin Client', keywords: 'Finity Roku BrightScript SceneGraph Jellyfin streaming client' },
     { category: 'Education', title: 'CompTIA Security+ Certification', keywords: 'Security CompTIA certification active' },
@@ -103,12 +96,13 @@ function AppContent() {
     { category: 'Education', title: 'Full Stack Boot Camp', keywords: 'University Texas San Antonio React Node.js MongoDB MySQL AWS' },
     { category: 'Education', title: 'MBA Technology Management', keywords: 'MBA Magna Cum Laude Texas A&M management cloud economics agile' },
     { category: 'Skill', title: 'PHP Python JavaScript TypeScript', keywords: 'PHP Python JavaScript TypeScript SQL REST APIs Git development' },
-    { category: 'Skill', title: 'Docker AWS ECS', keywords: 'Docker containerization AWS ECS ECR cloud deployment CI/CD' },
-    { category: 'Skill', title: 'GitLab CI/CD Linux', keywords: 'GitLab CI/CD Docker Compose Linux DevOps pipelines' },
-    { category: 'Skill', title: 'Moodle Apache Superset Keycloak', keywords: 'Moodle Superset Keycloak HAProxy Solr platforms' },
+    { category: 'Skill', title: 'AWS ECS ECR RDS CloudWatch', keywords: 'AWS ECS ECR RDS Aurora EFS ElastiCache CloudWatch cloud infrastructure' },
+    { category: 'Skill', title: 'Docker GitLab CI/CD Linux', keywords: 'Docker Docker Compose GitLab CI/CD Linux containers DevOps' },
+    { category: 'Skill', title: 'Moodle Rustici Apache Superset', keywords: 'Moodle Rustici Content Controller Apache Superset web apps' },
+    { category: 'Skill', title: 'Keycloak HAProxy Solr Nginx', keywords: 'Apache HTTP Server Nginx HAProxy Keycloak Solr identity search' },
+    { category: 'Skill', title: 'PostgreSQL MySQL Redis', keywords: 'PostgreSQL MySQL Redis data databases caching' },
+    { category: 'Skill', title: 'React Tailwind Frontend', keywords: 'React Tailwind HTML5 CSS3 frontend' },
     { category: 'Skill', title: 'Technical Leadership Architecture', keywords: 'technical leadership architecture code review troubleshooting releases' },
-    { category: 'Cloud', title: 'AWS ECS ECR RDS CloudWatch', keywords: 'AWS cloud infrastructure ECS ECR RDS Aurora Redis ElastiCache EFS CloudWatch' },
-    { category: 'Tech Stack', title: 'React TypeScript Vite Tailwind', keywords: 'React TypeScript Vite Tailwind CSS frontend development build tools npm GitHub Pages' },
   ];
 
   // Search functionality
@@ -133,13 +127,28 @@ function AppContent() {
     }
   }, [searchQuery]);
 
-  // Get theme classes
+  // Get theme classes — authored Default / Jessica's Custom stay as before; visitor uses token layer
   const getThemeClasses = () => {
+    if (isVisitorThemeActive) {
+      return 'min-h-screen visitor-layout';
+    }
     if (isMyspaceMode) {
       return `min-h-screen myspace-mode ${isDarkMode ? 'dark' : ''}`;
     }
     return 'min-h-screen bg-gray-200 dark:bg-gray-900 default-mode';
   };
+
+  const chromeGradient = isVisitorThemeActive
+    ? 'visitor-chrome'
+    : isMyspaceMode
+      ? 'bg-gradient-to-r from-pink-500 to-purple-500 dark:from-purple-700 dark:to-pink-700'
+      : 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-slate-800 dark:to-slate-900';
+
+  const navGradient = isVisitorThemeActive
+    ? 'visitor-chrome'
+    : isMyspaceMode
+      ? 'bg-gradient-to-r from-pink-400 to-purple-400 dark:from-purple-600 dark:to-pink-600'
+      : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800';
 
   // Navigation items - same for both modes
   const navigationItems = [
@@ -152,69 +161,31 @@ function AppContent() {
     { label: 'About', href: '#about', scrollToId: 'about' }
   ];
 
-  // Scroll to section handler
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: typeof navigationItems[0]) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (item.isModal) {
-      // Handle Resume modal
-      setShowResumeModal(true);
-      return;
-    }
-    
-    if (!item.scrollToId) {
-      // Scroll to top for Home
+  const scrollToSectionId = (scrollToId: string) => {
+    if (!scrollToId) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-    
-    // Calculate navbar height dynamically
+
     const getNavbarHeight = () => {
-      // Find the header and navigation elements using data attributes
       const header = document.querySelector('[data-navbar="header"]');
       const navContainer = document.querySelector('[data-navbar="navigation"]');
-      
       let totalHeight = 0;
-      if (header) {
-        const headerRect = header.getBoundingClientRect();
-        totalHeight += headerRect.height;
-      }
-      if (navContainer) {
-        const navRect = navContainer.getBoundingClientRect();
-        totalHeight += navRect.height;
-      }
-      
-      // Add some padding for better spacing
-      return totalHeight + 20; // 20px extra padding
+      if (header) totalHeight += header.getBoundingClientRect().height;
+      if (navContainer) totalHeight += navContainer.getBoundingClientRect().height;
+      return totalHeight + 20;
     };
-    
-    // Function to find visible element (not in hidden container)
+
     const findVisibleElement = (id: string): HTMLElement | null => {
-      // Get all elements with this ID (there shouldn't be duplicates, but handle it)
       const elements = document.querySelectorAll(`#${id}`);
-      
-      // Find the first visible element
       for (const element of Array.from(elements)) {
         const el = element as HTMLElement;
-        
-        // Check if element is actually visible using getBoundingClientRect
-        // This is more reliable than checking classes, especially with responsive classes like "hidden md:flex"
         const rect = el.getBoundingClientRect();
         const style = window.getComputedStyle(el);
-        
-        // Element must have actual dimensions and not be display:none
         if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
           continue;
         }
-        
-        // Element must have visible dimensions
-        if (rect.width === 0 && rect.height === 0) {
-          continue;
-        }
-        
-        // Element must be in the viewport or document (not hidden by parent)
-        // Check if any parent has display:none or visibility:hidden
+        if (rect.width === 0 && rect.height === 0) continue;
         let parent = el.parentElement;
         let isHiddenByParent = false;
         while (parent && parent !== document.body && parent !== document.documentElement) {
@@ -225,66 +196,44 @@ function AppContent() {
           }
           parent = parent.parentElement;
         }
-        
-        if (!isHiddenByParent) {
-          return el;
-        }
+        if (!isHiddenByParent) return el;
       }
-      
       return null;
     };
-    
-    // Use requestAnimationFrame for better timing, with a small delay to ensure DOM is ready
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        const element = findVisibleElement(item.scrollToId);
-        if (element) {
-          // Get the element's position relative to the document
-          // Use offsetTop as fallback if getBoundingClientRect seems off
-          const rect = element.getBoundingClientRect();
-          const elementTop = rect.top + window.pageYOffset;
-          
-          // Fallback: if getBoundingClientRect returns 0, try offsetTop
-          let scrollTarget = elementTop;
-          if (elementTop === 0 && element.offsetTop > 0) {
-            scrollTarget = element.offsetTop;
-          }
-          
-          const navbarHeight = getNavbarHeight();
-          
-          // Calculate the target scroll position
-          const targetScroll = scrollTarget - navbarHeight;
-          
-          window.scrollTo({
-            top: Math.max(0, targetScroll), // Ensure we don't scroll to negative values
-            behavior: 'smooth'
-          });
-        } else {
-          // Fallback: try to find element without visibility check (desktop might have different structure)
-          const fallbackElement = document.getElementById(item.scrollToId);
-          if (fallbackElement) {
-            const rect = fallbackElement.getBoundingClientRect();
-            const elementTop = rect.top + window.pageYOffset;
-            const navbarHeight = getNavbarHeight();
-            const targetScroll = elementTop - navbarHeight;
-            
-            window.scrollTo({
-              top: Math.max(0, targetScroll),
-              behavior: 'smooth'
-            });
-          }
-        }
+        const element = findVisibleElement(scrollToId) || document.getElementById(scrollToId);
+        if (!element) return;
+        const rect = element.getBoundingClientRect();
+        let scrollTarget = rect.top + window.pageYOffset;
+        if (scrollTarget === 0 && element.offsetTop > 0) scrollTarget = element.offsetTop;
+        window.scrollTo({
+          top: Math.max(0, scrollTarget - getNavbarHeight()),
+          behavior: 'smooth',
+        });
       });
     });
   };
 
+  // Scroll to section handler
+  const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, item: typeof navigationItems[0]) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (item.isModal) {
+      open('resume');
+      return;
+    }
+    
+    scrollToSectionId(item.scrollToId);
+  };
+
   return (
-    <div className={getThemeClasses()}>
+    <div id="profile-theme-root" className={getThemeClasses()}>
+    <ProfileEffects />
     {/* Professional Portfolio Header */}
-    <div className={`text-white py-2 sm:py-3 px-2 sm:px-4 ${isMyspaceMode 
-      ? 'bg-gradient-to-r from-pink-500 to-purple-500 dark:from-purple-700 dark:to-pink-700' 
-      : 'bg-gradient-to-r from-blue-600 to-blue-700 dark:from-slate-800 dark:to-slate-900'
-    }`} data-navbar="header">
+    <div className={`text-white py-2 sm:py-3 px-2 sm:px-4 ${chromeGradient}`} data-navbar="header">
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
         <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
           <h1 className="text-lg sm:text-xl md:text-2xl font-bold">MyPortfolio</h1>
@@ -431,7 +380,7 @@ function AppContent() {
             )}
           </div>
           <a 
-            href="mailto:calderonjessica13@yahoo.com" 
+            href={`mailto:${CONTACT_EMAIL}`}
             className="hidden md:flex items-center gap-1 text-sm hover:text-pink-200 dark:hover:text-pink-300 transition-colors duration-200 whitespace-nowrap"
             aria-label="Get help via email"
           >
@@ -442,27 +391,14 @@ function AppContent() {
           </a>
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-          <button
-            onClick={toggleLayoutMode}
-            title="Switch between Default and Custom MySpace layouts"
-            className="layout-toggle flex items-center justify-center px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 hover:from-blue-600 hover:to-blue-700 dark:hover:from-blue-700 dark:hover:to-blue-800 text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 shadow-md hover:shadow-lg"
-            aria-label={`Switch to ${layoutMode === 'custom' ? 'default' : 'custom'} layout`}
-            aria-pressed={layoutMode === 'custom'}
-          >
-            <span className="mr-1" aria-hidden="true">🪄</span>
-            <span className="hidden sm:inline">{layoutMode === 'custom' ? 'Default Layout' : 'Custom Layout'}</span>
-            <span className="sm:hidden">{layoutMode === 'custom' ? 'Default' : 'Custom'}</span>
-          </button>
-          <DarkModeToggle />
+          <ThemePicker />
+          {!isVisitorThemeActive && <DarkModeToggle />}
         </div>
       </div>
     </div>
 
     {/* Navigation */}
-    <div className={`text-white py-2 px-4 ${isMyspaceMode 
-      ? 'bg-gradient-to-r from-pink-400 to-purple-400 dark:from-purple-600 dark:to-pink-600' 
-      : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800'
-    }`} data-navbar="navigation">
+    <div className={`text-white py-2 px-4 ${navGradient}`} data-navbar="navigation">
       <div className="max-w-6xl mx-auto">
         <nav role="navigation" aria-label="Main navigation" className="flex flex-wrap items-center justify-center sm:justify-start space-x-4 sm:space-x-6 text-sm">
           {navigationItems.map((item, index) => (
@@ -498,6 +434,27 @@ function AppContent() {
 
     {/* Main Content */}
     <div className="max-w-6xl mx-auto p-2 sm:p-2">
+      {isDivLayout ? (
+        <JessicasCustomLayout
+          searchQuery={searchQuery}
+          authored={isMyspaceMode}
+          layoutTemplate={
+            isMyspaceMode
+              ? 'full-div'
+              : effectiveVisitorValues?.layoutTemplate ?? 'full-div'
+          }
+          navPlacement={
+            isMyspaceMode ? 'top' : effectiveVisitorValues?.navPlacement ?? 'top'
+          }
+          sectionEmphasis={
+            isMyspaceMode
+              ? 'feature-first'
+              : effectiveVisitorValues?.sectionEmphasis ?? 'feature-first'
+          }
+          onNavScroll={scrollToSectionId}
+        />
+      ) : (
+      <>
       {/* Desktop Layout: Sidebar + Main Content */}
       <div className={`${forceDesktopView ? 'flex' : 'hidden md:flex'} flex-row gap-2`}>
         {/* Left Sidebar */}
@@ -515,7 +472,7 @@ function AppContent() {
               'border-blue-500 dark:border-blue-400'
             }`}
           >
-            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is in your extended professional network.</h2>
           </div>
           <div id="about"><Education searchQuery={searchQuery} isMyspaceMode={isMyspaceMode} /></div>
           <AboutMe isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
@@ -541,28 +498,36 @@ function AppContent() {
                 title="Click for a surprise! 🦖"
                 role="button"
                 tabIndex={0}
-                onClick={() => setShowLegacyModal(true)}
+                onClick={() => open('legacyIe')}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    setShowLegacyModal(true);
+                    open('legacyIe');
                   }
                 }}
                 aria-label="View legacy profile (click for a surprise)"
               />
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-black dark:text-white">"Currently coding... (and occasionally breaking things)"</p>
                 <p className="text-xs text-black dark:text-white">She/Her</p>
                 <p className="text-xs text-black dark:text-white">San Antonio, TEXAS</p>
                 <p className="text-xs text-black dark:text-white">United States</p>
-                <p className="text-xs text-black dark:text-white mt-2">Last Updated: {lastDeployed || '...'}</p>
-                <p className="text-xs text-black dark:text-white">Status: Building & leading</p>
+                <p className="text-xs text-black dark:text-white mt-2">
+                  Status: Currently coding... (and occasionally breaking things)
+                </p>
+                <p className="text-xs text-black dark:text-white">Last Login: {lastLogin || '...'}</p>
+                {profileViews !== null && (
+                  <p className="text-xs text-black dark:text-white">
+                    Profile Views: {formatProfileViews(profileViews)}
+                  </p>
+                )}
                 <div className="mt-2">
                   <span className="text-xs text-black dark:text-white">View My: </span>
                   <button 
-                    onClick={() => setShowLegacyModal(true)} 
+                    type="button"
+                    onClick={() => open('legacyIe')} 
                     className="text-xs text-blue-600 dark:text-blue-400 hover:underline break-words"
                     aria-label="View legacy profile"
+                    aria-haspopup="dialog"
                   >
                     Legacy Profile
                   </button>
@@ -572,7 +537,7 @@ function AppContent() {
           </div>
         </div>
         
-        {/* Professional Contact Banner - order 2 */}
+        {/* Extended network banner - order 2 */}
         <div className="mobile-order-2">
           <div 
             className={`bg-white dark:bg-gray-800 border-2 spacing-standard ${
@@ -581,7 +546,7 @@ function AppContent() {
               'border-blue-500 dark:border-blue-400'
             }`}
           >
-            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is your Professional Contact.</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white text-center">Jessica Calderon is in your extended professional network.</h2>
           </div>
         </div>
         
@@ -592,52 +557,60 @@ function AppContent() {
           >
             <h3 className="font-bold text-black dark:text-white text-sm mb-3">Contacting Jessica</h3>
             <div className="grid grid-cols-2 gap-2">
-              <a 
-                href="mailto:calderonjessica13@yahoo.com" 
+              <button
+                type="button"
+                onClick={() => open('aim')}
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Send email message to Jessica Calderon"
+                aria-label="Send message to Jessica Calderon"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">✉️</span> Send Message
-              </a>
-              <a 
-                href="https://linkedin.com/in/Jessica-Calderon-00" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              </button>
+              <button
+                type="button"
+                onClick={() => open('addNetwork')}
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Connect on LinkedIn (opens in new tab)"
+                aria-label="Add Jessica to professional network"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">👥</span> Connect
-              </a>
+              </button>
               <button 
-                onClick={() => window.open('https://cal.com/jessica-calderon')} 
+                type="button"
+                onClick={() => open('scheduleCall')} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Schedule a call via Cal.com"
+                aria-label="Schedule a call"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">💬</span> Schedule Call
               </button>
               <button 
-                onClick={() => setShowResumeModal(true)} 
+                type="button"
+                onClick={() => open('resume')} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
                 aria-label="View resume"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">📄</span> View Resume
               </button>
               <button 
-                onClick={() => setShowShareModal(true)} 
+                type="button"
+                onClick={handleShareClick} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
                 aria-label="Share profile"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">↗️</span> Share Profile
               </button>
-              <a 
-                href="https://github.com/jessica-calderon" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <button
+                type="button"
+                onClick={() => open('saveContact')}
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="View GitHub profile (opens in new tab)"
+                aria-label="Save contact as vCard"
+                aria-haspopup="dialog"
               >
-                <span className="mr-1" aria-hidden="true">⭐</span> Add to Favorites
-              </a>
+                <span className="mr-1" aria-hidden="true">📇</span> Save Contact
+              </button>
             </div>
           </div>
         </div>
@@ -675,11 +648,11 @@ function AppContent() {
               <tbody>
                 <tr>
                   <td>GitHub:</td>
-                  <td><a href="https://github.com/jessica-calderon" target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile (opens in new tab)">github.com/jessica-calderon</a></td>
+                  <td><a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile (opens in new tab)">github.com/jessica-calderon</a></td>
                 </tr>
                 <tr>
                   <td>LinkedIn:</td>
-                  <td><a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" aria-label="View LinkedIn profile (opens in new tab)">linkedin.com/in/Jessica-Calderon-00</a></td>
+                  <td><a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" aria-label="View LinkedIn profile (opens in new tab)">linkedin.com/in/Jessica-Calderon-00</a></td>
                 </tr>
                 <tr>
                   <td>Portfolio:</td>
@@ -735,90 +708,19 @@ function AppContent() {
 
                 return (
                   <>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Development:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        PHP, Python, JavaScript, TypeScript, SQL, REST APIs, Git
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Cloud / Infra:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        AWS, ECS, ECR, RDS / Aurora, Redis / ElastiCache, EFS, CloudWatch
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Containers / DevOps:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        Docker, Docker Compose, GitLab CI/CD, Linux, CI/CD pipelines
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Platforms:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        Moodle, Apache Superset, Keycloak, HAProxy, Solr
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Frontend:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        React, TypeScript, Tailwind, HTML5, CSS3
-                      </td>
-                    </tr>
-                    <tr>
-                      <td 
-                        className="whitespace-nowrap custom-font font-bold" 
-                        style={{ color: labelColor }}
-                      >
-                        Engineering:
-                      </td>
-                      <td 
-                        className="custom-font" 
-                        style={{ color: valueColor }}
-                      >
-                        Technical Leadership, Architecture, Code Review, Production Troubleshooting, Vulnerability Remediation, Release Management
-                      </td>
-                    </tr>
+                    {SKILL_CATEGORIES.map((cat) => (
+                      <tr key={cat.label}>
+                        <td
+                          className="whitespace-nowrap custom-font font-bold"
+                          style={{ color: labelColor }}
+                        >
+                          {cat.label}:
+                        </td>
+                        <td className="custom-font" style={{ color: valueColor }}>
+                          {cat.value}
+                        </td>
+                      </tr>
+                    ))}
                   </>
                 );
               })()}
@@ -837,66 +739,71 @@ function AppContent() {
           <LearningWall isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} />
         </div>
       </div>
+      </>
+      )}
     </div>
     
-    {/* Footer */}
-    <div className={`text-white py-4 px-4 mt-2 sm:mt-8 ${isMyspaceMode 
+    {/* Footer — early-2000s profile-site style */}
+    <div className={`text-white py-5 px-4 mt-2 sm:mt-8 ${isMyspaceMode 
       ? 'bg-gradient-to-r from-pink-400 to-purple-400 dark:from-purple-600 dark:to-pink-600' 
       : 'bg-gradient-to-r from-blue-500 to-blue-600 dark:from-slate-700 dark:to-slate-800'
     }`}>
-      <div className="max-w-6xl mx-auto">
-        {/* Sitemap / Navigation Links */}
-        <div className="mb-3">
-          <p className="text-xs font-semibold mb-2 text-center sm:text-left">Sitemap</p>
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3 text-xs">
-            {navigationItems.map((item, index) => (
-              <a 
-                key={index} 
-                href={item.href} 
-                onClick={(e) => handleNavClick(e, item)}
-                className={`transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} cursor-pointer`}
-                aria-label={item.label === 'Home' ? 'Navigate to top of page' : `Navigate to ${item.label} section`}
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
-        </div>
-        
-        {/* Copyright and Attribution */}
-        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between text-xs sm:text-sm gap-2 pt-2 border-t border-white/20">
-          <p className="text-center sm:text-left">
-            Built, designed & created by <a 
-              href="https://github.com/jessica-calderon" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className={`underline transition-colors duration-200 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'}`}
-              aria-label="View Jessica Calderon's GitHub profile (opens in new tab)"
-            >
-              Jessica Calderon
-            </a>
-          </p>
-          <p className="text-center sm:text-right opacity-75">
-            © {new Date().getFullYear()}
-          </p>
-        </div>
+      <div className="max-w-6xl mx-auto text-center text-xs leading-relaxed">
+        <p className="mb-2 opacity-95">
+          © 2003–{new Date().getFullYear()} MyPortfolio. All Rights Reserved.
+        </p>
+        <p className="mb-2 opacity-90" aria-hidden="true">
+          About&nbsp;|&nbsp;FAQ&nbsp;|&nbsp;Terms&nbsp;|&nbsp;Privacy&nbsp;|&nbsp;Safety&nbsp;|&nbsp;Contact
+        </p>
+        <p className="mb-1 opacity-80">
+          Powered by questionable CSS decisions.
+        </p>
+        <p className="opacity-75">
+          Best viewed on the Internet™
+        </p>
+        <p className="mt-3 opacity-70">
+          Built, designed & created by{' '}
+          <a
+            href="https://github.com/jessica-calderon"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`underline transition-colors duration-200 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'}`}
+            aria-label="View Jessica Calderon's GitHub profile (opens in new tab)"
+          >
+            Jessica Calderon
+          </a>
+        </p>
       </div>
     </div>
     
-    {/* Resume Modal */}
-    {showResumeModal && <ResumeModal onClose={() => setShowResumeModal(false)} />}
+    {/* Major OS-style windows — one at a time via OsWindowContext */}
+    {isOpen('aim') && <AimContactModal onClose={close} />}
+    {isOpen('scheduleCall') && <ScheduleCallModal onClose={close} />}
+    {isOpen('addNetwork') && <AddToNetworkModal onClose={close} />}
+    {isOpen('saveContact') && <SaveContactModal onClose={close} />}
+    {isOpen('resume') && <ResumeModal onClose={close} />}
+    {isOpen('legacyIe') && <InternetExplorerWindow onClose={close} />}
+    {isOpen('networkPlaces') && <MyNetworkPlacesWindow onClose={close} />}
+    {isOpen('share') && (
+      <ShareProfileModal
+        onClose={close}
+        onCopied={() => open('clipboardAlert')}
+      />
+    )}
+    {isOpen('clipboardAlert') && (
+      <XpAlertDialog
+        title="MyPortfolio"
+        message="Profile link copied to Clipboard."
+        icon="📋"
+        onClose={close}
+      />
+    )}
+    {isOpen('rating') && <RatingModal onClose={close} />}
+
+    <LayoutBuilderModal />
     
-    {/* Share Profile Modal */}
-    {showShareModal && <ShareProfileModal onClose={() => setShowShareModal(false)} />}
-    
-    {/* Legacy Profile Modal */}
-    {showLegacyModal && <LegacyProfileModal onClose={() => setShowLegacyModal(false)} />}
-    
-    {/* Jump to Top Button */}
-    <JumpToTop isMyspaceMode={isMyspaceMode} />
-    
-    {/* Accessibility Button */}
-    <AccessibilityButton />
+    {/* Bottom-right utility cluster: Accessibility + Scroll to Top (Accessibility stays reachable above OS windows) */}
+    <FloatingUtilityControls isMyspaceMode={isMyspaceMode || isVisitorThemeActive} />
     
     </div>
   );
@@ -905,7 +812,11 @@ function AppContent() {
 function App() {
   return (
     <DarkModeProvider>
-      <AppContent />
+      <ProfileThemeProvider>
+        <OsWindowProvider>
+          <AppContent />
+        </OsWindowProvider>
+      </ProfileThemeProvider>
     </DarkModeProvider>
   );
 }

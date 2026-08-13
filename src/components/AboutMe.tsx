@@ -9,9 +9,11 @@ import StatsBadge from './shared/StatsBadge';
 interface AboutMeProps {
   isMyspaceMode: boolean;
   searchQuery: string;
+  /** Parent DIV layout provides section chrome. */
+  embedded?: boolean;
 }
 
-const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
+const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery, embedded = false }) => {
   const { isDarkMode } = useDarkMode();
   
   // Get header text color based on theme
@@ -60,7 +62,6 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
     { name: 'Automation', icon: '⚙️' },
     { name: 'Security', icon: '🔐' },
     { name: 'Jellyfin', icon: '🎬' },
-    { name: 'Roku Dev', icon: '📺' },
     { name: 'Open Source', icon: '💚' }
   ];
 
@@ -85,22 +86,18 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
 
   if (!shouldShow() && searchQuery) return null;
 
-  return (
-    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery}>
-      {/* Main Section Header with white separator line */}
-      <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
-        Jessica's Professional Profile
-      </ThemeAwareHeader>
-      
-      {/* Single clean bordered container - NO nested containers */}
-      <div>
-        {/* About Me Header - Theme adaptive */}
+  const aboutHeader = !embedded ? (
         <h4 className="font-bold custom-font" style={{ 
           fontSize: '13px',
           marginTop: '10px',
           marginBottom: '6px',
           color: headerColor
         }}>About Me</h4>
+  ) : null;
+
+  const body = (
+      <div className={embedded ? 'jdiv-about-body' : undefined}>
+        {aboutHeader}
         
         <p className="custom-font" style={{ 
           color: textColor,
@@ -212,7 +209,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         }}>
           <strong style={{ 
             color: isMyspaceMode && isDarkMode ? '#faf5ff' : isMyspaceMode && !isDarkMode ? '#831843' : isDarkMode ? '#d1d5db' : '#000000' 
-          }}>Development Tools:</strong> VS Code, Git, npm, GitHub Actions
+          }}>Development Tools:</strong> Cursor, VS Code, Git, npm, GitHub Actions
         </p>
         <p className="custom-font" style={{ 
           color: isMyspaceMode && isDarkMode ? '#e9d5ff' : isMyspaceMode && !isDarkMode ? '#9f1239' : isDarkMode ? '#9ca3af' : '#666666',
@@ -220,9 +217,19 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
         }}>
           <strong style={{ 
             color: isMyspaceMode && isDarkMode ? '#faf5ff' : isMyspaceMode && !isDarkMode ? '#831843' : isDarkMode ? '#d1d5db' : '#000000' 
-          }}>Features:</strong> WCAG Compliant, Responsive Design, Optimized Assets
+          }}>Features:</strong> Responsive Design, Optimized Assets
         </p>
       </div>
+  );
+
+  if (embedded) return body;
+
+  return (
+    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery}>
+      <ThemeAwareHeader isMyspaceMode={isMyspaceMode}>
+        Jessica&apos;s Professional Profile
+      </ThemeAwareHeader>
+      {body}
     </MySpaceContainer>
   );
 };

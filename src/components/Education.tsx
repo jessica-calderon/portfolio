@@ -7,9 +7,10 @@ import MySpaceContainer from './shared/MySpaceContainer';
 interface EducationProps {
   searchQuery: string;
   isMyspaceMode?: boolean;
+  embedded?: boolean;
 }
 
-const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = false }) => {
+const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = false, embedded = false }) => {
   const { isDarkMode } = useDarkMode();
   const [openItem, setOpenItem] = useState<string | null>(null);
 
@@ -56,15 +57,8 @@ const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = fals
 
   if (filteredItems.length === 0 && searchQuery) return null;
 
-  return (
-    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} id="education">
-      <h2 
-        className="font-bold custom-font text-xs sm:text-sm mb-2 sm:mb-3"
-        style={{ color: headerColor }}
-      >
-        Jessica's Certifications & Education
-      </h2>
-      <div className="mt-3">
+  const list = (
+      <div className="mt-1">
         {filteredItems.map((item) => (
           <ExpandableItem
             key={item.key}
@@ -78,6 +72,21 @@ const Education: React.FC<EducationProps> = ({ searchQuery, isMyspaceMode = fals
           />
         ))}
       </div>
+  );
+
+  if (embedded) {
+    return <div id="education">{list}</div>;
+  }
+
+  return (
+    <MySpaceContainer isMyspaceMode={isMyspaceMode} searchQuery={searchQuery} id="education">
+      <h2 
+        className="font-bold custom-font text-xs sm:text-sm mb-2 sm:mb-3"
+        style={{ color: headerColor }}
+      >
+        Jessica&apos;s Certifications & Education
+      </h2>
+      {list}
     </MySpaceContainer>
   );
 };

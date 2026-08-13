@@ -107,26 +107,31 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
+      className="modal-overlay z-50 bg-black bg-opacity-50 animate-fadeIn"
       onClick={handleBackdropClick}
       style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="customize-modal-title"
     >
       <div 
-        className={`w-full max-w-lg mx-4 ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 overflow-hidden animate-modalAppear`}
+        className={`modal-window--compact max-w-lg ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'} rounded-md shadow-md border border-gray-400 dark:border-gray-600 animate-modalAppear`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Windows XP-style title bar */}
-        <div className={`${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
-          <span className="text-sm">🎨 Customize Jessica's Profile</span>
+        <div className={`modal-window__chrome ${isDarkMode ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]' : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'} text-white font-bold px-4 py-2 flex items-center justify-between`}>
+          <span id="customize-modal-title" className="text-sm truncate pr-2">🎨 Customize Jessica's Profile</span>
           <button
+            type="button"
             onClick={onClose}
-            className="bg-red-600 hover:bg-red-700 text-white w-6 h-6 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors"
+            className="bg-red-600 hover:bg-red-700 text-white min-w-[28px] min-h-[28px] w-7 h-7 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors shrink-0"
+            aria-label="Close customize profile"
           >
             ✕
           </button>
         </div>
 
-        <div className={`p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
+        <div className={`modal-window__body p-4 sm:p-6 ${isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'}`}>
           <h3 className={`text-lg font-bold mb-4 text-center ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>Make it your own! 🎨</h3>
           
           {/* Theme Selection */}
