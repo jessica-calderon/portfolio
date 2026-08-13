@@ -203,18 +203,18 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
             </span>
             <span className="jdiv-contact-label">View Resume</span>
           </button>
-          <a
-            href="https://cal.com/jessica-calderon"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             className="jdiv-contact-action"
-            aria-label="Schedule a call via Cal.com (opens in new tab)"
+            onClick={() => open('scheduleCall')}
+            aria-label="Schedule a call"
+            aria-haspopup="dialog"
           >
             <span className="jdiv-contact-icon" aria-hidden="true">
               📅
             </span>
             <span className="jdiv-contact-label">Schedule Call</span>
-          </a>
+          </button>
           <a
             href="https://github.com/jessica-calderon"
             target="_blank"

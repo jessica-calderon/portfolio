@@ -35,6 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isMyspaceMode = false }) => {
         onFavoritesClick={() => open('favorites')}
         onRatingClick={() => open('rating')}
         onCustomizeClick={() => openBuilder('active')}
+        onScheduleClick={() => open('scheduleCall')}
       />
 
       <PortfolioUrl />

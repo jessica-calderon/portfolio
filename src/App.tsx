@@ -7,6 +7,7 @@ import LearningWall from './components/LearningWall';
 import DarkModeToggle from './components/DarkModeToggle';
 import ResumeModal from './components/ResumeModal';
 import AimContactModal from './components/AimContactModal';
+import ScheduleCallModal from './components/ScheduleCallModal';
 import ShareProfileModal, { tryNativeShare } from './components/ShareProfileModal';
 import InternetExplorerWindow from './components/InternetExplorerWindow';
 import MyNetworkPlacesWindow from './components/MyNetworkPlacesWindow';
@@ -582,9 +583,10 @@ function AppContent() {
               </a>
               <button 
                 type="button"
-                onClick={() => window.open('https://cal.com/jessica-calderon', '_blank', 'noopener,noreferrer')} 
+                onClick={() => open('scheduleCall')} 
                 className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
-                aria-label="Schedule a call via Cal.com"
+                aria-label="Schedule a call"
+                aria-haspopup="dialog"
               >
                 <span className="mr-1" aria-hidden="true">💬</span> Schedule Call
               </button>
@@ -782,6 +784,7 @@ function AppContent() {
     
     {/* Major OS-style windows — one at a time via OsWindowContext */}
     {isOpen('aim') && <AimContactModal onClose={close} />}
+    {isOpen('scheduleCall') && <ScheduleCallModal onClose={close} />}
     {isOpen('resume') && <ResumeModal onClose={close} />}
     {isOpen('legacyIe') && <InternetExplorerWindow onClose={close} />}
     {isOpen('networkPlaces') && <MyNetworkPlacesWindow onClose={close} />}

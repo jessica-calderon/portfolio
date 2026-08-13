@@ -8,6 +8,7 @@ interface ContactSectionProps {
   onFavoritesClick: () => void;
   onRatingClick: () => void;
   onCustomizeClick: () => void;
+  onScheduleClick: () => void;
 }
 
 const ContactSection: React.FC<ContactSectionProps> = ({
@@ -17,6 +18,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({
   onFavoritesClick,
   onRatingClick,
   onCustomizeClick,
+  onScheduleClick,
 }) => {
   const [favorited, setFavorited] = useState(readFavorited);
 
@@ -46,9 +48,15 @@ const ContactSection: React.FC<ContactSectionProps> = ({
         <a href="https://linkedin.com/in/Jessica-Calderon-00" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="Connect on LinkedIn (opens in new tab)">
           <span className="mr-1" aria-hidden="true">👥</span> Connect
         </a>
-        <a href="https://cal.com/jessica-calderon" target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="Schedule a call via Cal.com (opens in new tab)">
+        <button
+          type="button"
+          onClick={onScheduleClick}
+          className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center"
+          aria-label="Schedule a call"
+          aria-haspopup="dialog"
+        >
           <span className="mr-1" aria-hidden="true">💬</span> Schedule Call
-        </a>
+        </button>
         <button type="button" onClick={onResumeClick} className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center" aria-label="View resume" aria-haspopup="dialog">
           <span className="mr-1" aria-hidden="true">📄</span> View Resume
         </button>

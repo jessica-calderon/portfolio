@@ -13,7 +13,8 @@ export type MajorOsWindow =
   | 'favorites'
   | 'share'
   | 'clipboardAlert'
-  | 'rating';
+  | 'rating'
+  | 'scheduleCall';
 
 interface OsWindowContextValue {
   active: MajorOsWindow;
