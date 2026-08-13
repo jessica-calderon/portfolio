@@ -153,9 +153,8 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery }) => {
 
         <MusicPlayer
           headerColor={headerColor}
-          textColor={textColor}
-          mutedColor={isMyspaceMode && isDarkMode ? '#e9d5ff' : isMyspaceMode && !isDarkMode ? '#9f1239' : isDarkMode ? '#9ca3af' : '#666666'}
-          borderColor={isMyspaceMode && isDarkMode ? '#a855f7' : isMyspaceMode && !isDarkMode ? '#ec4899' : isDarkMode ? '#60a5fa' : '#3b82f6'}
+          isMyspaceMode={isMyspaceMode}
+          isDarkMode={isDarkMode}
         />
 
         {/* Built With Header - Theme adaptive */}
