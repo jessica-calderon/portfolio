@@ -18,7 +18,7 @@ const FOOTER_CONTENT: Record<FooterPage, { title: string; content: React.ReactNo
           <strong>MyPortfolio v2.0</strong> — Now with 100% more nostalgia!
         </p>
         <p className="mb-3">
-          This portfolio was lovingly crafted to look like it time-traveled from 2005, 
+          This portfolio was lovingly crafted to look like it time-traveled from 2006, 
           back when we all had top 8 friends and autoplay music was considered a feature, not a crime.
         </p>
         <p className="mb-3">
@@ -45,12 +45,12 @@ const FOOTER_CONTENT: Record<FooterPage, { title: string; content: React.ReactNo
           <p className="ml-4">A: Yes! I'm a real software engineer who builds real things. The MySpace aesthetic is just for fun.</p>
         </div>
         <div className="mb-4">
-          <p className="font-bold mb-1">Q: Why does it look like 2005?</p>
-          <p className="ml-4">A: Because 2005 was peak internet. Fight me.</p>
+          <p className="font-bold mb-1">Q: Why does it look like 2006?</p>
+          <p className="ml-4">A: Because 2006 was peak internet. No notes.</p>
         </div>
         <div className="mb-4">
           <p className="font-bold mb-1">Q: Where's the autoplay music?</p>
-          <p className="ml-4">A: I have limits. But imagine "Crazy Frog" playing right now if it helps.</p>
+          <p className="ml-4">A: I have limits. But imagine "How You Remind Me" by Nickelback playing right now if it helps.</p>
         </div>
         <div className="mb-4">
           <p className="font-bold mb-1">Q: Can I be in your Top 8?</p>
@@ -71,7 +71,7 @@ const FOOTER_CONTENT: Record<FooterPage, { title: string; content: React.ReactNo
         <p className="mb-3">By viewing this portfolio, you agree to the following:</p>
         <ol className="list-decimal list-inside space-y-2 mb-3">
           <li>You will not judge my code too harshly before your morning coffee.</li>
-          <li>You acknowledge that CSS was harder in 2005 and we're all doing our best.</li>
+          <li>You acknowledge that CSS was harder in 2006 and we're all doing our best.</li>
           <li>You agree that this portfolio is "pretty cool" or at minimum "kind of neat."</li>
           <li>You will consider hiring me for interesting projects.</li>
           <li>You accept that any nostalgia-induced tears are your own responsibility.</li>
