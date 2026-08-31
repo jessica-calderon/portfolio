@@ -32,6 +32,13 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({
   const { open } = useOsWindow();
 
   const caseStudies: CaseStudy[] = [
+    {
+      name: "Workers Room — Silicon Valley Homelab Dashboard",
+      description: "A retro-futuristic homelab command center inspired by Pied Piper from Silicon Valley. Built to manage Cursor CLI subagents with a nostalgic TV studio aesthetic — featuring worker status boards, server closet monitoring, on-air broadcast controls, and a Blockbuster-style media shelf. Complete with character-themed agent slots (Richard, Gilfoyle, Dinesh...) and real-time system vitals.",
+      impact: "Turns homelab chaos into an immersive, themed experience while stress-testing subagent orchestration in a fun, visual way. Because infrastructure should have personality.",
+      techUsed: ["React", "TypeScript", "Cursor CLI", "Docker", "Jellyfin", "Tunarr", "Prometheus", "Grafana"],
+      emoji: "📺"
+    },
     { 
       name: "Secure Analytics Integration",
       description: "Built a data visualization bridge connecting a learning platform to a secure analytics environment — wiring dashboards, data flow, and containerized services so teams could actually use the numbers.",
