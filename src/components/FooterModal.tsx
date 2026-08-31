@@ -79,7 +79,7 @@ const FOOTER_CONTENT: Record<FooterPage, { title: string; content: React.ReactNo
           <li>You hereby waive all claims related to earworm from imagining MySpace-era music.</li>
         </ol>
         <p className="text-xs opacity-70">
-          * These terms are legally binding in the court of vibes only.
+          * These terms are not legally binding. Obviously.
         </p>
       </>
     ),
