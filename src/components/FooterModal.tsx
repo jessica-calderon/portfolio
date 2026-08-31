@@ -31,7 +31,7 @@ const FOOTER_CONTENT: Record<FooterPage, { title: string; content: React.ReactNo
           <li>Appreciation for questionable design choices</li>
         </ul>
         <p className="text-xs opacity-70">
-          * Actually runs on React 18. We're not monsters.
+          * Actually runs on React 18. I'm not a monster.
         </p>
       </>
     ),
@@ -90,7 +90,7 @@ const FOOTER_CONTENT: Record<FooterPage, { title: string; content: React.ReactNo
       <>
         <p className="mb-3 font-bold">YOUR PRIVACY MATTERS (Kind of)</p>
         <p className="mb-3">
-          <strong>What we collect:</strong> Literally nothing. This is a static site hosted on GitHub Pages. 
+          <strong>What I collect:</strong> Literally nothing. This is a static site hosted on GitHub Pages. 
           I couldn't track you if I wanted to. (I don't want to.)
         </p>
         <p className="mb-3">
