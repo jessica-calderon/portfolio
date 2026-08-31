@@ -3,6 +3,7 @@ import CaseStudyModal from './CaseStudyModal';
 import SearchHighlight from './shared/SearchHighlight';
 import MySpaceContainer from './shared/MySpaceContainer';
 import ThemeAwareHeader from './shared/ThemeAwareHeader';
+import PixelSprite, { SpriteType } from './shared/PixelSprite';
 import { useOsWindow } from '../contexts/OsWindowContext';
 import { LEGACY_PORTFOLIO_URL } from '../constants/urls';
 
@@ -23,7 +24,7 @@ interface CaseStudy {
   description: string;
   impact: string;
   techUsed: string[];
-  emoji: string;
+  sprite: SpriteType;
   websiteUrl?: string;
   githubUrl?: string;
   previewImages?: PreviewImage[];
@@ -50,7 +51,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({
       description: "A retro-futuristic homelab command center inspired by Pied Piper from Silicon Valley. Built to manage Cursor CLI subagents with a nostalgic TV studio aesthetic — featuring worker status boards, server closet monitoring, on-air broadcast controls, and a Blockbuster-style media shelf. Complete with character-themed agent slots (Richard, Gilfoyle, Dinesh...) and real-time system vitals.",
       impact: "Turns homelab chaos into an immersive, themed experience while stress-testing subagent orchestration in a fun, visual way. Because infrastructure should have personality.",
       techUsed: ["React", "TypeScript", "Cursor CLI", "Docker", "Jellyfin", "Tunarr", "Prometheus", "Grafana"],
-      emoji: "📺",
+      sprite: "tv",
       previewImages: [
         { src: workersRoomFloor, alt: "Workers Room — Floor view with agent status cards" },
         { src: workersRoomOnAir, alt: "On-Air view — Live media broadcast controls" },
@@ -65,42 +66,42 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({
       description: "Built a data visualization bridge connecting a learning platform to a secure analytics environment — wiring dashboards, data flow, and containerized services so teams could actually use the numbers.",
       impact: "Faster, more reliable dashboards without giving up security or compliance constraints.",
       techUsed: ["Docker", "Apache Superset", "AWS ECS", "PostgreSQL"],
-      emoji: "📈"
+      sprite: "chart"
     },
     { 
       name: "Centralized Log Ingestion",
       description: "Implemented a Fluent Bit → OpenSearch pipeline for system observability across containerized services.",
       impact: "Enabled real-time error detection and analytics when something inevitably went sideways.",
       techUsed: ["Fluent Bit", "OpenSearch", "AWS CloudWatch"],
-      emoji: "📝"
+      sprite: "memo"
     },
     { 
       name: "Integrated Support Workflow",
       description: "Designed and developed an integrated support workflow that lets users create, track, and interact with support requests directly within an enterprise learning platform. Custom plugin development with REST API integration, workflow/status mapping, user-specific ticket visibility, and a native UI for comments and attachments.",
       impact: "Reduced friction between users and support teams by bringing ticket submission, status tracking, comments, and attachments into the application’s existing user experience.",
       techUsed: ["PHP", "JavaScript", "REST APIs", "Moodle", "Git"],
-      emoji: "🎫"
+      sprite: "ticket"
     },
     {
       name: "Homelab / Self-Hosted Infrastructure",
       description: "A Linux-based self-hosted environment I use to experiment with containers, storage, networking, reverse proxies, monitoring, automation, and media infrastructure. Built to tinker, break things, and learn how the stack actually behaves.",
       impact: "Hands-on practice with real infrastructure problems — the fun kind, usually.",
       techUsed: ["Docker", "Docker Compose", "Linux", "Traefik", "Jellyfin", "Portainer"],
-      emoji: "🏠"
+      sprite: "house"
     },
     {
       name: "Finity — Roku / Jellyfin Client",
       description: "A custom Roku client for Jellyfin that I'm building for fun. Focused on BrightScript, SceneGraph, Jellyfin integration, custom UI/UX, and deployment tooling.",
       impact: "Personal project exploring streaming client UX and Roku development end to end.",
       techUsed: ["BrightScript", "SceneGraph", "Roku", "Jellyfin"],
-      emoji: "📺"
+      sprite: "tv"
     },
     {
       name: "All Shades of Texas Website",
       description: "Designed and developed a responsive website for a local window treatment business in San Antonio.",
       impact: "Delivered a clean, accessible front-end experience optimized for mobile and local search visibility.",
       techUsed: ["HTML5", "CSS3", "JavaScript", "PHP"],
-      emoji: "🪟",
+      sprite: "window",
       websiteUrl: "https://allshadesoftexas.net/"
     },
     {
@@ -108,7 +109,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({
       description: "Built a modern React portfolio inspired by the original MySpace profile layout, featuring custom themes, modals, and retro UI elements. This is the portfolio you are currently viewing.",
       impact: "Highlights front-end creativity and technical depth with a nostalgic, interactive user experience.",
       techUsed: ["React", "TypeScript", "Tailwind", "Framer Motion"],
-      emoji: "💻",
+      sprite: "laptop",
       githubUrl: "https://github.com/jessica-calderon/portfolio"
     },
     {
@@ -116,7 +117,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({
       description: "Created the original version of my developer portfolio using Bootstrap, HTML, CSS, and JavaScript.",
       impact: "Served as an early showcase of projects and web development fundamentals before transitioning to a modern React stack.",
       techUsed: ["Bootstrap", "HTML", "CSS", "JavaScript"],
-      emoji: "🧩",
+      sprite: "puzzle",
       websiteUrl: LEGACY_PORTFOLIO_URL,
       githubUrl: "https://github.com/jessica-calderon/portfolio-legacy"
     }
@@ -198,7 +199,7 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({
             }}
           >
             <div className="w-full h-full flex items-center justify-center">
-              <span className="text-xl sm:text-2xl">{caseStudy.emoji}</span>
+              <PixelSprite type={caseStudy.sprite} size={48} />
             </div>
           </div>
           <p className="text-sm font-bold mb-1 mt-1 text-center">

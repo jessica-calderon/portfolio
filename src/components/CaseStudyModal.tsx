@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDarkMode } from '../contexts/DarkModeContext';
+import { SpriteType } from './shared/PixelSprite';
 
 interface PreviewImage {
   src: string;
@@ -11,7 +12,7 @@ interface CaseStudy {
   description: string;
   impact: string;
   techUsed: string[];
-  emoji: string;
+  sprite: SpriteType;
   websiteUrl?: string;
   githubUrl?: string;
   previewImages?: PreviewImage[];
