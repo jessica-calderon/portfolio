@@ -6,6 +6,18 @@ import ThemeAwareHeader from './shared/ThemeAwareHeader';
 import { useOsWindow } from '../contexts/OsWindowContext';
 import { LEGACY_PORTFOLIO_URL } from '../constants/urls';
 
+import workersRoomFloor from '../assets/workers-room/floor-light.jpg';
+import workersRoomOnAir from '../assets/workers-room/on-air-dark.jpg';
+import workersRoomVideoShelf from '../assets/workers-room/video-shelf-dark.jpg';
+import workersRoomChannelWall from '../assets/workers-room/channel-wall-dark.jpg';
+import workersRoomMonitorWall from '../assets/workers-room/monitor-wall-dark.jpg';
+import workersRoomHotBox from '../assets/workers-room/hot-box-dark.jpg';
+
+interface PreviewImage {
+  src: string;
+  alt: string;
+}
+
 interface CaseStudy {
   name: string;
   description: string;
@@ -14,6 +26,7 @@ interface CaseStudy {
   emoji: string;
   websiteUrl?: string;
   githubUrl?: string;
+  previewImages?: PreviewImage[];
 }
 
 interface CaseStudiesGridProps {
@@ -37,7 +50,15 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({
       description: "A retro-futuristic homelab command center inspired by Pied Piper from Silicon Valley. Built to manage Cursor CLI subagents with a nostalgic TV studio aesthetic — featuring worker status boards, server closet monitoring, on-air broadcast controls, and a Blockbuster-style media shelf. Complete with character-themed agent slots (Richard, Gilfoyle, Dinesh...) and real-time system vitals.",
       impact: "Turns homelab chaos into an immersive, themed experience while stress-testing subagent orchestration in a fun, visual way. Because infrastructure should have personality.",
       techUsed: ["React", "TypeScript", "Cursor CLI", "Docker", "Jellyfin", "Tunarr", "Prometheus", "Grafana"],
-      emoji: "📺"
+      emoji: "📺",
+      previewImages: [
+        { src: workersRoomFloor, alt: "Workers Room — Floor view with agent status cards" },
+        { src: workersRoomOnAir, alt: "On-Air view — Live media broadcast controls" },
+        { src: workersRoomVideoShelf, alt: "Video Shelf — Blockbuster-style media browser" },
+        { src: workersRoomChannelWall, alt: "Channel Wall — Tunarr broadcast channels" },
+        { src: workersRoomMonitorWall, alt: "Monitor Wall — Prometheus & Grafana metrics" },
+        { src: workersRoomHotBox, alt: "Hot Box — GPU transcode monitoring" }
+      ]
     },
     { 
       name: "Secure Analytics Integration",

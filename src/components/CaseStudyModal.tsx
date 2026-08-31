@@ -1,5 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDarkMode } from '../contexts/DarkModeContext';
+
+interface PreviewImage {
+  src: string;
+  alt: string;
+}
 
 interface CaseStudy {
   name: string;
@@ -9,6 +14,7 @@ interface CaseStudy {
   emoji: string;
   websiteUrl?: string;
   githubUrl?: string;
+  previewImages?: PreviewImage[];
 }
 
 interface CaseStudyModalProps {
@@ -27,6 +33,16 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
 }) => {
   const isHomelab = caseStudy.name.toLowerCase().includes('homelab');
   const { isDarkMode } = useDarkMode();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const previewImages = caseStudy.previewImages || [];
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % previewImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + previewImages.length) % previewImages.length);
+  };
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -154,6 +170,74 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
               ))}
             </div>
           </div>
+
+          {previewImages.length > 0 && (
+            <div className="mt-2">
+              <h3
+                className={`text-sm font-bold mb-2 ${
+                  isDarkMode ? 'text-gray-200' : 'text-gray-800'
+                }`}
+              >
+                Preview:
+              </h3>
+              <div className="relative">
+                <div className="border-2 border-gray-400 dark:border-gray-600 rounded overflow-hidden bg-black">
+                  <img
+                    src={previewImages[currentImageIndex].src}
+                    alt={previewImages[currentImageIndex].alt}
+                    className="w-full h-auto max-h-[300px] object-contain"
+                  />
+                </div>
+                {previewImages.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={prevImage}
+                      className={`absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+                        isDarkMode
+                          ? 'bg-gray-800/80 hover:bg-gray-700 text-white'
+                          : 'bg-white/80 hover:bg-white text-gray-800'
+                      } shadow-md`}
+                      aria-label="Previous image"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      type="button"
+                      onClick={nextImage}
+                      className={`absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+                        isDarkMode
+                          ? 'bg-gray-800/80 hover:bg-gray-700 text-white'
+                          : 'bg-white/80 hover:bg-white text-gray-800'
+                      } shadow-md`}
+                      aria-label="Next image"
+                    >
+                      ›
+                    </button>
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+                      {previewImages.map((_, idx) => (
+                        <button
+                          key={idx}
+                          type="button"
+                          onClick={() => setCurrentImageIndex(idx)}
+                          className={`w-2 h-2 rounded-full transition-colors ${
+                            idx === currentImageIndex
+                              ? isDarkMode ? 'bg-blue-400' : 'bg-blue-600'
+                              : isDarkMode ? 'bg-gray-500' : 'bg-gray-400'
+                          }`}
+                          aria-label={`View image ${idx + 1}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+              <p className={`text-xs mt-1 text-center ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                {previewImages[currentImageIndex].alt}
+                {previewImages.length > 1 && ` (${currentImageIndex + 1}/${previewImages.length})`}
+              </p>
+            </div>
+          )}
 
           {caseStudy.websiteUrl && (
             <div className="mt-2">
