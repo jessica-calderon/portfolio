@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDarkMode } from '../contexts/DarkModeContext';
+import React from 'react';
+import { useXpWindowBehavior } from '../hooks/useXpWindowBehavior';
 import PixelSprite from './shared/PixelSprite';
 
 type FooterPage = 'about' | 'faq' | 'terms' | 'privacy' | 'safety';
@@ -147,67 +147,50 @@ const FOOTER_CONTENT: Record<FooterPage, { title: string; content: React.ReactNo
 };
 
 const FooterModal: React.FC<FooterModalProps> = ({ page, onClose }) => {
-  const { isDarkMode } = useDarkMode();
+  const { dialogRef, handleBackdropClick } = useXpWindowBehavior({ onClose });
   const { title, content } = FOOTER_CONTENT[page];
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', handleEscape);
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [onClose]);
-
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) onClose();
-  };
 
   return (
     <div
-      className="modal-overlay fixed inset-0 z-50 bg-black bg-opacity-50 animate-fadeIn"
+      className="xp-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
       aria-labelledby="footer-modal-title"
+      ref={dialogRef}
+      tabIndex={-1}
     >
       <div
-        className={`modal-window--app ${
-          isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'
-        } rounded-md shadow-md border border-gray-400 dark:border-gray-600 animate-modalAppear`}
+        className="xp-shell w-full max-w-[480px] overflow-hidden animate-modalAppear motion-reduce:animate-none"
         onClick={(e) => e.stopPropagation()}
-        style={{ maxWidth: '500px', margin: '10vh auto', maxHeight: '80vh' }}
       >
-        <div
-          className={`modal-window__chrome ${
-            isDarkMode
-              ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]'
-              : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'
-          } text-white font-bold px-3 py-2 flex items-center justify-between rounded-t-md`}
-        >
-          <span id="footer-modal-title" className="text-sm flex items-center gap-2">
-            <PixelSprite type="document" size={16} />
+        <div className="xp-titlebar flex items-center justify-between px-2 py-1.5 select-none">
+          <span id="footer-modal-title" className="xp-titlebar-text text-xs font-bold truncate flex items-center gap-2">
+            <PixelSprite type="document" size={14} />
             {title}
           </span>
           <button
             type="button"
             onClick={onClose}
-            className="bg-red-600 hover:bg-red-700 text-white w-7 h-7 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors"
-            aria-label="Close modal"
+            className="xp-close flex h-6 w-6 shrink-0 items-center justify-center text-xs font-bold focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]"
+            aria-label={`Close ${title}`}
           >
-            ✕
+            <span aria-hidden="true">✕</span>
           </button>
         </div>
-        <div
-          className={`p-4 text-sm leading-relaxed overflow-y-auto ${
-            isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'
-          }`}
-          style={{ maxHeight: 'calc(80vh - 50px)' }}
-        >
-          {content}
+        <div className="xp-body p-4 max-h-[60vh] overflow-y-auto">
+          <div className="xp-text text-sm leading-relaxed">
+            {content}
+          </div>
+          <div className="flex justify-end mt-4 pt-3 border-t border-gray-300">
+            <button
+              type="button"
+              onClick={onClose}
+              className="xp-btn-primary xp-action-btn"
+            >
+              OK
+            </button>
+          </div>
         </div>
       </div>
     </div>
