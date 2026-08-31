@@ -15,6 +15,7 @@ import AddToNetworkModal from './components/AddToNetworkModal';
 import SaveContactModal from './components/SaveContactModal';
 import XpAlertDialog from './components/shared/XpAlertDialog';
 import PixelSprite from './components/shared/PixelSprite';
+import FooterModal from './components/FooterModal';
 import RatingModal from './components/RatingModal';
 import ThemePicker from './components/ThemePicker';
 import LayoutBuilderModal from './components/LayoutBuilderModal';
@@ -45,6 +46,7 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [forceDesktopView, setForceDesktopView] = useState<boolean>(false);
+  const [footerPage, setFooterPage] = useState<'about' | 'faq' | 'terms' | 'privacy' | 'safety' | null>(null);
   const { open, close, isOpen } = useOsWindow();
   const { isDarkMode } = useDarkMode();
 
@@ -702,8 +704,18 @@ function AppContent() {
         <p className="mb-2 opacity-95">
           © 2003–{new Date().getFullYear()} MyPortfolio. All Rights Reserved.
         </p>
-        <p className="mb-2 opacity-90" aria-hidden="true">
-          About&nbsp;|&nbsp;FAQ&nbsp;|&nbsp;Terms&nbsp;|&nbsp;Privacy&nbsp;|&nbsp;Safety&nbsp;|&nbsp;Contact
+        <p className="mb-2 opacity-90 flex flex-wrap justify-center gap-x-1">
+          <button type="button" onClick={() => setFooterPage('about')} className="hover:underline">About</button>
+          <span>|</span>
+          <button type="button" onClick={() => setFooterPage('faq')} className="hover:underline">FAQ</button>
+          <span>|</span>
+          <button type="button" onClick={() => setFooterPage('terms')} className="hover:underline">Terms</button>
+          <span>|</span>
+          <button type="button" onClick={() => setFooterPage('privacy')} className="hover:underline">Privacy</button>
+          <span>|</span>
+          <button type="button" onClick={() => setFooterPage('safety')} className="hover:underline">Safety</button>
+          <span>|</span>
+          <button type="button" onClick={() => scrollToSectionId('contact')} className="hover:underline">Contact</button>
         </p>
         <p className="mb-1 opacity-80">
           Powered by questionable CSS decisions.
@@ -749,6 +761,7 @@ function AppContent() {
       />
     )}
     {isOpen('rating') && <RatingModal onClose={close} />}
+    {footerPage && <FooterModal page={footerPage} onClose={() => setFooterPage(null)} />}
 
     <LayoutBuilderModal />
     
