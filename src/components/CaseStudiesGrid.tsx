@@ -69,13 +69,6 @@ const CaseStudiesGrid: React.FC<CaseStudiesGridProps> = ({
       sprite: "chart"
     },
     { 
-      name: "Centralized Log Ingestion",
-      description: "Implemented a Fluent Bit → OpenSearch pipeline for system observability across containerized services.",
-      impact: "Enabled real-time error detection and analytics when something inevitably went sideways.",
-      techUsed: ["Fluent Bit", "OpenSearch", "AWS CloudWatch"],
-      sprite: "memo"
-    },
-    { 
       name: "Integrated Support Workflow",
       description: "Designed and developed an integrated support workflow that lets users create, track, and interact with support requests directly within an enterprise learning platform. Custom plugin development with REST API integration, workflow/status mapping, user-specific ticket visibility, and a native UI for comments and attachments.",
       impact: "Reduced friction between users and support teams by bringing ticket submission, status tracking, comments, and attachments into the application’s existing user experience.",
