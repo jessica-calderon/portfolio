@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDarkMode } from '../contexts/DarkModeContext';
+import PixelSprite from './shared/PixelSprite';
 
 interface RatingModalProps {
   onClose: () => void;
@@ -110,7 +111,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
                   style={{ color: i < rating ? getRatingColor(rating) : isDarkMode ? '#555' : '#ddd' }}
                   aria-hidden="true"
                 >
-                  ⭐
+                  <PixelSprite type="star" size={24} />
                 </span>
               ))}
             </div>
@@ -171,7 +172,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
                   aria-checked={starRating === rating}
                   aria-label={`Rate ${starRating} out of 5 stars`}
                 >
-                  <span aria-hidden="true">⭐</span>
+                  <span aria-hidden="true"><PixelSprite type="star" size={24} /></span>
                 </button>
               );
             })}
@@ -220,7 +221,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ onClose }) => {
               }`}
               aria-label={rating === 0 ? 'Submit rating (select a rating first)' : 'Submit rating'}
             >
-              Submit Rating <span aria-hidden="true">🚀</span>
+              Submit Rating <span aria-hidden="true"><PixelSprite type="rocket" size={14} /></span>
             </button>
           </div>
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PixelSprite from './shared/PixelSprite';
 
 interface ResumeModalProps {
   onClose: () => void;
@@ -99,7 +100,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
         {/* Title bar */}
         <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 sm:px-3 select-none">
           <div className="flex min-w-0 items-center gap-1.5">
-            <span aria-hidden="true" className="text-sm leading-none">📄</span>
+            <span aria-hidden="true" className="text-sm leading-none"><PixelSprite type="document" size={16} /></span>
             <span
               id="resume-modal-title"
               className="xp-titlebar-text truncate text-xs font-bold sm:text-sm"
@@ -125,7 +126,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
             onClick={handleOpenDocs}
             aria-label="Open resume in Google Docs"
           >
-            <span aria-hidden="true">📄</span>
+            <span aria-hidden="true"><PixelSprite type="document" size={14} /></span>
             <span>Open</span>
           </button>
           <button
@@ -134,7 +135,7 @@ const ResumeModal: React.FC<ResumeModalProps> = ({ onClose }) => {
             onClick={handleDownload}
             aria-label="Download resume as PDF"
           >
-            <span aria-hidden="true">💾</span>
+            <span aria-hidden="true"><PixelSprite type="floppy" size={14} /></span>
             <span>Download PDF</span>
           </button>
         </div>

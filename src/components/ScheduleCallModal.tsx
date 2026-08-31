@@ -1,6 +1,7 @@
 import React, { useId, useState } from 'react';
 import { CAL_COM_PROFILE_URL } from '../constants/urls';
 import { useXpWindowBehavior } from '../hooks/useXpWindowBehavior';
+import PixelSprite from './shared/PixelSprite';
 
 export type MeetingDuration = 15 | 30;
 
@@ -62,9 +63,9 @@ const ScheduleCallModal: React.FC<ScheduleCallModalProps> = ({ onClose }) => {
         </div>
 
         <div className="schedule-call-toolbar modal-window__chrome" aria-hidden="true">
-          <span className="schedule-call-toolbar-item">📄 Appointment</span>
+          <span className="schedule-call-toolbar-item"><PixelSprite type="document" size={12} /> Appointment</span>
           <span className="schedule-call-toolbar-sep">|</span>
-          <span className="schedule-call-toolbar-item">🕒 Availability</span>
+          <span className="schedule-call-toolbar-item"><PixelSprite type="clock" size={12} /> Availability</span>
         </div>
 
         <div className="schedule-call-body modal-window__body">
@@ -126,7 +127,7 @@ const ScheduleCallModal: React.FC<ScheduleCallModalProps> = ({ onClose }) => {
                 />
                 <span className="schedule-call-option-body">
                   <span className="schedule-call-option-title">
-                    <span aria-hidden="true">🕒 </span>15 Minutes
+                    <span aria-hidden="true"><PixelSprite type="clock" size={14} /> </span>15 Minutes
                   </span>
                   <span className="schedule-call-option-desc">
                     Quick intro, portfolio discussion, or question.
@@ -146,7 +147,7 @@ const ScheduleCallModal: React.FC<ScheduleCallModalProps> = ({ onClose }) => {
                 />
                 <span className="schedule-call-option-body">
                   <span className="schedule-call-option-title">
-                    <span aria-hidden="true">🕒 </span>30 Minutes
+                    <span aria-hidden="true"><PixelSprite type="clock" size={14} /> </span>30 Minutes
                   </span>
                   <span className="schedule-call-option-desc">
                     Longer conversation about engineering, opportunities, projects, or technical

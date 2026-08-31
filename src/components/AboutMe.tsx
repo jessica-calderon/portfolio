@@ -5,6 +5,7 @@ import MySpaceContainer from './shared/MySpaceContainer';
 import ThemeAwareHeader from './shared/ThemeAwareHeader';
 import TechBadge from './shared/TechBadge';
 import StatsBadge from './shared/StatsBadge';
+import PixelSprite, { SpriteType } from './shared/PixelSprite';
 
 interface AboutMeProps {
   isMyspaceMode: boolean;
@@ -53,28 +54,28 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery, embedded 
   const textColor = getTextColor();
 
   // Interests — mix of professional + hobby, kept compact
-  const interests = [
-    { name: 'AWS', icon: '☁️' },
-    { name: 'Docker', icon: '🐳' },
-    { name: 'Linux', icon: '🐧' },
-    { name: 'Homelab', icon: '🏠' },
-    { name: 'Self-Hosting', icon: '🖥️' },
-    { name: 'Automation', icon: '⚙️' },
-    { name: 'Security', icon: '🔐' },
-    { name: 'Jellyfin', icon: '🎬' },
-    { name: 'Open Source', icon: '💚' }
+  const interests: { name: string; sprite: SpriteType }[] = [
+    { name: 'AWS', sprite: 'cloud' },
+    { name: 'Docker', sprite: 'docker' },
+    { name: 'Linux', sprite: 'penguin' },
+    { name: 'Homelab', sprite: 'house' },
+    { name: 'Self-Hosting', sprite: 'server' },
+    { name: 'Automation', sprite: 'gear' },
+    { name: 'Security', sprite: 'lock' },
+    { name: 'Jellyfin', sprite: 'film' },
+    { name: 'Open Source', sprite: 'heart' }
   ];
 
   // Portfolio tech stack
-  const techStack = [
-    { name: 'React', icon: '⚛️' },
-    { name: 'TypeScript', icon: '🔷' },
-    { name: 'Vite', icon: '⚡' },
-    { name: 'Tailwind CSS', icon: '🎨' },
-    { name: 'Node.js', icon: '🟢' },
-    { name: 'GitHub Pages', icon: '📄' },
-    { name: 'ESLint', icon: '🔍' },
-    { name: 'PostCSS', icon: '🔧' }
+  const techStack: { name: string; sprite: SpriteType }[] = [
+    { name: 'React', sprite: 'atom' },
+    { name: 'TypeScript', sprite: 'diamond' },
+    { name: 'Vite', sprite: 'bolt' },
+    { name: 'Tailwind CSS', sprite: 'palette' },
+    { name: 'Node.js', sprite: 'circle' },
+    { name: 'GitHub Pages', sprite: 'document' },
+    { name: 'ESLint', sprite: 'search' },
+    { name: 'PostCSS', sprite: 'wrench' }
   ];
 
   // Portfolio stats
@@ -140,7 +141,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery, embedded 
               <TechBadge
                 key={index}
                 name={interest.name}
-                icon={interest.icon}
+                sprite={interest.sprite}
                 searchQuery={searchQuery}
                 highlightText={highlightText}
               />
@@ -181,7 +182,7 @@ const AboutMe: React.FC<AboutMeProps> = ({ isMyspaceMode, searchQuery, embedded 
               <TechBadge
                 key={index}
                 name={tech.name}
-                icon={tech.icon}
+                sprite={tech.sprite}
                 searchQuery={searchQuery}
                 highlightText={highlightText}
               />

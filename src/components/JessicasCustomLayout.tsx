@@ -1,5 +1,6 @@
 import React from 'react';
 import profilePic from '../assets/8bitme.png';
+import PixelSprite from './shared/PixelSprite';
 import AboutMe from './AboutMe';
 import Education from './Education';
 import CaseStudiesGrid from './CaseStudiesGrid';
@@ -293,7 +294,7 @@ const JessicasCustomLayout: React.FC<JessicasCustomLayoutProps> = ({
       <div className="jdiv-lab-grid">
         {LAB_INTERESTS.map((item) => (
           <span key={item.name} className="jdiv-lab-chip">
-            <span aria-hidden="true">{item.icon}</span> {item.name}
+            <span aria-hidden="true"><PixelSprite type={item.sprite} size={14} /></span> {item.name}
           </span>
         ))}
       </div>

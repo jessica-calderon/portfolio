@@ -14,6 +14,7 @@ import MyNetworkPlacesWindow from './components/MyNetworkPlacesWindow';
 import AddToNetworkModal from './components/AddToNetworkModal';
 import SaveContactModal from './components/SaveContactModal';
 import XpAlertDialog from './components/shared/XpAlertDialog';
+import PixelSprite from './components/shared/PixelSprite';
 import RatingModal from './components/RatingModal';
 import ThemePicker from './components/ThemePicker';
 import LayoutBuilderModal from './components/LayoutBuilderModal';
@@ -421,7 +422,7 @@ function AppContent() {
             className={`${forceDesktopView ? 'hidden' : ''} md:hidden transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} flex items-center gap-1`}
             aria-label="Switch to desktop view"
           >
-            <span aria-hidden="true">🖥️</span> Desktop View
+            <span aria-hidden="true"><PixelSprite type="desktop" size={14} /></span> Desktop View
           </a>
           {/* View Mobile Version Link - Only visible when desktop is forced */}
           <a 
@@ -429,7 +430,7 @@ function AppContent() {
             className={`${forceDesktopView ? '' : 'hidden'} transition-colors duration-200 py-1 px-2 rounded hover:bg-white/10 ${isMyspaceMode ? 'hover:text-pink-200' : 'hover:text-blue-300'} flex items-center gap-1`}
             aria-label="Switch to mobile view"
           >
-            <span aria-hidden="true">📱</span> Mobile View
+            <span aria-hidden="true"><PixelSprite type="mobile" size={14} /></span> Mobile View
           </a>
         </nav>
       </div>

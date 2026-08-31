@@ -1,6 +1,7 @@
 import React from 'react';
 import { PROFILE_URL } from '../constants/urls';
 import { useXpWindowBehavior } from '../hooks/useXpWindowBehavior';
+import PixelSprite, { SpriteType } from './shared/PixelSprite';
 
 interface ShareProfileModalProps {
   onClose: () => void;
@@ -38,25 +39,25 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose, onCopied
       ? window.location.href
       : PROFILE_URL;
 
-  const shareOptions = [
+  const shareOptions: { name: string; sprite: SpriteType; url: string }[] = [
     {
       name: 'LinkedIn',
-      icon: '💼',
+      sprite: 'briefcase',
       url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(profileUrl)}`,
     },
     {
       name: 'Twitter',
-      icon: '🐦',
+      sprite: 'bird',
       url: `https://twitter.com/intent/tweet?text=${encodeURIComponent('Check out my portfolio!')}&url=${encodeURIComponent(profileUrl)}`,
     },
     {
       name: 'Facebook',
-      icon: '👥',
+      sprite: 'people',
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(profileUrl)}`,
     },
     {
       name: 'Email',
-      icon: '📧',
+      sprite: 'mail',
       url: `mailto:?subject=${encodeURIComponent('Check out my portfolio!')}&body=${encodeURIComponent(profileUrl)}`,
     },
   ];
@@ -130,7 +131,7 @@ const ShareProfileModal: React.FC<ShareProfileModalProps> = ({ onClose, onCopied
                   onClick={() => handleShare(option.url)}
                   className="xp-btn xp-action-btn flex items-center justify-center gap-1 text-xs"
                 >
-                  <span aria-hidden="true">{option.icon}</span>
+                  <span aria-hidden="true"><PixelSprite type={option.sprite} size={16} /></span>
                   <span>{option.name}</span>
                 </button>
               ))}

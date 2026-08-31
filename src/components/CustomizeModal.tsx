@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDarkMode } from '../contexts/DarkModeContext';
+import PixelSprite from './shared/PixelSprite';
 
 interface CustomizeModalProps {
   onClose: () => void;
@@ -146,7 +147,7 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
-                ☀️ Light Mode
+                <PixelSprite type="sun" size={14} /> Light Mode
               </button>
               <button
                 onClick={() => setSelectedTheme('dark')}
@@ -156,7 +157,7 @@ const CustomizeModal: React.FC<CustomizeModalProps> = ({ onClose }) => {
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
-                🌙 Dark Mode
+                <PixelSprite type="moon" size={14} /> Dark Mode
               </button>
             </div>
           </div>

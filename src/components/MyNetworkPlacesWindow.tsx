@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useXpWindowBehavior } from '../hooks/useXpWindowBehavior';
+import PixelSprite, { SpriteType } from './shared/PixelSprite';
 
 interface NetworkPlace {
   id: string;
@@ -7,7 +8,7 @@ interface NetworkPlace {
   category: string;
   description: string;
   technologies: string[];
-  icon: string;
+  sprite: SpriteType;
 }
 
 const NETWORK_PLACES: NetworkPlace[] = [
@@ -17,7 +18,7 @@ const NETWORK_PLACES: NetworkPlace[] = [
     category: 'Media',
     description: 'Jellyfin and related media services for personal streaming and library management.',
     technologies: ['Jellyfin', 'Tdarr', 'Radarr', 'Sonarr', 'Prowlarr'],
-    icon: '🎬',
+    sprite: 'film',
   },
   {
     id: 'docker',
@@ -25,7 +26,7 @@ const NETWORK_PLACES: NetworkPlace[] = [
     category: 'Containers',
     description: 'Containerized self-hosted applications orchestrated for learning and day-to-day use.',
     technologies: ['Docker', 'Docker Compose', 'Portainer'],
-    icon: '🐳',
+    sprite: 'docker',
   },
   {
     id: 'monitoring',
@@ -33,7 +34,7 @@ const NETWORK_PLACES: NetworkPlace[] = [
     category: 'Observability',
     description: 'Service availability checks and lightweight monitoring of the homelab stack.',
     technologies: ['Uptime Kuma'],
-    icon: '📡',
+    sprite: 'antenna',
   },
   {
     id: 'automation',
@@ -41,7 +42,7 @@ const NETWORK_PLACES: NetworkPlace[] = [
     category: 'Automation',
     description: 'Media and service automation that keeps the lab tidy without babysitting every job.',
     technologies: ['Radarr', 'Sonarr', 'Prowlarr', 'Tdarr'],
-    icon: '⚙️',
+    sprite: 'gear',
   },
   {
     id: 'storage',
@@ -49,7 +50,7 @@ const NETWORK_PLACES: NetworkPlace[] = [
     category: 'Storage',
     description: 'Linux storage and pooled volumes for media and application data.',
     technologies: ['Linux', 'MergerFS'],
-    icon: '💾',
+    sprite: 'floppy',
   },
   {
     id: 'network',
@@ -57,7 +58,7 @@ const NETWORK_PLACES: NetworkPlace[] = [
     category: 'Networking',
     description: 'Reverse proxying and internal service routing for self-hosted apps.',
     technologies: ['Traefik', 'Linux'],
-    icon: '🌐',
+    sprite: 'globe',
   },
 ];
 
@@ -90,7 +91,7 @@ const MyNetworkPlacesWindow: React.FC<MyNetworkPlacesWindowProps> = ({ onClose }
       >
         <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 select-none">
           <div className="flex min-w-0 items-center gap-1.5">
-            <span aria-hidden="true">🖥️</span>
+            <span aria-hidden="true"><PixelSprite type="server" size={16} /></span>
             <span id="net-window-title" className="xp-titlebar-text truncate text-xs font-bold sm:text-sm">
               My Network Places
             </span>
@@ -146,7 +147,7 @@ const MyNetworkPlacesWindow: React.FC<MyNetworkPlacesWindowProps> = ({ onClose }
                     onClick={() => setSelectedId(place.id)}
                   >
                     <span className="net-icon" aria-hidden="true">
-                      {place.icon}
+                      <PixelSprite type={place.sprite} size={24} />
                     </span>
                     <span className="net-icon-label">{place.name}</span>
                   </button>

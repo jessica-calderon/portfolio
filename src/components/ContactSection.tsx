@@ -1,4 +1,5 @@
 import React from 'react';
+import PixelSprite from './shared/PixelSprite';
 
 interface ContactSectionProps {
   onSendMessageClick: () => void;
@@ -29,7 +30,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({
           aria-label="Send message to Jessica Calderon"
           aria-haspopup="dialog"
         >
-          <span className="mr-1" aria-hidden="true">✉️</span> Send Message
+          <span className="mr-1" aria-hidden="true"><PixelSprite type="mail" size={14} /></span> Send Message
         </button>
         <button
           type="button"
@@ -38,7 +39,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({
           aria-label="Add Jessica to professional network"
           aria-haspopup="dialog"
         >
-          <span className="mr-1" aria-hidden="true">👥</span> Connect
+          <span className="mr-1" aria-hidden="true"><PixelSprite type="people" size={14} /></span> Connect
         </button>
         <button
           type="button"
@@ -47,7 +48,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({
           aria-label="Schedule a call"
           aria-haspopup="dialog"
         >
-          <span className="mr-1" aria-hidden="true">💬</span> Schedule Call
+          <span className="mr-1" aria-hidden="true"><PixelSprite type="chat" size={14} /></span> Schedule Call
         </button>
         <button
           type="button"
@@ -56,7 +57,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({
           aria-label="View resume"
           aria-haspopup="dialog"
         >
-          <span className="mr-1" aria-hidden="true">📄</span> View Resume
+          <span className="mr-1" aria-hidden="true"><PixelSprite type="document" size={14} /></span> View Resume
         </button>
         <button
           type="button"
@@ -65,7 +66,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({
           aria-label="Share profile"
           aria-haspopup="dialog"
         >
-          <span className="mr-1" aria-hidden="true">↗️</span> Share Profile
+          <span className="mr-1" aria-hidden="true"><PixelSprite type="share" size={14} /></span> Share Profile
         </button>
         <button
           type="button"
@@ -74,7 +75,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({
           aria-label="Save contact as vCard"
           aria-haspopup="dialog"
         >
-          <span className="mr-1" aria-hidden="true">📇</span> Save Contact
+          <span className="mr-1" aria-hidden="true"><PixelSprite type="contact" size={14} /></span> Save Contact
         </button>
       </div>
     </div>

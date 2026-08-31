@@ -1,14 +1,15 @@
 import React from 'react';
 import { useDarkMode } from '../../contexts/DarkModeContext';
+import PixelSprite, { SpriteType } from './PixelSprite';
 
 interface TechBadgeProps {
   name: string;
-  icon: string;
+  sprite: SpriteType;
   searchQuery: string;
   highlightText: (text: string) => React.ReactNode;
 }
 
-const TechBadge: React.FC<TechBadgeProps> = ({ name, icon, searchQuery, highlightText }) => {
+const TechBadge: React.FC<TechBadgeProps> = ({ name, sprite, searchQuery, highlightText }) => {
   const { isDarkMode } = useDarkMode();
 
   return (
@@ -57,14 +58,14 @@ const TechBadge: React.FC<TechBadgeProps> = ({ name, icon, searchQuery, highligh
       }}
     >
       <span 
-        className="text-lg transition-transform duration-300 group-hover:rotate-12 group-hover:scale-125"
+        className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-125 flex items-center"
         style={{ 
           filter: isDarkMode 
             ? 'drop-shadow(0 1px 2px rgba(255,255,255,0.1))' 
             : 'drop-shadow(0 1px 2px rgba(0,0,0,0.2))' 
         }}
       >
-        {icon}
+        <PixelSprite type={sprite} size={16} />
       </span>
       <span 
         className="font-medium transition-colors duration-300"

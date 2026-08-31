@@ -32,15 +32,17 @@ export const CURRENTLY_FOCUS = [
   'Production troubleshooting',
 ] as const;
 
+import type { SpriteType } from '../components/shared/PixelSprite';
+
 /** Homelab / self-hosting interests — OPSEC-safe labels only. */
-export const LAB_INTERESTS = [
-  { name: 'Linux', icon: '🐧' },
-  { name: 'Docker', icon: '🐳' },
-  { name: 'Self-Hosting', icon: '🖥️' },
-  { name: 'Networking', icon: '🌐' },
-  { name: 'Storage', icon: '💾' },
-  { name: 'Automation', icon: '⚙️' },
-  { name: 'Monitoring', icon: '📡' },
-  { name: 'Jellyfin', icon: '🎬' },
-  { name: 'Open Source', icon: '💚' },
+export const LAB_INTERESTS: readonly { name: string; sprite: SpriteType }[] = [
+  { name: 'Linux', sprite: 'penguin' },
+  { name: 'Docker', sprite: 'docker' },
+  { name: 'Self-Hosting', sprite: 'server' },
+  { name: 'Networking', sprite: 'globe' },
+  { name: 'Storage', sprite: 'floppy' },
+  { name: 'Automation', sprite: 'gear' },
+  { name: 'Monitoring', sprite: 'antenna' },
+  { name: 'Jellyfin', sprite: 'film' },
+  { name: 'Open Source', sprite: 'heart' },
 ] as const;

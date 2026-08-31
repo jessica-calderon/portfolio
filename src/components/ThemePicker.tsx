@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useProfileTheme } from '../contexts/ProfileThemeContext';
+import PixelSprite from './shared/PixelSprite';
 
 /**
  * MySpace-layer theme picker (not XP Control Panel).
@@ -57,7 +58,7 @@ const ThemePicker: React.FC = () => {
         aria-label={`Theme picker. Current: ${activeLabel}`}
         title="Jessica's Layouts"
       >
-        <span className="mr-1" aria-hidden="true">🎨</span>
+        <span className="mr-1" aria-hidden="true"><PixelSprite type="palette" size={14} /></span>
         <span className="hidden sm:inline max-w-[9rem] truncate">{activeLabel}</span>
         <span className="sm:hidden">Theme</span>
       </button>
@@ -114,7 +115,7 @@ const ThemePicker: React.FC = () => {
                   openBuilder('active');
                 }}
               >
-                🎨 Build Your Own Layout
+                <PixelSprite type="palette" size={14} /> Build Your Own Layout
               </button>
               <button
                 type="button"
