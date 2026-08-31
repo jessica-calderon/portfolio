@@ -105,6 +105,7 @@ function AppContent() {
     { category: 'Skill', title: 'PostgreSQL MySQL Redis', keywords: 'PostgreSQL MySQL Redis data databases caching' },
     { category: 'Skill', title: 'React Tailwind Frontend', keywords: 'React Tailwind HTML5 CSS3 frontend' },
     { category: 'Skill', title: 'Technical Leadership Architecture', keywords: 'technical leadership architecture code review troubleshooting releases' },
+    { category: 'Learning', title: 'Workers Room Homelab Dashboard', keywords: 'Workers Room Silicon Valley Pied Piper Cursor CLI subagents homelab orchestration themed UI' },
   ];
 
   // Search functionality
