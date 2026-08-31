@@ -87,6 +87,7 @@ function AppContent() {
 
   // Search data - all searchable content
   const searchData = [
+    { category: 'Case Study', title: 'Workers Room — Silicon Valley Homelab Dashboard', keywords: 'Workers Room Pied Piper Silicon Valley homelab dashboard subagents Cursor CLI agents Jellyfin Tunarr Prometheus Grafana retro TV studio Richard Gilfoyle Dinesh' },
     { category: 'Case Study', title: 'Secure Analytics Integration', keywords: 'Docker Superset AWS PostgreSQL data visualization bridge analytics dashboard' },
     { category: 'Case Study', title: 'Centralized Log Ingestion', keywords: 'Fluent Bit OpenSearch CloudWatch observability error detection analytics' },
     { category: 'Case Study', title: 'Integrated Support Workflow', keywords: 'support workflow plugin Moodle REST APIs PHP JavaScript tickets comments attachments learning platform' },
