@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDarkMode } from '../contexts/DarkModeContext';
+import React from 'react';
+import { useXpWindowBehavior } from '../hooks/useXpWindowBehavior';
 
 interface CaseStudy {
   name: string;
@@ -26,29 +26,7 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
   onVisitWebsite,
 }) => {
   const isHomelab = caseStudy.name.toLowerCase().includes('homelab');
-  const { isDarkMode } = useDarkMode();
-
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    document.addEventListener('keydown', handleEscape);
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [onClose]);
-
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
+  const { dialogRef, handleBackdropClick } = useXpWindowBehavior({ onClose });
 
   const showFooter =
     Boolean(caseStudy.websiteUrl) ||
@@ -57,98 +35,57 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
 
   return (
     <div
-      className="modal-overlay fixed inset-0 z-50 bg-black bg-opacity-50 animate-fadeIn"
+      className="xp-window case-study-window modal-overlay z-[60] bg-black bg-opacity-50 animate-fadeIn motion-reduce:animate-none"
       onClick={handleBackdropClick}
-      style={{ fontFamily: "'Tahoma', 'Segoe UI', sans-serif" }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="case-study-modal-title"
+      id="case-study-window"
+      ref={dialogRef}
+      tabIndex={-1}
     >
       <div
-        className={`modal-window--app ${
-          isDarkMode ? 'bg-gray-700 text-white' : 'bg-[#ece9d8] text-black'
-        } rounded-md shadow-md border border-gray-400 dark:border-gray-600 animate-modalAppear`}
+        className="xp-shell case-study-shell modal-window--compact w-full max-w-2xl animate-modalAppear motion-reduce:animate-none"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Fixed title bar */}
-        <div
-          className={`modal-window__chrome ${
-            isDarkMode
-              ? 'bg-gradient-to-b from-[#1a3a85] to-[#0f2a65]'
-              : 'bg-gradient-to-b from-[#245edb] to-[#1a4aa5]'
-          } text-white font-bold px-3 sm:px-4 py-2 flex items-center justify-between`}
-        >
-          <span id="case-study-modal-title" className="text-sm truncate pr-2">
-            {caseStudy.name}
-          </span>
+        <div className="xp-titlebar modal-window__chrome flex items-center justify-between px-2 py-1.5 select-none">
+          <div className="flex min-w-0 items-center gap-1.5">
+            <span aria-hidden="true" className="text-sm leading-none">
+              {caseStudy.emoji || '📄'}
+            </span>
+            <span
+              id="case-study-modal-title"
+              className="xp-titlebar-text truncate text-xs font-bold sm:text-sm"
+            >
+              {caseStudy.name}
+            </span>
+          </div>
           <button
             type="button"
             onClick={onClose}
-            className="bg-red-600 hover:bg-red-700 text-white min-w-[28px] min-h-[28px] w-7 h-7 flex items-center justify-center text-xs font-bold border border-red-800 transition-colors shrink-0"
-            aria-label={`Close ${caseStudy.name} case study modal`}
+            className="xp-close flex h-6 w-6 shrink-0 items-center justify-center text-xs font-bold transition-colors motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-1 focus:ring-offset-[#1a4aa5]"
+            aria-label={`Close ${caseStudy.name} case study`}
           >
             <span aria-hidden="true">✕</span>
           </button>
         </div>
 
-        {/* Scrollable body */}
-        <div
-          className={`modal-window__body p-4 sm:p-6 space-y-4 ${
-            isDarkMode ? 'bg-gray-700' : 'bg-[#ece9d8]'
-          }`}
-        >
+        <div className="xp-body case-study-body modal-window__body">
           <div>
-            <h3
-              className={`text-sm font-bold mb-2 ${
-                isDarkMode ? 'text-gray-200' : 'text-gray-800'
-              }`}
-            >
-              Description:
-            </h3>
-            <p
-              className={`text-sm leading-relaxed ${
-                isDarkMode ? 'text-gray-300' : 'text-gray-700'
-              }`}
-            >
-              {caseStudy.description}
-            </p>
+            <h3 className="case-study-heading">Description:</h3>
+            <p className="xp-text text-sm leading-relaxed">{caseStudy.description}</p>
           </div>
 
           <div>
-            <h3
-              className={`text-sm font-bold mb-2 ${
-                isDarkMode ? 'text-gray-200' : 'text-gray-800'
-              }`}
-            >
-              Impact:
-            </h3>
-            <p
-              className={`text-sm leading-relaxed ${
-                isDarkMode ? 'text-gray-300' : 'text-gray-700'
-              }`}
-            >
-              {caseStudy.impact}
-            </p>
+            <h3 className="case-study-heading">Impact:</h3>
+            <p className="xp-text text-sm leading-relaxed">{caseStudy.impact}</p>
           </div>
 
           <div>
-            <h3
-              className={`text-sm font-bold mb-2 ${
-                isDarkMode ? 'text-gray-200' : 'text-gray-800'
-              }`}
-            >
-              Technologies Used:
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {caseStudy.techUsed.map((tech, index) => (
-                <span
-                  key={index}
-                  className={`px-3 py-1 rounded-full text-xs font-medium border ${
-                    isDarkMode
-                      ? 'bg-blue-800 text-blue-100 border-blue-600'
-                      : 'bg-blue-200 text-blue-800 border-blue-300'
-                  }`}
-                >
+            <h3 className="case-study-heading">Technologies Used:</h3>
+            <div className="flex flex-wrap gap-1.5">
+              {caseStudy.techUsed.map((tech) => (
+                <span key={tech} className="case-study-chip">
                   {tech}
                 </span>
               ))}
@@ -156,15 +93,9 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
           </div>
 
           {caseStudy.websiteUrl && (
-            <div className="mt-2">
-              <h3
-                className={`text-sm font-bold mb-2 ${
-                  isDarkMode ? 'text-gray-200' : 'text-gray-800'
-                }`}
-              >
-                Website Preview:
-              </h3>
-              <div className="modal-preview border-2 border-gray-400 dark:border-gray-600 rounded">
+            <div>
+              <h3 className="case-study-heading">Website Preview:</h3>
+              <div className="case-study-preview">
                 <iframe
                   src={caseStudy.websiteUrl}
                   title={`${caseStudy.name} Preview`}
@@ -176,61 +107,57 @@ const CaseStudyModal: React.FC<CaseStudyModalProps> = ({
           )}
         </div>
 
-        {/* Fixed footer actions */}
-        {showFooter && (
-          <div
-            className={`modal-window__footer px-4 sm:px-6 pt-3 border-t ${
-              isDarkMode
-                ? 'border-gray-600 bg-gray-700'
-                : 'border-gray-300 bg-[#ece9d8]'
-            } flex flex-wrap justify-end gap-x-4 gap-y-2`}
-          >
-            {isHomelab && onViewHomelab && (
+        <div className="xp-footer modal-window__footer case-study-footer flex flex-wrap justify-end gap-2 px-3 pt-2">
+          {isHomelab && onViewHomelab && (
+            <button
+              type="button"
+              onClick={onViewHomelab}
+              className="xp-btn-primary xp-action-btn"
+              aria-label="View Homelab in My Network Places"
+              aria-haspopup="dialog"
+            >
+              View Homelab
+            </button>
+          )}
+          {caseStudy.githubUrl && (
+            <a
+              href={caseStudy.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="xp-btn xp-action-btn inline-flex items-center justify-center no-underline"
+              aria-label={`View ${caseStudy.name} on GitHub (opens in new tab)`}
+            >
+              View on GitHub
+            </a>
+          )}
+          {caseStudy.websiteUrl &&
+            (onVisitWebsite ? (
               <button
                 type="button"
-                onClick={onViewHomelab}
-                className="text-blue-600 dark:text-blue-400 hover:underline text-sm min-h-[44px] sm:min-h-0 inline-flex items-center"
-                aria-label="View Homelab in My Network Places"
+                onClick={onVisitWebsite}
+                className="xp-btn-primary xp-action-btn"
+                aria-label={`Visit ${caseStudy.name} website`}
                 aria-haspopup="dialog"
               >
-                View Homelab
+                Visit Website
               </button>
-            )}
-            {caseStudy.githubUrl && (
+            ) : (
               <a
-                href={caseStudy.githubUrl}
+                href={caseStudy.websiteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:underline text-sm min-h-[44px] sm:min-h-0 inline-flex items-center"
-                aria-label={`View ${caseStudy.name} on GitHub (opens in new tab)`}
+                className="xp-btn-primary xp-action-btn inline-flex items-center justify-center no-underline"
+                aria-label={`Visit ${caseStudy.name} website (opens in new tab)`}
               >
-                View on GitHub
+                Visit Website
               </a>
-            )}
-            {caseStudy.websiteUrl &&
-              (onVisitWebsite ? (
-                <button
-                  type="button"
-                  onClick={onVisitWebsite}
-                  className="text-blue-600 dark:text-blue-400 hover:underline text-sm min-h-[44px] sm:min-h-0 inline-flex items-center"
-                  aria-label={`Visit ${caseStudy.name} website`}
-                  aria-haspopup="dialog"
-                >
-                  Visit Website
-                </button>
-              ) : (
-                <a
-                  href={caseStudy.websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline text-sm min-h-[44px] sm:min-h-0 inline-flex items-center"
-                  aria-label={`Visit ${caseStudy.name} website (opens in new tab)`}
-                >
-                  Visit Website
-                </a>
-              ))}
-          </div>
-        )}
+            ))}
+          {!showFooter && (
+            <button type="button" onClick={onClose} className="xp-btn-primary xp-action-btn">
+              OK
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
